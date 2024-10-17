@@ -6,7 +6,7 @@ import { useGameContext } from './gameContext';
 import PlayersInfo from './components/PlayersInfo';
 
 const App = () => {
-  const { gameInfo, rotateWheel, letMeGuess } = useGameContext();
+  const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
 
   return (
     <div className="h-full bg-blue-100 max-w-[360px] max-h-[700px] mx-auto flex flex-col pb-2">
@@ -18,9 +18,16 @@ const App = () => {
 
       <div className="flex flex-col items-center flex-grow ">
         <PieChart />
-        {gameInfo.guess ? 'ZGADYWANIE' : ''}
 
         <div className="flex gap-2">
+          {gameInfo.onlyVowels && (
+            <button
+              onClick={nextPlayer}
+              className={`mt-5 p-1 bg-blue-300 rounded mx-auto ${gameInfo.goodLetters.length < 3 && 'opacity-10'}`}
+            >
+              Odpuść
+            </button>
+          )}
           <button
             onClick={letMeGuess}
             className={`mt-5 p-1 bg-blue-300 rounded mx-auto ${gameInfo.goodLetters.length < 3 && 'opacity-10'}`}
@@ -29,7 +36,7 @@ const App = () => {
           </button>
           <button
             onClick={rotateWheel}
-            className={`mt-5 p-1 bg-blue-300 rounded mx-auto ${gameInfo.afterRotate || (gameInfo.guess && 'opacity-10')}`}
+            className={`mt-5 p-1 bg-blue-300 rounded mx-auto ${(gameInfo.afterRotate || gameInfo.onlyVowels || gameInfo.guess) && 'opacity-10'}`}
           >
             Zakręć
           </button>

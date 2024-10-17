@@ -15,7 +15,7 @@ export const GameContextProvider = ({ children }) => {
     currentPlayer: 0,
     badLetters: [],
     goodLetters: [],
-    phrase: 'Kto pod kim dołki kopie',
+    phrase: 'Kto kto ktos',
     category: 'Powiedzenia',
     currentLetter: '',
     rotate: 0,
@@ -23,6 +23,7 @@ export const GameContextProvider = ({ children }) => {
 
     goodGuess: true,
     afterRotate: false,
+    onlyVowels: false,
   });
 
   const lowels = ['A', 'E', 'U', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'];
@@ -140,6 +141,9 @@ export const GameContextProvider = ({ children }) => {
               guess: false,
               // Optionally, increment the round number
               round: prevGameInfo.round + 1,
+              onlyVowels: false,
+              afterRotate: false,
+              currentPlayer: currentPlayerIndex + 1,
             };
           }
 
@@ -189,6 +193,34 @@ export const GameContextProvider = ({ children }) => {
           addPoints(letterCount);
         }
 
+        const allLettersInPhrase = new Set(
+          upperPhrase.replace(/\s/g, '').split('')
+        );
+        const unguessedLetters = [...allLettersInPhrase].filter(
+          (char) => !newGoodLetters.includes(char)
+        );
+
+        // Define the set of vowels (using your 'lowels' array)
+        const vowels = lowels.map((vowel) => vowel.toUpperCase());
+
+        const onlyVowelsLeft = unguessedLetters.every((char) =>
+          vowels.includes(char)
+        );
+
+        // If only vowels are left, update 'afterRotate' and 'goodGuess'
+        if (onlyVowelsLeft) {
+          return {
+            ...prevGameInfo,
+            currentLetter: upperLetter,
+            goodLetters: newGoodLetters,
+            badLetters: newBadLetters,
+            goodGuess: true,
+            afterRotate: true,
+            currentPlayer: prevGameInfo.currentPlayer,
+            onlyVowels: true,
+          };
+        }
+
         return {
           ...prevGameInfo,
           currentLetter: upperLetter,
@@ -197,8 +229,9 @@ export const GameContextProvider = ({ children }) => {
           currentPlayer: isCorrectLetter
             ? prevGameInfo.currentPlayer
             : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
-          goodGuess: true,
+          goodGuess: isCorrectLetter,
           afterRotate: false,
+          onlyVowels: false,
         };
       }
     });
