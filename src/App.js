@@ -6,7 +6,7 @@ import { useGameContext } from './gameContext';
 import PlayersInfo from './components/PlayersInfo';
 
 const App = () => {
-  const { gameInfo, rotateWheel, letMeQuest } = useGameContext();
+  const { gameInfo, rotateWheel, letMeGuess } = useGameContext();
 
   return (
     <div className="h-full bg-blue-100 max-w-[360px] max-h-[700px] mx-auto flex flex-col pb-2">
@@ -22,7 +22,7 @@ const App = () => {
 
         <div className="flex gap-2">
           <button
-            onClick={letMeQuest}
+            onClick={letMeGuess}
             className="mt-5 p-1 bg-blue-300 rounded mx-auto"
           >
             Odgadnij hasło

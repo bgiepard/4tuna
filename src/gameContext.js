@@ -73,7 +73,7 @@ export const GameContextProvider = ({ children }) => {
     }));
   };
 
-  const letMeQuest = () => {
+  const letMeGuess = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
       guess: true,
@@ -84,33 +84,73 @@ export const GameContextProvider = ({ children }) => {
     const upperLetter = letter.toUpperCase();
     const upperPhrase = gameInfo.phrase.toUpperCase();
 
-    // Zliczanie wystąpień litery w frazie
-    const letterCount = upperPhrase
-      .split('')
-      .filter((char) => char === upperLetter).length;
-
     setGameInfo((prevGameInfo) => {
-      const isCorrectLetter = letterCount > 0;
-      const newGoodLetters = isCorrectLetter
-        ? [...new Set([...prevGameInfo.goodLetters, upperLetter])]
-        : prevGameInfo.goodLetters;
-      const newBadLetters = !isCorrectLetter
-        ? [...new Set([...prevGameInfo.badLetters, upperLetter])]
-        : prevGameInfo.badLetters;
+      const letterInPhrase = upperPhrase.includes(upperLetter);
 
-      if (isCorrectLetter) {
-        addPoints(letterCount);
+      if (prevGameInfo.guess) {
+        // Guessing mode
+        if (letterInPhrase) {
+          // Add the letter to goodLetters
+          const newGoodLetters = [
+            ...new Set([...prevGameInfo.goodLetters, upperLetter]),
+          ];
+
+          // Check if all letters have been guessed
+          const allLettersInPhrase = new Set(
+            upperPhrase.replace(/\s/g, '').split('')
+          );
+          const guessedAllLetters = [...allLettersInPhrase].every((char) =>
+            newGoodLetters.includes(char)
+          );
+
+          if (guessedAllLetters) {
+            alert(
+              `Wygrał ${prevGameInfo.players[prevGameInfo.currentPlayer].name}!`
+            );
+            // Optionally, reset the game or update the player's total points
+          }
+
+          return {
+            ...prevGameInfo,
+            goodLetters: newGoodLetters,
+          };
+        } else {
+          // Incorrect guess; pass turn to next player and exit guessing mode
+          return {
+            ...prevGameInfo,
+            currentPlayer:
+              (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+            guess: false,
+          };
+        }
+      } else {
+        // Normal mode
+        const letterCount = upperPhrase
+          .split('')
+          .filter((char) => char === upperLetter).length;
+
+        const isCorrectLetter = letterCount > 0;
+        const newGoodLetters = isCorrectLetter
+          ? [...new Set([...prevGameInfo.goodLetters, upperLetter])]
+          : prevGameInfo.goodLetters;
+        const newBadLetters = !isCorrectLetter
+          ? [...new Set([...prevGameInfo.badLetters, upperLetter])]
+          : prevGameInfo.badLetters;
+
+        if (isCorrectLetter) {
+          addPoints(letterCount);
+        }
+
+        return {
+          ...prevGameInfo,
+          currentLetter: upperLetter,
+          goodLetters: newGoodLetters,
+          badLetters: newBadLetters,
+          currentPlayer: isCorrectLetter
+            ? prevGameInfo.currentPlayer
+            : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+        };
       }
-
-      return {
-        ...prevGameInfo,
-        currentLetter: upperLetter,
-        goodLetters: newGoodLetters,
-        badLetters: newBadLetters,
-        currentPlayer: isCorrectLetter
-          ? prevGameInfo.currentPlayer
-          : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
-      };
     });
   };
 
@@ -123,7 +163,7 @@ export const GameContextProvider = ({ children }) => {
         resetPoints,
         nextPlayer,
         rotateWheel,
-        letMeQuest,
+        letMeGuess,
       }}
     >
       {children}
