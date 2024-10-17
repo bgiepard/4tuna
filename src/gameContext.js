@@ -3,6 +3,24 @@ import React, { createContext, useContext, useState } from 'react';
 const GameContext = createContext(undefined);
 
 export const GameContextProvider = ({ children }) => {
+  const [phrases, setPhrases] = useState([
+    'Gdzie drwa rąbią tam wióry lecą',
+    'Z małej chmury duży deszcz',
+    'Co nagle to po diable',
+    'Lepszy wróbel w garści',
+    'Kto pyta nie błądzi',
+    'Gdzie kucharek sześć tam nie ma co jeść',
+    'Czas leczy rany',
+    'Bez pracy nie ma kołaczy',
+    'Strzeżonego Pan Bóg strzeże',
+    'Prawda w oczy kole',
+  ]);
+
+  const getRandomPhrase = () => {
+    const randomIndex = Math.floor(Math.random() * phrases.length);
+    return phrases[randomIndex];
+  };
+
   const [gameInfo, setGameInfo] = useState({
     stake: 0,
     players: [
@@ -15,8 +33,8 @@ export const GameContextProvider = ({ children }) => {
     currentPlayer: 0,
     badLetters: [],
     goodLetters: [],
-    phrase: 'Kto kto ktos',
-    category: 'Powiedzenia',
+    phrase: getRandomPhrase(),
+    category: 'Przysłowia',
     currentLetter: '',
     rotate: 0,
     guess: false,
@@ -136,8 +154,7 @@ export const GameContextProvider = ({ children }) => {
               goodLetters: [],
               badLetters: [],
               currentLetter: '',
-              phrase: 'Real Madryt', // Replace with a new phrase
-              category: 'Drużyny piłkarskie', // Replace with a new category
+              category: getRandomPhrase(), // Replace with a new category
               guess: false,
               // Optionally, increment the round number
               round: prevGameInfo.round + 1,

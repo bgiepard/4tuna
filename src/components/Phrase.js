@@ -11,7 +11,7 @@ const Phrase = () => {
     let currentRow = '';
 
     words.forEach((word) => {
-      if (currentRow.length + word.length + 1 <= 12) {
+      if (currentRow.length + word.length + 1 <= 13) {
         currentRow += (currentRow ? ' ' : '') + word;
       } else {
         rows.push(currentRow);
@@ -37,7 +37,7 @@ const Phrase = () => {
           {row.map((char, charIndex) => (
             <button
               key={charIndex}
-              className={`text-[12px] bg-white px-[8px] py-[3px] m-[2px] text-center rounded ${['X'].includes(char) && '!opacity-0'}`}
+              className={`text-[12px] bg-white px-[7px] py-[2px] m-[2px] text-center rounded ${['X'].includes(char) && '!opacity-0'}`}
             >
               {gameInfo.goodLetters.includes(char) ? char : '_'}
             </button>
