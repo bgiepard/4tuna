@@ -10,11 +10,11 @@ const App = () => {
 
   return (
     <div className="h-full bg-blue-100 max-w-[360px] max-h-[700px] mx-auto flex flex-col pb-2">
-      {/*<header className="flex justify-between">*/}
-      {/*  <span>Kategoria: {gameInfo.category}</span>*/}
-      {/*  <span>Runda: {gameInfo.round} / 3</span>*/}
-      {/*</header>*/}
-      <Phrase phrase={gameInfo.phrase} />
+      <header className="flex justify-between">
+        <span>Kategoria: {gameInfo.category}</span>
+        <span>Runda: {gameInfo.round} / 3</span>
+      </header>
+      <Phrase />
 
       <div className="flex flex-col items-center flex-grow ">
         <PieChart />
@@ -29,7 +29,7 @@ const App = () => {
           </button>
           <button
             onClick={rotateWheel}
-            className="mt-5 p-1 bg-blue-300 rounded mx-auto"
+            className={`mt-5 p-1 bg-blue-300 rounded mx-auto ${gameInfo.afterRotate && 'opacity-10'}`}
           >
             Zakręć
           </button>

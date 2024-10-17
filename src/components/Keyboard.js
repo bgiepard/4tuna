@@ -18,7 +18,9 @@ const Keyboard = () => {
   };
 
   return (
-    <div className="flex items-center flex-col">
+    <div
+      className={`flex items-center flex-col ${gameInfo.goodGuess && 'opacity-10'}`}
+    >
       {gameInfo.guess ? 'ZGADUJE' : 'false'}
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="">

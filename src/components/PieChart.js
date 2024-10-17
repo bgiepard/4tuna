@@ -87,7 +87,12 @@ const PieChart = () => {
       } else if (selectedValue === 'STOP') {
         nextPlayer();
       } else {
-        setGameInfo({ ...gameInfo, stake: selectedValue });
+        setGameInfo({
+          ...gameInfo,
+          stake: selectedValue,
+          goodGuess: false,
+          afterRotate: true,
+        });
       }
     }
   };

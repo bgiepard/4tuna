@@ -32,7 +32,6 @@ const Phrase = () => {
 
   return (
     <div className="flex items-center flex-col p-2">
-      <span>Powiedzenia</span>
       {processedRows.map((row, rowIndex) => (
         <div key={rowIndex} className="">
           {row.map((char, charIndex) => (

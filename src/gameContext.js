@@ -6,10 +6,10 @@ export const GameContextProvider = ({ children }) => {
   const [gameInfo, setGameInfo] = useState({
     stake: 0,
     players: [
-      { name: 'Player 1', amount: 0, total: 100 },
-      { name: 'Player 2', amount: 0, total: 200 },
-      { name: 'Player 3', amount: 0, total: 300 },
-      { name: 'Player 4', amount: 0, total: 400 },
+      { name: 'Player 1', amount: 0, total: 0 },
+      { name: 'Player 2', amount: 0, total: 0 },
+      { name: 'Player 3', amount: 0, total: 0 },
+      { name: 'Player 4', amount: 0, total: 0 },
     ],
     round: 1,
     currentPlayer: 0,
@@ -20,6 +20,9 @@ export const GameContextProvider = ({ children }) => {
     currentLetter: '',
     rotate: 0,
     guess: false,
+
+    goodGuess: false,
+    afterRotate: false,
   });
 
   const addPoints = (letterCount) => {
@@ -42,6 +45,7 @@ export const GameContextProvider = ({ children }) => {
   const nextPlayer = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
+      afterRotate: false,
       currentPlayer:
         (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
     }));
@@ -49,17 +53,15 @@ export const GameContextProvider = ({ children }) => {
 
   const resetPoints = () => {
     setGameInfo((prevGameInfo) => {
-      const updatedPlayers = [...prevGameInfo.players];
-      const currentPlayer = updatedPlayers[prevGameInfo.currentPlayer];
-
-      updatedPlayers[prevGameInfo.currentPlayer] = {
-        ...currentPlayer,
+      const updatedPlayers = prevGameInfo.players.map((player) => ({
+        ...player,
         amount: 0,
-      };
+      }));
 
       return {
         ...prevGameInfo,
         players: updatedPlayers,
+        afterRotate: false,
         currentPlayer:
           (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
       };
@@ -69,6 +71,7 @@ export const GameContextProvider = ({ children }) => {
   const rotateWheel = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
+      afterRotate: true,
       rotate: Math.floor(Math.random() * (721 - 180)) + 180,
     }));
   };
@@ -104,10 +107,38 @@ export const GameContextProvider = ({ children }) => {
           );
 
           if (guessedAllLetters) {
-            alert(
-              `Wygrał ${prevGameInfo.players[prevGameInfo.currentPlayer].name}!`
-            );
-            // Optionally, reset the game or update the player's total points
+            // Update all players
+            const currentPlayerIndex = prevGameInfo.currentPlayer;
+            const updatedPlayers = prevGameInfo.players.map((player, index) => {
+              if (index === currentPlayerIndex) {
+                // Winning player: add amount to total and reset amount
+                return {
+                  ...player,
+                  total: player.total + player.amount,
+                  amount: 0,
+                };
+              } else {
+                // Other players: reset amount
+                return {
+                  ...player,
+                  amount: 0,
+                };
+              }
+            });
+
+            // Reset game state for a new round
+            return {
+              ...prevGameInfo,
+              players: updatedPlayers,
+              goodLetters: [],
+              badLetters: [],
+              currentLetter: '',
+              phrase: 'Real Madryt', // Replace with a new phrase
+              category: 'Drużyny piłkarskie', // Replace with a new category
+              guess: false,
+              // Optionally, increment the round number
+              round: prevGameInfo.round + 1,
+            };
           }
 
           return {
@@ -116,8 +147,23 @@ export const GameContextProvider = ({ children }) => {
           };
         } else {
           // Incorrect guess; pass turn to next player and exit guessing mode
+          const currentPlayerIndex = prevGameInfo.currentPlayer;
+          const updatedPlayers = prevGameInfo.players.map((player, index) => {
+            if (index === currentPlayerIndex) {
+              // Current player: reset amount
+              return {
+                ...player,
+                amount: 0,
+              };
+            } else {
+              // Other players: keep as is
+              return player;
+            }
+          });
+
           return {
             ...prevGameInfo,
+            players: updatedPlayers,
             currentPlayer:
               (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
             guess: false,
@@ -149,6 +195,8 @@ export const GameContextProvider = ({ children }) => {
           currentPlayer: isCorrectLetter
             ? prevGameInfo.currentPlayer
             : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+          goodGuess: true,
+          afterRotate: false,
         };
       }
     });
@@ -171,7 +219,7 @@ export const GameContextProvider = ({ children }) => {
   );
 };
 
-// Customowy hook do korzystania z kontekstu gry
+// Custom hook to use the game context
 export const useGameContext = () => {
   return useContext(GameContext);
 };
