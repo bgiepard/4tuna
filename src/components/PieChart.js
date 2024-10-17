@@ -53,6 +53,33 @@ const PieChart = () => {
     '#bea657',
   ];
 
+  const darkenColor = (hexColor, percent) => {
+    // Usuwamy znak '#' jeśli jest obecny
+    hexColor = hexColor.replace(/^#/, '');
+
+    // Parsujemy wartości RGB
+    let r = parseInt(hexColor.substring(0, 2), 16);
+    let g = parseInt(hexColor.substring(2, 4), 16);
+    let b = parseInt(hexColor.substring(4, 6), 16);
+
+    // Zmniejszamy wartości RGB o podany procent
+    r = Math.round(r * (1 - percent));
+    g = Math.round(g * (1 - percent));
+    b = Math.round(b * (1 - percent));
+
+    // Upewniamy się, że wartości są w zakresie 0-255
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+
+    // Konwertujemy z powrotem na kod szesnastkowy
+    r = ('0' + r.toString(16)).slice(-2);
+    g = ('0' + g.toString(16)).slice(-2);
+    b = ('0' + b.toString(16)).slice(-2);
+
+    return `#${r}${g}${b}`;
+  };
+
   const animateRotation = (timestamp) => {
     if (!animationStartTimeRef.current) {
       animationStartTimeRef.current = timestamp;
@@ -168,6 +195,11 @@ const PieChart = () => {
       // Fill the slice with color
       ctx.fillStyle = colors[index % colors.length];
       ctx.fill();
+
+      const borderColor = darkenColor(ctx.fillStyle, 0.2); // 20% ciemniejszy
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = 2;
+      ctx.stroke();
 
       // Calculate text position
       const midAngle = (startAngle + endAngle) / 2;
