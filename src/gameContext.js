@@ -26,8 +26,8 @@ export const GameContextProvider = ({ children }) => {
     players: [
       { name: 'Player 1', amount: 0, total: 0 },
       { name: 'Player 2', amount: 0, total: 0 },
-      { name: 'Player 3', amount: 0, total: 0 },
-      { name: 'Player 4', amount: 0, total: 0 },
+      // { name: 'Player 3', amount: 0, total: 0 },
+      // { name: 'Player 4', amount: 0, total: 0 },
     ],
     round: 1,
     currentPlayer: 0,

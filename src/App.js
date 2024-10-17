@@ -9,7 +9,7 @@ const App = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
 
   return (
-    <div className="h-full bg-blue-100 max-w-[360px] max-h-[700px] mx-auto flex flex-col pb-2">
+    <div className="h-full bg-blue-100 max-w-[360px] max-h-[700px] mx-auto flex flex-col pb-2 p-5">
       <header className="flex justify-between">
         <span>Kategoria: {gameInfo.category}</span>
         <span>Runda: {gameInfo.round} / 3</span>
