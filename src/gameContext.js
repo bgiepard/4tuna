@@ -6,26 +6,10 @@ export const GameContextProvider = ({ children }) => {
   const [gameInfo, setGameInfo] = useState({
     stake: 0,
     players: [
-      {
-        name: 'Player 1',
-        amount: 0,
-        total: 100,
-      },
-      {
-        name: 'Player 2',
-        amount: 0,
-        total: 200,
-      },
-      {
-        name: 'Player 3',
-        amount: 0,
-        total: 300,
-      },
-      {
-        name: 'Player 4',
-        amount: 0,
-        total: 400,
-      },
+      { name: 'Player 1', amount: 0, total: 100 },
+      { name: 'Player 2', amount: 0, total: 200 },
+      { name: 'Player 3', amount: 0, total: 300 },
+      { name: 'Player 4', amount: 0, total: 400 },
     ],
     round: 1,
     currentPlayer: 0,
@@ -39,88 +23,95 @@ export const GameContextProvider = ({ children }) => {
   });
 
   const addPoints = (letterCount) => {
-    const updatedPlayers = [...gameInfo.players];
+    setGameInfo((prevGameInfo) => {
+      const updatedPlayers = [...prevGameInfo.players];
+      const currentPlayer = updatedPlayers[prevGameInfo.currentPlayer];
 
-    updatedPlayers[gameInfo.currentPlayer] = {
-      ...updatedPlayers[gameInfo.currentPlayer],
-      amount:
-        updatedPlayers[gameInfo.currentPlayer].amount +
-        gameInfo.stake * letterCount,
-    };
+      updatedPlayers[prevGameInfo.currentPlayer] = {
+        ...currentPlayer,
+        amount: currentPlayer.amount + prevGameInfo.stake * letterCount,
+      };
 
-    return updatedPlayers;
+      return {
+        ...prevGameInfo,
+        players: updatedPlayers,
+      };
+    });
   };
 
   const nextPlayer = () => {
-    setGameInfo({
-      ...gameInfo,
-      currentPlayer: (gameInfo.currentPlayer + 1) % gameInfo.players.length,
-    });
+    setGameInfo((prevGameInfo) => ({
+      ...prevGameInfo,
+      currentPlayer:
+        (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+    }));
   };
 
   const resetPoints = () => {
-    const updatedPlayers = [...gameInfo.players];
+    setGameInfo((prevGameInfo) => {
+      const updatedPlayers = [...prevGameInfo.players];
+      const currentPlayer = updatedPlayers[prevGameInfo.currentPlayer];
 
-    updatedPlayers[gameInfo.currentPlayer] = {
-      ...updatedPlayers[gameInfo.currentPlayer],
-      amount: 0,
-    };
+      updatedPlayers[prevGameInfo.currentPlayer] = {
+        ...currentPlayer,
+        amount: 0,
+      };
 
-    setGameInfo({
-      ...gameInfo,
-      players: updatedPlayers,
-      currentPlayer: (gameInfo.currentPlayer + 1) % gameInfo.players.length,
+      return {
+        ...prevGameInfo,
+        players: updatedPlayers,
+        currentPlayer:
+          (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+      };
     });
   };
 
-  // const nextRound = () => {};
-
-  // const startGame = () => {};
-
-  // const finishGame = () => {};
-
   const rotateWheel = () => {
-    setGameInfo({
-      ...gameInfo,
+    setGameInfo((prevGameInfo) => ({
+      ...prevGameInfo,
       rotate: Math.floor(Math.random() * (721 - 180)) + 180,
-    });
+    }));
   };
 
   const letMeQuest = () => {
-    setGameInfo({
-      ...gameInfo,
+    setGameInfo((prevGameInfo) => ({
+      ...prevGameInfo,
       guess: true,
-    });
+    }));
   };
 
   const letterClick = (letter) => {
     const upperLetter = letter.toUpperCase();
     const upperPhrase = gameInfo.phrase.toUpperCase();
 
-    // Count occurrences of the selected letter in the phrase
+    // Zliczanie wystąpień litery w frazie
     const letterCount = upperPhrase
       .split('')
       .filter((char) => char === upperLetter).length;
 
-    if (letterCount > 0) {
-      setGameInfo((prevGameInfo) => ({
+    setGameInfo((prevGameInfo) => {
+      const isCorrectLetter = letterCount > 0;
+      const newGoodLetters = isCorrectLetter
+        ? [...new Set([...prevGameInfo.goodLetters, upperLetter])]
+        : prevGameInfo.goodLetters;
+      const newBadLetters = !isCorrectLetter
+        ? [...new Set([...prevGameInfo.badLetters, upperLetter])]
+        : prevGameInfo.badLetters;
+
+      if (isCorrectLetter) {
+        addPoints(letterCount);
+      }
+
+      return {
         ...prevGameInfo,
         currentLetter: upperLetter,
-        goodLetters: prevGameInfo.goodLetters.includes(upperLetter)
-          ? prevGameInfo.goodLetters
-          : [...prevGameInfo.goodLetters, upperLetter],
-        players: addPoints(letterCount), // Pass the letter count to addPoints
-      }));
-    } else {
-      setGameInfo((prevGameInfo) => ({
-        ...prevGameInfo,
-        currentLetter: upperLetter,
-        badLetters: prevGameInfo.badLetters.includes(upperLetter)
-          ? prevGameInfo.badLetters
-          : [...prevGameInfo.badLetters, upperLetter],
-        currentPlayer: (gameInfo.currentPlayer + 1) % gameInfo.players.length, // Loop back to first player if last player
-      }));
-    }
+        goodLetters: newGoodLetters,
+        badLetters: newBadLetters,
+        currentPlayer: isCorrectLetter
+          ? prevGameInfo.currentPlayer
+          : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+      };
+    });
   };
 
   return (
@@ -140,6 +131,7 @@ export const GameContextProvider = ({ children }) => {
   );
 };
 
+// Customowy hook do korzystania z kontekstu gry
 export const useGameContext = () => {
   return useContext(GameContext);
 };
