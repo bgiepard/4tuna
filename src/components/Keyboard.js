@@ -2,9 +2,7 @@ import React from 'react';
 import { useGameContext } from '../gameContext';
 
 const Keyboard = () => {
-  const { gameInfo, letterClick } = useGameContext();
-
-  const lowels = ['A', 'E', 'U', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'];
+  const { gameInfo, letterClick, lowels } = useGameContext();
 
   const rows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -19,7 +17,7 @@ const Keyboard = () => {
 
   return (
     <div
-      className={`flex items-center flex-col ${gameInfo.goodGuess && 'opacity-10'}`}
+      className={`flex items-center flex-col ${gameInfo.goodGuess && !gameInfo.guess && 'opacity-10'}`}
     >
       {gameInfo.guess ? 'ZGADUJE' : 'false'}
       {rows.map((row, rowIndex) => (

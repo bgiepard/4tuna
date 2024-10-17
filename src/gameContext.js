@@ -21,9 +21,11 @@ export const GameContextProvider = ({ children }) => {
     rotate: 0,
     guess: false,
 
-    goodGuess: false,
+    goodGuess: true,
     afterRotate: false,
   });
+
+  const lowels = ['A', 'E', 'U', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'];
 
   const addPoints = (letterCount) => {
     setGameInfo((prevGameInfo) => {
@@ -79,7 +81,7 @@ export const GameContextProvider = ({ children }) => {
   const letMeGuess = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
-      guess: true,
+      guess: !prevGameInfo.guess,
     }));
   };
 
@@ -212,6 +214,7 @@ export const GameContextProvider = ({ children }) => {
         nextPlayer,
         rotateWheel,
         letMeGuess,
+        lowels,
       }}
     >
       {children}
