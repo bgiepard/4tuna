@@ -22,6 +22,10 @@ const PieChart = () => {
 
   // Update the data array to match your 16 values
   const data = [
+    '-100%',
+    1000,
+    400,
+    300,
     'STOP',
     600,
     700,
@@ -34,10 +38,6 @@ const PieChart = () => {
     500,
     800,
     1500,
-    '-100%',
-    1000,
-    400,
-    300,
   ];
 
   useEffect(() => {
@@ -146,37 +146,19 @@ const PieChart = () => {
       <div
         style={{
           position: 'absolute',
-          top: 'calc(50% - 21px)',
-          left: '50%',
-          marginLeft: '-7px',
+          top: '53%',
+          left: '58.4%',
           width: '0',
           height: '0',
-          borderLeft: '8px solid transparent',
-          borderRight: '8px solid transparent',
-          borderBottom: '20px solid white',
+          borderTop: '8px solid transparent',
+          borderBottom: '8px solid transparent',
+          borderLeft: '20px solid white',
           transform: 'translateY(-100%)',
         }}
       ></div>
       <div className="absolute top-[46%] text-white text-[14px]">
         {selectedValue !== null ? selectedValue : ' '}
       </div>
-      {/* Selected Value Display */}
-      {/*<div*/}
-      {/*  style={{*/}
-      {/*    position: 'absolute',*/}
-      {/*    top: 'calc(50% - 10px)',*/}
-      {/*    left: '50%',*/}
-      {/*    transform: 'translate(-50%, -50%)',*/}
-      {/*    backgroundColor: 'rgba(255, 255, 255, 0.8)',*/}
-      {/*    padding: '10px',*/}
-      {/*    borderRadius: '50%',*/}
-      {/*    border: '2px solid black',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <span style={{ fontWeight: 'bold', fontSize: '14px' }}>*/}
-      {/*    {selectedValue !== null ? selectedValue : ' '}*/}
-      {/*  </span>*/}
-      {/*</div>*/}
     </div>
   );
 };

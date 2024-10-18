@@ -11,8 +11,8 @@ const PlayersInfo = () => {
           className={`flex flex-col text-sm px-2 ${gameInfo.currentPlayer === index && 'bg-green-400'}`}
           key={player.name}
         >
+          <span className=""> {player.amount}</span>
           <span className="font-bold">{player.name}</span>
-          <span className="">Round: {player.amount}</span>
           <span className="">Total: {player.total}</span>
         </div>
       ))}
