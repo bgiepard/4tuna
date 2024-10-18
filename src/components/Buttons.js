@@ -6,11 +6,11 @@ const Buttons = () => {
 
   return (
     <>
-      <div className="flex gap-2 relative z-10">
+      <div className="flex items-center gap-2 relative z-10 mt-3">
         <button
           onClick={nextPlayer}
           disabled={gameInfo.mode === 'rotating'}
-          className={`mt-5 p-1 bg-blue-300 rounded mx-auto disabled:opacity-10`}
+          className={`p-1 bg-blue-300 rounded mx-auto disabled:opacity-10`}
         >
           Odpuść
         </button>
@@ -18,14 +18,14 @@ const Buttons = () => {
         <button
           onClick={rotateWheel}
           disabled={gameInfo.mode !== 'rotating'}
-          className={`mt-5 p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-green-400'}`}
+          className={`p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-orange-400 py-2'}`}
         >
           Zakręć
         </button>
 
         <button
           onClick={letMeGuess}
-          className={`mt-5 p-1 bg-blue-300 rounded mx-auto disabled:opacity-10 `}
+          className={`p-1 bg-blue-300 rounded mx-auto disabled:opacity-10 `}
           disabled={
             gameInfo.goodLetters.length < 3 || gameInfo.mode === 'guessing'
           }
