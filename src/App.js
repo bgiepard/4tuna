@@ -2,7 +2,6 @@ import React from 'react';
 import PieChart from './components/PieChart';
 import Keyboard from './components/Keyboard';
 import Phrase from './components/Phrase';
-import { useGameContext } from './gameContext';
 import PlayersInfo from './components/PlayersInfo';
 import Buttons from './components/Buttons';
 
@@ -13,7 +12,7 @@ const App = () => {
 
       <Phrase />
 
-      <div className="flex flex-col items-center flex-grow ">
+      <div className="flex flex-col items-center justify-center flex-grow ">
         <PieChart />
         <Buttons />
       </div>
