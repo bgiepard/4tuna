@@ -19,7 +19,7 @@ const PlayersInfo = () => {
           </div>
 
           <span
-            className={`-mt-4 leading-[17px] block text-[12px] text-center mx-1 bg-blue-300 rounded-[3px] h-[16px] font-semibold ${gameInfo.currentPlayer === index && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'} `}
+            className={`-mt-4 leading-[20px] block text-[12px] text-center mx-1 bg-blue-300 rounded-[3px] h-[18px] font-semibold ${gameInfo.currentPlayer === index && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'} `}
           >
             {player.amount}
           </span>
