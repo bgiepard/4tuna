@@ -138,8 +138,8 @@ const PieChart = () => {
           transition: isAnimatingRef.current
             ? 'none'
             : 'transform 0.5s ease-out',
-          width: '280px',
-          height: '280px',
+          width: '250px',
+          height: '250px',
         }}
       />
       {/* Arrow */}
