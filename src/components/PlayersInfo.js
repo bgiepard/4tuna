@@ -5,7 +5,7 @@ const PlayersInfo = () => {
   const { gameInfo } = useGameContext();
 
   return (
-    <div className="grid grid-cols-4 gap-2 m-2 ">
+    <div className="grid grid-cols-4 gap-2 m-2 mb-2.5">
       {gameInfo.players.map((player, index) => (
         <div
           className={`flex flex-col text-sm rounded-[6px] opacity-60 ${gameInfo.currentPlayer === index && '!opacity-100'}`}
@@ -19,7 +19,7 @@ const PlayersInfo = () => {
           </div>
 
           <span
-            className={`-mt-4 leading-[17px] block text-[12px] text-center mx-1 bg-blue-300 rounded-[3px] h-[16px] font-semibold ${gameInfo.currentPlayer === index && 'text-white bg-orange-300'} `}
+            className={`-mt-4 leading-[17px] block text-[12px] text-center mx-1 bg-blue-300 rounded-[3px] h-[16px] font-semibold ${gameInfo.currentPlayer === index && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'} `}
           >
             {player.amount}
           </span>

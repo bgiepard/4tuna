@@ -18,7 +18,7 @@ const Buttons = () => {
         <button
           onClick={rotateWheel}
           disabled={gameInfo.mode !== 'rotating'}
-          className={`p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-orange-400 py-2'}`}
+          className={`p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-gradient-to-b from-orange-500 text-white to-orange-300 py-1.5'}`}
         >
           Zakręć
         </button>
