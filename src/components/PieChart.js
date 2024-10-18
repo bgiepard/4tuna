@@ -1,16 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../gameContext';
 
+// Import your wheel image
+import wheelImage from '../assets/wheel.svg'; // Update the path to your image
+
 const PieChart = () => {
   const { gameInfo, setGameInfo, resetPoints, nextPlayer } = useGameContext();
 
-  useEffect(() => {
-    if (gameInfo.rotate > 0) {
-      handleRotate(gameInfo.rotate);
-    }
-  }, [gameInfo.rotate]);
-
-  const canvasRef = useRef(null);
   const [rotationAngle, setRotationAngle] = useState(0); // in degrees
   const targetRotationRef = useRef(0); // Target angle in degrees
   const initialRotationAngleRef = useRef(0); // Starting angle for animation
@@ -24,61 +20,31 @@ const PieChart = () => {
     return 1 - Math.pow(1 - t, 3);
   };
 
+  // Update the data array to match your 16 values
   const data = [
-    500,
-    700,
     'STOP',
     600,
-    100,
-    300,
-    400,
-    1500,
-    'RESET',
-    1000,
-    50,
+    700,
+    800,
+    '-50%',
+    600,
     200,
-  ];
-  const colors = [
-    '#FF6384',
-    '#36A2EB',
-    '#900f0f',
-    '#4BC0C0',
-    '#9966FF',
-    '#FF9F40',
-    '#D3D3D3',
-    '#b76c36',
-    '#1e1e1e',
-    '#FFD700',
-    '#FFA07A',
-    '#bea657',
+    100,
+    'STOP',
+    500,
+    800,
+    1500,
+    '-100%',
+    1000,
+    400,
+    300,
   ];
 
-  const darkenColor = (hexColor, percent) => {
-    // Usuwamy znak '#' jeśli jest obecny
-    hexColor = hexColor.replace(/^#/, '');
-
-    // Parsujemy wartości RGB
-    let r = parseInt(hexColor.substring(0, 2), 16);
-    let g = parseInt(hexColor.substring(2, 4), 16);
-    let b = parseInt(hexColor.substring(4, 6), 16);
-
-    // Zmniejszamy wartości RGB o podany procent
-    r = Math.round(r * (1 - percent));
-    g = Math.round(g * (1 - percent));
-    b = Math.round(b * (1 - percent));
-
-    // Upewniamy się, że wartości są w zakresie 0-255
-    r = Math.max(0, Math.min(255, r));
-    g = Math.max(0, Math.min(255, g));
-    b = Math.max(0, Math.min(255, b));
-
-    // Konwertujemy z powrotem na kod szesnastkowy
-    r = ('0' + r.toString(16)).slice(-2);
-    g = ('0' + g.toString(16)).slice(-2);
-    b = ('0' + b.toString(16)).slice(-2);
-
-    return `#${r}${g}${b}`;
-  };
+  useEffect(() => {
+    if (gameInfo.rotate > 0) {
+      handleRotate(gameInfo.rotate);
+    }
+  }, [gameInfo.rotate]);
 
   const animateRotation = (timestamp) => {
     if (!animationStartTimeRef.current) {
@@ -137,17 +103,17 @@ const PieChart = () => {
   };
 
   const determineSelectedValue = (rotationAngle) => {
-    // Adjust angle so that 0 degrees corresponds to the right (positive x-axis)
+    // Adjust angle so that 0 degrees corresponds to the top (12 o'clock position)
     let adjustedAngle = ((rotationAngle % 360) + 360) % 360;
 
-    // Each slice covers 30 degrees (360 / 12 slices)
+    // Each slice covers 22.5 degrees (360 / 16 slices)
     const sliceAngle = 360 / data.length;
 
-    // The arrow is pointing directly right (0 degrees in canvas coordinate system)
+    // The arrow is pointing directly upwards (0 degrees)
     const arrowAngle = 0; // degrees
 
-    // Calculate the angle where the arrow is pointing relative to the rotated pie chart
-    let angleAtArrow = (arrowAngle - adjustedAngle + 360) % 360;
+    // Calculate the angle where the arrow is pointing relative to the rotated wheel
+    let angleAtArrow = (adjustedAngle + arrowAngle) % 360;
 
     const sliceIndex = Math.floor(angleAtArrow / sliceAngle) % data.length;
 
@@ -161,147 +127,56 @@ const PieChart = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-
-    // Clear the canvas before redrawing
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Calculate slice angles
-    const totalSlices = data.length;
-    const sliceAngle = (2 * Math.PI) / totalSlices;
-
-    // Convert rotation angle from degrees to radians
-    const rotationInRadians = (rotationAngle * Math.PI) / 180;
-
-    let startAngle = rotationInRadians;
-
-    data.forEach((value, index) => {
-      const endAngle = startAngle + sliceAngle;
-
-      // Draw the pie slice
-      ctx.beginPath();
-      ctx.moveTo(canvas.width / 2, canvas.height / 2);
-      ctx.arc(
-        canvas.width / 2,
-        canvas.height / 2,
-        canvas.height / 2 - 10, // Slightly smaller radius to avoid overlapping with the arrow
-        startAngle,
-        endAngle
-      );
-      ctx.closePath();
-
-      // Fill the slice with color
-      ctx.fillStyle = colors[index % colors.length];
-      ctx.fill();
-
-      const borderColor = darkenColor(ctx.fillStyle, 0.2); // 20% ciemniejszy
-      ctx.strokeStyle = borderColor;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Calculate text position
-      const midAngle = (startAngle + endAngle) / 2;
-      const textX =
-        canvas.width / 2 + (canvas.height / 2.5) * Math.cos(midAngle);
-      const textY =
-        canvas.height / 2 + (canvas.height / 2.5) * Math.sin(midAngle);
-
-      // Draw the text
-      ctx.save();
-      ctx.translate(textX, textY);
-      ctx.rotate(midAngle);
-      ctx.fillStyle = 'black';
-      ctx.font = '12px Arial';
-      let text = String(value);
-      if (value === 'RESET') {
-        ctx.fillStyle = 'white';
-        // ctx.fillText(text, -55, 5);
-      } else if (value === 'STOP') {
-        ctx.fillStyle = 'white';
-        // ctx.fillText(text, -40, 5);
-      } else {
-      }
-      ctx.fillText(text, -20, 5);
-
-      ctx.restore();
-
-      // Update the start angle for the next slice
-      startAngle = endAngle;
-    });
-
-    // Draw the fixed arrow on the right
-    drawArrow(
-      ctx,
-      canvas.width,
-      canvas.height / 2,
-      canvas.width - 30,
-      canvas.height / 2
-    );
-
-    // Draw the smaller wheel in the center
-    drawCenterWheel(ctx, canvas.width, canvas.height);
-  }, [rotationAngle, selectedValue]);
-
-  const drawArrow = (ctx) => {
-    ctx.save();
-    ctx.fillStyle = 'black';
-
-    // Define the triangle coordinates
-    const canvasWidth = ctx.canvas.width;
-    const canvasHeight = ctx.canvas.height;
-    const triangleHeight = 20;
-    const triangleBase = 40;
-
-    // Coordinates for the triangle (initially pointing left)
-    const x = canvasWidth - -10; // Right edge minus some padding
-    const y = canvasHeight / 2;
-
-    // Translate the context to the center of the triangle's base
-    ctx.translate(x - triangleBase / 2, y); // Translate to the center of the base
-    ctx.rotate(Math.PI); // Rotate 180 degrees (in radians)
-
-    // Draw the triangle pointing right (after rotation)
-    ctx.beginPath();
-    ctx.moveTo(triangleBase / 2, 0); // Tip of the triangle (now rightmost point)
-    ctx.lineTo(-triangleBase / 2, -triangleHeight / 2); // Top left
-    ctx.lineTo(-triangleBase / 2, triangleHeight / 2); // Bottom left
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.restore();
-  };
-
-  const drawCenterWheel = (ctx, canvasWidth, canvasHeight) => {
-    const radius = canvasHeight / 9; // Smaller radius for the center wheel
-    const centerX = canvasWidth / 2;
-    const centerY = canvasHeight / 2;
-
-    // Draw the inner circle
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = 'rgba(256,256,256,0.8)'; // White background for the inner circle
-    ctx.fill();
-    ctx.strokeStyle = '#000000'; // Black border
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Draw the selected value in the center
-    ctx.fillStyle = '#000000'; // Black text color
-    ctx.font = 'bold 14px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(
-      selectedValue !== null ? selectedValue : ' ',
-      centerX,
-      centerY + 2
-    );
-  };
-
   return (
-    <div className="mx-auto flex flex-col justify-center items-center">
-      <canvas ref={canvasRef} width="250" height="250"></canvas>
+    <div className="mx-auto flex flex-col justify-center items-center relative ">
+      {/* Wheel Image */}
+      <img
+        src={wheelImage}
+        alt="Wheel"
+        style={{
+          transform: `rotate(${rotationAngle}deg)`,
+          transition: isAnimatingRef.current
+            ? 'none'
+            : 'transform 0.5s ease-out',
+          width: '250px',
+          height: '250px',
+        }}
+      />
+      {/* Arrow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 'calc(50% - 21px)',
+          left: '50%',
+          marginLeft: '-7px',
+          width: '0',
+          height: '0',
+          borderLeft: '8px solid transparent',
+          borderRight: '8px solid transparent',
+          borderBottom: '20px solid white',
+          transform: 'translateY(-100%)',
+        }}
+      ></div>
+      <div className="absolute top-[46%] text-white text-[14px]">
+        {selectedValue !== null ? selectedValue : ' '}
+      </div>
+      {/* Selected Value Display */}
+      {/*<div*/}
+      {/*  style={{*/}
+      {/*    position: 'absolute',*/}
+      {/*    top: 'calc(50% - 10px)',*/}
+      {/*    left: '50%',*/}
+      {/*    transform: 'translate(-50%, -50%)',*/}
+      {/*    backgroundColor: 'rgba(255, 255, 255, 0.8)',*/}
+      {/*    padding: '10px',*/}
+      {/*    borderRadius: '50%',*/}
+      {/*    border: '2px solid black',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <span style={{ fontWeight: 'bold', fontSize: '14px' }}>*/}
+      {/*    {selectedValue !== null ? selectedValue : ' '}*/}
+      {/*  </span>*/}
+      {/*</div>*/}
     </div>
   );
 };
