@@ -4,14 +4,12 @@ const GameContext = createContext(undefined);
 
 export const GameContextProvider = ({ children }) => {
   const [phrases, setPhrases] = useState([
-    'Gdzie drwa rąbią tam wióry lecą',
     'Z małej chmury duży deszcz',
     'Co nagle to po diable',
     'Lepszy wróbel w garści',
     'Kto pyta nie błądzi',
     'Czas leczy rany',
     'Bez pracy nie ma kołaczy',
-    'Strzeżonego Pan Bóg strzeże',
     'Prawda w oczy kole',
     'Kto pod kim dołki kopie',
   ]);
@@ -24,10 +22,10 @@ export const GameContextProvider = ({ children }) => {
   const [gameInfo, setGameInfo] = useState({
     stake: 0,
     players: [
-      { name: 'Player 1', amount: 0, total: 0 },
-      { name: 'Player 2', amount: 0, total: 0 },
-      { name: 'Player 3', amount: 0, total: 0 },
-      { name: 'Player 4', amount: 0, total: 0 },
+      { name: 'Bartek', amount: 0, total: 0 },
+      { name: 'Oliwia', amount: 0, total: 0 },
+      { name: 'Gosia', amount: 0, total: 0 },
+      { name: 'Sebastian', amount: 0, total: 0 },
     ],
     round: 1,
     currentPlayer: 0,

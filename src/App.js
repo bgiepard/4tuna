@@ -16,6 +16,12 @@ const App = () => {
         <PieChart />
 
         <div className="flex gap-2">
+          <button
+            onClick={nextPlayer}
+            className={`mt-5 p-1 bg-blue-300 rounded mx-auto `}
+          >
+            Kup samogłoskę
+          </button>
           {gameInfo.onlyVowels && (
             <button
               onClick={nextPlayer}
@@ -28,7 +34,7 @@ const App = () => {
             onClick={letMeGuess}
             className={`mt-5 p-1 bg-blue-300 rounded mx-auto ${gameInfo.goodLetters.length < 3 && 'opacity-10'}`}
           >
-            Odgadnij hasło
+            Rozwiąż
           </button>
           <button
             onClick={rotateWheel}

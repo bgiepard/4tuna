@@ -87,7 +87,7 @@ const PieChart = () => {
             ? `transform ${transitionDuration}ms ${easingFunction}`
             : 'none',
           width: '80%',
-          maxWidth: '300px',
+          maxWidth: '320px',
           height: 'auto',
         }}
         onTransitionEnd={() => {
@@ -126,7 +126,7 @@ const PieChart = () => {
           borderLeft: '12px solid white',
         }}
       ></div>
-      <div className="absolute top-[45.5%] text-white text-[14px]  w-[50px] text-center">
+      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[14px] flex items-center justify-center text-center">
         {selectedValue !== null ? selectedValue : ' '}
       </div>
     </div>
