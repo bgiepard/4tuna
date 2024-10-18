@@ -4,43 +4,97 @@ import { useGameContext } from '../gameContext';
 const Phrase = () => {
   const { gameInfo } = useGameContext();
 
-  function processSentence(sentence) {
-    // Split sentence into words and build rows with a max of 12 characters per row
-    const words = sentence.split(' ');
-    let rows = [];
-    let currentRow = '';
+  function processSentenceIntoLines(sentence, maxCharsPerLine) {
+    const words = sentence.toUpperCase().split(' ');
+    const lines = [];
+    let currentLine = '';
 
     words.forEach((word) => {
-      if (currentRow.length + word.length + 1 <= 13) {
-        currentRow += (currentRow ? ' ' : '') + word;
+      if (word.length > maxCharsPerLine) {
+        // Handle words longer than maxCharsPerLine
+        if (currentLine.length > 0) {
+          lines.push(currentLine);
+        }
+        lines.push(word); // Place the long word on its own line
+        currentLine = '';
+      } else if (currentLine.length === 0) {
+        // Start a new line with the word
+        currentLine = word;
+      } else if (currentLine.length + 1 + word.length <= maxCharsPerLine) {
+        // Add word to current line
+        currentLine += ' ' + word;
       } else {
-        rows.push(currentRow);
-        currentRow = word;
+        // Word doesn't fit, move to next line
+        lines.push(currentLine);
+        currentLine = word;
       }
     });
 
-    // Add the last row if it's not empty
-    if (currentRow) rows.push(currentRow);
+    // Add the last line
+    if (currentLine.length > 0) {
+      lines.push(currentLine);
+    }
 
-    // Split each row into characters, replacing spaces with 'X'
-    return rows.map((row) =>
-      row.split('').map((char) => (char === ' ' ? 'X' : char.toUpperCase()))
-    );
+    return lines;
   }
 
-  const processedRows = processSentence(gameInfo.phrase);
+  function createGrid(sentence, cols = 16) {
+    // Calculate the maximum number of characters per line
+    const availableCols = cols - 4; // Exclude 2 blue tiles on each side
+    const maxCharsPerLine = availableCols;
+
+    // Process the sentence into lines without breaking words
+    const lines = processSentenceIntoLines(sentence, maxCharsPerLine);
+
+    // Number of rows is lines.length + 2 (for the empty blue lines above and below)
+    const totalRows = lines.length + 2;
+
+    // Initialize the grid with nulls (blue tiles)
+    const grid = Array.from({ length: totalRows }, () =>
+      Array(cols).fill(null)
+    );
+
+    // Place the lines into the grid starting from row index 1 (leaving top empty line)
+    lines.forEach((line, rowIndex) => {
+      const chars = line.split('').map((char) => (char === ' ' ? 'X' : char));
+      const lineLength = chars.length;
+      const padding = Math.floor((availableCols - lineLength) / 2);
+      let colIndex = 2 + padding; // Start from column index 2 + padding to center
+
+      chars.forEach((char) => {
+        if (colIndex < cols - 2) {
+          grid[rowIndex + 1][colIndex] = char;
+          colIndex++;
+        }
+      });
+    });
+
+    return grid;
+  }
+
+  const grid = createGrid(gameInfo.phrase);
 
   return (
-    <div className="flex items-center flex-col p-2">
-      {processedRows.map((row, rowIndex) => (
-        <div key={rowIndex} className="">
+    <div className="p-2 min-h-[150px] border">
+      {grid.map((row, rowIndex) => (
+        <div key={rowIndex} className="grid grid-cols-16 gap-[2px] mb-[2px] ">
           {row.map((char, charIndex) => (
-            <button
+            <div
               key={charIndex}
-              className={`text-[12px] bg-white w-[20px] p-0 m-[2px] text-center rounded-[2px] ${['X'].includes(char) && '!opacity-0'}`}
+              className={`flex items-center justify-center text-[12px] h-[20px] rounded-[4px]
+              ${gameInfo.goodLetters.includes(char) && 'bg-yellow-400'}
+              ${
+                char === null || char === 'X'
+                  ? 'bg-blue-400'
+                  : 'bg-white text-black'
+              }`}
             >
-              {gameInfo.goodLetters.includes(char) ? char : '_'}
-            </button>
+              {char && char !== 'X'
+                ? gameInfo.goodLetters.includes(char)
+                  ? char
+                  : ''
+                : ''}
+            </div>
           ))}
         </div>
       ))}

@@ -17,11 +17,11 @@ const Keyboard = () => {
 
   return (
     <div
-      className={`flex items-center flex-col ${gameInfo.goodGuess && !gameInfo.guess && 'opacity-10'}`}
+      // className={`flex items-center flex-col ${gameInfo.goodGuess && !gameInfo.guess && 'opacity-10'} border border-red-500`}
+      className={`flex items-center flex-col  border border-red-500 p-1`}
     >
-      {gameInfo.guess ? 'ZGADUJE' : 'false'}
       {rows.map((row, rowIndex) => (
-        <div key={rowIndex} className="">
+        <div key={rowIndex} className="w-full flex items-center justify-center">
           {row.map((key, keyIndex) => (
             <button
               key={keyIndex}
@@ -31,10 +31,10 @@ const Keyboard = () => {
                   [...gameInfo.badLetters].includes(key) ||
                   lowels.includes(key))
               }
-              className={`text-[12px] bg-blue-300 px-[11px] py-[4px] m-[1px] text-center rounded 
-              ${!gameInfo.guess && lowels.includes(key) && '!bg-blue-200'}
-              ${[...gameInfo.goodLetters].includes(key) && '!bg-blue-400'}
-              ${[...gameInfo.badLetters].includes(key) && '!bg-blue-400'}
+              className={` bg-blue-300 text-center rounded w-[9%] m-[0.5%] p-0 py-1
+              ${!gameInfo.guess && lowels.includes(key) && '!opacity-40 !text-opacity-40'}
+              ${[...gameInfo.goodLetters].includes(key) && '!bg-blue-500 ring-blue-300 ring-2 text-blue-300'}
+              ${[...gameInfo.badLetters].includes(key) && '!bg-blue-500 ring-blue-300 ring-2 text-blue-300'}
               `}
               onClick={() => handleKeyClick(key)}
             >

@@ -5,7 +5,7 @@ const PlayersInfo = () => {
   const { gameInfo } = useGameContext();
 
   return (
-    <div className="mx-2 mb-3 grid grid-cols-2">
+    <div className="mx-2 mb-3 grid grid-cols-4">
       {gameInfo.players.map((player, index) => (
         <div
           className={`flex flex-col text-sm px-2 ${gameInfo.currentPlayer === index && 'bg-green-400'}`}

@@ -9,11 +9,11 @@ export const GameContextProvider = ({ children }) => {
     'Co nagle to po diable',
     'Lepszy wróbel w garści',
     'Kto pyta nie błądzi',
-    'Gdzie kucharek sześć tam nie ma co jeść',
     'Czas leczy rany',
     'Bez pracy nie ma kołaczy',
     'Strzeżonego Pan Bóg strzeże',
     'Prawda w oczy kole',
+    'Kto pod kim dołki kopie',
   ]);
 
   const getRandomPhrase = () => {
@@ -26,8 +26,8 @@ export const GameContextProvider = ({ children }) => {
     players: [
       { name: 'Player 1', amount: 0, total: 0 },
       { name: 'Player 2', amount: 0, total: 0 },
-      // { name: 'Player 3', amount: 0, total: 0 },
-      // { name: 'Player 4', amount: 0, total: 0 },
+      { name: 'Player 3', amount: 0, total: 0 },
+      { name: 'Player 4', amount: 0, total: 0 },
     ],
     round: 1,
     currentPlayer: 0,
@@ -93,7 +93,7 @@ export const GameContextProvider = ({ children }) => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
       afterRotate: true,
-      rotate: Math.floor(Math.random() * (721 - 180)) + 180,
+      rotate: Math.floor(Math.random() * (721 - 360)) + 180,
     }));
   };
 

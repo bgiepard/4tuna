@@ -126,7 +126,7 @@ const PieChart = () => {
           borderLeft: '12px solid white',
         }}
       ></div>
-      <div className="absolute top-[46%] text-white text-[14px]">
+      <div className="absolute top-[45.5%] text-white text-[14px]  w-[50px] text-center">
         {selectedValue !== null ? selectedValue : ' '}
       </div>
     </div>
