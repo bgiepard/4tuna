@@ -12,14 +12,14 @@ const PlayersInfo = () => {
           key={player.name}
         >
           <div
-            className={`h-[30px] w-[60px] pb-5 mx-auto text-[14px] flex flex-col items-center justify-center rounded-[8px] text-center bg-white bg-opacity-25 ${gameInfo.currentPlayer === index && 'text-white bg-orange-400'}`}
+            className={`h-[30px] w-[60px] pb-5 mx-auto text-[14px] flex flex-col items-center justify-center rounded-[4px] text-center bg-white bg-opacity-25 ${gameInfo.currentPlayer === index && 'text-white bg-orange-400'}`}
           >
             <span className="font-semibold -mt-3">{player.name}</span>
             <span className="text-[10px] -mt-[3px]">{player.total}</span>
           </div>
 
           <span
-            className={`-mt-4 leading-[20px] block text-[12px] text-center mx-1 bg-blue-300 rounded-[3px] h-[18px] font-semibold ${gameInfo.currentPlayer === index && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'} `}
+            className={`-mt-4 leading-[20px] block text-[14px] text-center mx-1 bg-blue-300 rounded-[3px] h-[18px] font-semibold ${gameInfo.currentPlayer === index && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'} `}
           >
             {player.amount}
           </span>
