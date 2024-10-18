@@ -37,7 +37,7 @@ const Phrase = () => {
           {row.map((char, charIndex) => (
             <button
               key={charIndex}
-              className={`text-[12px] bg-white px-[7px] py-[2px] m-[2px] text-center rounded ${['X'].includes(char) && '!opacity-0'}`}
+              className={`text-[12px] bg-white w-[20px] p-0 m-[2px] text-center rounded-[2px] ${['X'].includes(char) && '!opacity-0'}`}
             >
               {gameInfo.goodLetters.includes(char) ? char : '_'}
             </button>
