@@ -11,11 +11,11 @@ const App = () => {
 
   return (
     <div className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[800px]">
-      <div className="flex items-center justify-between px-2 mt-1 -mb-5 z-10">
-        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[20px] text-white">
+      <div className="flex items-center justify-between px-2 mt-1 -mb-[22.5px] z-10">
+        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[6vw] text-white font-semibold">
           {gameInfo.category}
         </span>
-        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[20px] text-white">
+        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[6vw] text-white font-semibold">
           Runda {gameInfo.round} / 3
         </span>
       </div>

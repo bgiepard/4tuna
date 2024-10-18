@@ -12,9 +12,9 @@ const PlayersInfo = () => {
           key={player.name}
         >
           <div
-            className={`h-[60px] w-[60px] pb-1 mx-auto text-[14px] flex flex-col items-center justify-center rounded-full text-center bg-blue-400 ${gameInfo.currentPlayer === index && 'text-white bg-orange-400'}`}
+            className={`h-[50px] w-[50px] pb-1 mx-auto text-[14px] flex flex-col items-center justify-center rounded-full text-center bg-white bg-opacity-25 ${gameInfo.currentPlayer === index && 'text-white bg-orange-400'}`}
           >
-            <span className="font-semibold -mb-1">{player.name}</span>
+            <span className="font-semibold -mb-2">{player.name}</span>
             <span className="text-[10px]">{player.total}</span>
           </div>
 

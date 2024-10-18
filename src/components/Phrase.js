@@ -38,7 +38,7 @@ const Phrase = () => {
     return lines;
   }
 
-  function createGrid(sentence, cols = 16) {
+  function createGrid(sentence, cols = 14) {
     // Calculate the maximum number of characters per line
     const availableCols = cols - 2; // Exclude 1 blue tile on each side
     const maxCharsPerLine = availableCols;
@@ -75,14 +75,14 @@ const Phrase = () => {
   const grid = createGrid(gameInfo.phrase);
 
   return (
-    <div className="px-2 mb-4">
+    <div className="px-2 mb-2 min-h-[33vw]">
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="grid grid-cols-16 gap-[2px] mb-[2px] ">
+        <div key={rowIndex} className="grid grid-cols-14 gap-[2px] mb-[2px] ">
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[12px] h-[20px] rounded-[4px]
-              ${gameInfo.goodLetters.includes(char) && 'bg-yellow-400'}
+              className={`flex items-center justify-center text-[12px] h-[6vw] rounded-[4px]
+              ${gameInfo.goodLetters.includes(char) && 'bg-yellow-400 font-semibold'}
               ${
                 char === null || char === 'X'
                   ? 'bg-blue-400'
