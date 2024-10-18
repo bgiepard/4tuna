@@ -9,7 +9,7 @@ const App = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
 
   return (
-    <div className="h-full bg-blue-500 max-w-[360px] max-h-[700px] mx-auto flex flex-col ">
+    <div className="h-full bg-blue-500  mx-auto flex flex-col max-w-[800px]">
       <Phrase />
 
       <div className="flex flex-col items-center flex-grow ">
