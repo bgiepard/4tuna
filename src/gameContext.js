@@ -22,10 +22,10 @@ export const GameContextProvider = ({ children }) => {
   const [gameInfo, setGameInfo] = useState({
     stake: 0,
     players: [
-      { name: 'Bartek', amount: 0, total: 0 },
-      { name: 'Oliwia', amount: 0, total: 0 },
-      { name: 'Gosia', amount: 0, total: 0 },
-      { name: 'Sebastian', amount: 0, total: 0 },
+      { name: 'Bartek', amount: 100, total: 0 },
+      { name: 'Oliwia', amount: 200, total: 0 },
+      { name: 'Gosia', amount: 300, total: 0 },
+      { name: 'Sebastian', amount: 400, total: 0 },
     ],
     round: 1,
     currentPlayer: 0,
@@ -35,10 +35,13 @@ export const GameContextProvider = ({ children }) => {
     category: 'Przysłowia',
     currentLetter: '',
     rotate: 0,
-    guess: false,
+
+    mode: 'rotating', // guessing, rotating, onlyVowels, letter
+
+    rotating: false,
 
     goodGuess: true,
-    afterRotate: false,
+
     onlyVowels: false,
   });
 
@@ -64,7 +67,7 @@ export const GameContextProvider = ({ children }) => {
   const nextPlayer = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
-      afterRotate: false,
+      mode: 'rotating',
       currentPlayer:
         (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
     }));
@@ -72,15 +75,43 @@ export const GameContextProvider = ({ children }) => {
 
   const resetPoints = () => {
     setGameInfo((prevGameInfo) => {
-      const updatedPlayers = prevGameInfo.players.map((player) => ({
-        ...player,
-        amount: 0,
-      }));
+      const updatedPlayers = prevGameInfo.players.map((player, index) => {
+        if (index === prevGameInfo.currentPlayer) {
+          // Reset amount only for the current player
+          return {
+            ...player,
+            amount: 0,
+          };
+        }
+        // Keep other players unchanged
+        return player;
+      });
 
       return {
         ...prevGameInfo,
         players: updatedPlayers,
-        afterRotate: false,
+        currentPlayer:
+          (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+      };
+    });
+  };
+
+  const resetHalf = () => {
+    setGameInfo((prevGameInfo) => {
+      const updatedPlayers = prevGameInfo.players.map((player, index) => {
+        if (index === prevGameInfo.currentPlayer) {
+          return {
+            ...player,
+            amount: player.amount > 0 ? player.amount / 2 : 0,
+          };
+        }
+        // Keep other players unchanged
+        return player;
+      });
+
+      return {
+        ...prevGameInfo,
+        players: updatedPlayers,
         currentPlayer:
           (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
       };
@@ -90,7 +121,6 @@ export const GameContextProvider = ({ children }) => {
   const rotateWheel = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
-      afterRotate: true,
       rotate: Math.floor(Math.random() * (721 - 360)) + 180,
     }));
   };
@@ -98,7 +128,7 @@ export const GameContextProvider = ({ children }) => {
   const letMeGuess = () => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
-      guess: !prevGameInfo.guess,
+      mode: 'guessing',
     }));
   };
 
@@ -109,7 +139,7 @@ export const GameContextProvider = ({ children }) => {
     setGameInfo((prevGameInfo) => {
       const letterInPhrase = upperPhrase.includes(upperLetter);
 
-      if (prevGameInfo.guess) {
+      if (prevGameInfo.mode === 'guessing') {
         // Guessing mode
         if (letterInPhrase) {
           // Add the letter to goodLetters
@@ -153,11 +183,9 @@ export const GameContextProvider = ({ children }) => {
               badLetters: [],
               currentLetter: '',
               category: getRandomPhrase(), // Replace with a new category
-              guess: false,
               // Optionally, increment the round number
               round: prevGameInfo.round + 1,
               onlyVowels: false,
-              afterRotate: false,
               currentPlayer: currentPlayerIndex + 1,
             };
           }
@@ -187,7 +215,7 @@ export const GameContextProvider = ({ children }) => {
             players: updatedPlayers,
             currentPlayer:
               (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
-            guess: false,
+            mode: 'rotating',
           };
         }
       } else {
@@ -230,7 +258,6 @@ export const GameContextProvider = ({ children }) => {
             goodLetters: newGoodLetters,
             badLetters: newBadLetters,
             goodGuess: true,
-            afterRotate: true,
             currentPlayer: prevGameInfo.currentPlayer,
             onlyVowels: true,
           };
@@ -245,7 +272,7 @@ export const GameContextProvider = ({ children }) => {
             ? prevGameInfo.currentPlayer
             : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
           goodGuess: isCorrectLetter,
-          afterRotate: false,
+          mode: 'rotating',
           onlyVowels: false,
         };
       }
@@ -262,6 +289,7 @@ export const GameContextProvider = ({ children }) => {
         nextPlayer,
         rotateWheel,
         letMeGuess,
+        resetHalf,
         lowels,
       }}
     >

@@ -3,7 +3,8 @@ import { useGameContext } from '../gameContext';
 import wheelImage from '../assets/wheel.svg'; // Update the path to your image
 
 const PieChart = () => {
-  const { gameInfo, setGameInfo, resetPoints, nextPlayer } = useGameContext();
+  const { gameInfo, setGameInfo, resetPoints, resetHalf, nextPlayer } =
+    useGameContext();
 
   const [rotationAngle, setRotationAngle] = useState(0); // in degrees
   const [isAnimating, setIsAnimating] = useState(false);
@@ -98,16 +99,19 @@ const PieChart = () => {
           const selectedValue = determineSelectedValue(rotationAngle);
           setSelectedValue(selectedValue);
 
-          if (selectedValue === 'RESET') {
+          if (selectedValue === '-100%') {
             resetPoints();
+          } else if (selectedValue === '-50%') {
+            resetHalf();
           } else if (selectedValue === 'STOP') {
             nextPlayer();
           } else {
             setGameInfo({
               ...gameInfo,
               stake: selectedValue,
+              mode: 'letter',
               goodGuess: false,
-              afterRotate: true,
+              afterRotate: true, // todo wywalić
             });
           }
         }}

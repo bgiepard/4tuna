@@ -17,8 +17,7 @@ const Keyboard = () => {
 
   return (
     <div
-      className={`flex items-center flex-col p-1`}
-      // ${gameInfo.goodGuess && !gameInfo.guess && 'opacity-10'}
+      className={`flex items-center flex-col p-1 ${gameInfo.mode === 'rotating' && 'pointer-events-none opacity-10'}`}
     >
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="w-full flex items-center justify-center">
@@ -26,13 +25,13 @@ const Keyboard = () => {
             <button
               key={keyIndex}
               disabled={
-                !gameInfo.guess &&
+                gameInfo.mode !== 'guessing' &&
                 ([...gameInfo.goodLetters].includes(key) ||
                   [...gameInfo.badLetters].includes(key) ||
                   lowels.includes(key))
               }
               className={` bg-blue-300 text-center rounded w-[9%] m-[0.5%] p-0 py-1 shadow-blue-900 shadow
-              ${!gameInfo.guess && lowels.includes(key) && '!bg-blue-400  text-blue-100 opacity-65 shadow-none'}
+              ${gameInfo.mode !== 'guessing' && lowels.includes(key) && '!bg-blue-400  text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.goodLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.badLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}
               `}
