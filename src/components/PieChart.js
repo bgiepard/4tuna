@@ -1,24 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameContext } from '../gameContext';
-
-// Import your wheel image
 import wheelImage from '../assets/wheel.svg'; // Update the path to your image
 
 const PieChart = () => {
   const { gameInfo, setGameInfo, resetPoints, nextPlayer } = useGameContext();
 
   const [rotationAngle, setRotationAngle] = useState(0); // in degrees
-  const targetRotationRef = useRef(0); // Target angle in degrees
-  const initialRotationAngleRef = useRef(0); // Starting angle for animation
-  const animationStartTimeRef = useRef(null); // Start time of animation
-  const animationFrameIdRef = useRef();
-  const isAnimatingRef = useRef(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null); // Track the selected value
-
-  // Easing function for smooth animation
-  const easeOutCubic = (t) => {
-    return 1 - Math.pow(1 - t, 3);
-  };
+  const [transitionDuration, setTransitionDuration] = useState(2000); // duration in ms
+  const easingFunction = 'cubic-bezier(0.22, 0.61, 0.36, 1)'; // easeOutCubic
 
   // Update the data array to match your 16 values
   const data = [
@@ -44,62 +35,26 @@ const PieChart = () => {
     if (gameInfo.rotate > 0) {
       handleRotate(gameInfo.rotate);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameInfo.rotate]);
-
-  const animateRotation = (timestamp) => {
-    if (!animationStartTimeRef.current) {
-      animationStartTimeRef.current = timestamp;
-    }
-    const elapsed = timestamp - animationStartTimeRef.current;
-    const duration = 2000; // 2 seconds
-    const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
-
-    // Apply easing function
-    const easedProgress = easeOutCubic(progress);
-
-    // Calculate the new rotation angle
-    const newAngle =
-      initialRotationAngleRef.current +
-      (targetRotationRef.current - initialRotationAngleRef.current) *
-        easedProgress;
-
-    setRotationAngle(newAngle);
-
-    if (progress < 1) {
-      animationFrameIdRef.current = requestAnimationFrame(animateRotation);
-    } else {
-      // Animation complete
-      isAnimatingRef.current = false;
-
-      // Determine the selected value after rotation
-      const selectedValue = determineSelectedValue(newAngle);
-      setSelectedValue(selectedValue); // Set the selected value
-
-      if (selectedValue === 'RESET') {
-        resetPoints();
-      } else if (selectedValue === 'STOP') {
-        nextPlayer();
-      } else {
-        setGameInfo({
-          ...gameInfo,
-          stake: selectedValue,
-          goodGuess: false,
-          afterRotate: true,
-        });
-      }
-    }
-  };
 
   const handleRotate = (deg = 0) => {
     setGameInfo({ ...gameInfo, stake: 0 });
-    if (isAnimatingRef.current) return; // Prevent multiple animations at the same time
+    if (isAnimating) return; // Prevent multiple animations at the same time
     const randomDeg = Math.floor(deg);
-    targetRotationRef.current = rotationAngle + randomDeg;
-    initialRotationAngleRef.current = rotationAngle;
-    animationStartTimeRef.current = null;
-    isAnimatingRef.current = true;
-    setGameInfo({ ...gameInfo, stake: 0 }); // Clear displayed value during animation
-    animationFrameIdRef.current = requestAnimationFrame(animateRotation);
+
+    // Ensure the wheel spins at least a minimum number of rotations
+    const newRotationAngle = rotationAngle + randomDeg;
+
+    // Calculate the duration based on the total degrees rotated
+    const totalDegrees = newRotationAngle - rotationAngle;
+    const rotations = totalDegrees / 360;
+    const newTransitionDuration = rotations * 1000; // adjust duration per rotation as needed
+    setTransitionDuration(newTransitionDuration);
+
+    setRotationAngle(newRotationAngle);
+    setIsAnimating(true);
+    setSelectedValue(null); // Clear displayed value during animation
   };
 
   const determineSelectedValue = (rotationAngle) => {
@@ -120,40 +75,55 @@ const PieChart = () => {
     return data[sliceIndex];
   };
 
-  useEffect(() => {
-    return () => {
-      // Cleanup on unmount
-      cancelAnimationFrame(animationFrameIdRef.current);
-    };
-  }, []);
-
   return (
-    <div className="mx-auto flex flex-col justify-center items-center relative ">
+    <div className="mx-auto flex flex-col justify-center items-center relative">
       {/* Wheel Image */}
       <img
         src={wheelImage}
         alt="Wheel"
         style={{
           transform: `rotate(${rotationAngle}deg)`,
-          transition: isAnimatingRef.current
-            ? 'none'
-            : 'transform 0.5s ease-out',
-          width: '250px',
-          height: '250px',
+          transition: isAnimating
+            ? `transform ${transitionDuration}ms ${easingFunction}`
+            : 'none',
+          width: '80%',
+          maxWidth: '300px',
+          height: 'auto',
+        }}
+        onTransitionEnd={() => {
+          // Animation complete
+          setIsAnimating(false);
+
+          // Determine the selected value after rotation
+          const selectedValue = determineSelectedValue(rotationAngle);
+          setSelectedValue(selectedValue);
+
+          if (selectedValue === 'RESET') {
+            resetPoints();
+          } else if (selectedValue === 'STOP') {
+            nextPlayer();
+          } else {
+            setGameInfo({
+              ...gameInfo,
+              stake: selectedValue,
+              goodGuess: false,
+              afterRotate: true,
+            });
+          }
         }}
       />
       {/* Arrow */}
       <div
         style={{
           position: 'absolute',
-          top: '53%',
-          left: '58.4%',
+          top: '50%',
+          left: '56.75%',
+          transform: 'translateY(-50%)',
           width: '0',
           height: '0',
-          borderTop: '8px solid transparent',
-          borderBottom: '8px solid transparent',
-          borderLeft: '20px solid white',
-          transform: 'translateY(-100%)',
+          borderTop: '5px solid transparent',
+          borderBottom: '5px solid transparent',
+          borderLeft: '12px solid white',
         }}
       ></div>
       <div className="absolute top-[46%] text-white text-[14px]">
