@@ -75,7 +75,7 @@ const Phrase = () => {
   const grid = createGrid(gameInfo.phrase);
 
   return (
-    <div className="p-2 mb-4 border">
+    <div className="px-2 mb-4">
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="grid grid-cols-16 gap-[2px] mb-[2px] ">
           {row.map((char, charIndex) => (
