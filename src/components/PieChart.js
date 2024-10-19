@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../gameContext';
-import wheelImage from '../assets/wheel.svg'; // Update the path to your image
+import wheelImage from '../assets/wheel.svg';
 
 const PieChart = () => {
   const { gameInfo, setGameInfo, resetPoints, resetHalf, nextPlayer } =
     useGameContext();
+
+  const prevRoundRotate = useRef();
 
   const [rotationAngle, setRotationAngle] = useState(0); // in degrees
   const [isAnimating, setIsAnimating] = useState(false);
@@ -33,14 +35,15 @@ const PieChart = () => {
   ];
 
   useEffect(() => {
-    if (gameInfo.rotate > 0) {
+    const prevRotate = prevRoundRotate.current;
+
+    if (gameInfo.rotate > 0 && prevRotate !== gameInfo.rotate) {
       handleRotate(gameInfo.rotate);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    prevRoundRotate.current = gameInfo.rotate;
   }, [gameInfo.rotate]);
 
   const handleRotate = (deg = 0) => {
-    setGameInfo({ ...gameInfo, stake: 0 });
     if (isAnimating) return; // Prevent multiple animations at the same time
     const randomDeg = Math.floor(deg);
 
@@ -56,6 +59,12 @@ const PieChart = () => {
     setRotationAngle(newRotationAngle);
     setIsAnimating(true);
     setSelectedValue(null); // Clear displayed value during animation
+
+    // Aktualizuj stake w gameInfo bez zmiany rotate
+    setGameInfo((prevGameInfo) => ({
+      ...prevGameInfo,
+      stake: 0,
+    }));
   };
 
   const determineSelectedValue = (rotationAngle) => {
@@ -106,13 +115,13 @@ const PieChart = () => {
           } else if (selectedValue === 'STOP') {
             nextPlayer();
           } else {
-            setGameInfo({
-              ...gameInfo,
+            setGameInfo((prevGameInfo) => ({
+              ...prevGameInfo,
               stake: selectedValue,
               mode: 'letter',
               goodGuess: false,
               afterRotate: true, // todo wywalić
-            });
+            }));
           }
         }}
       />

@@ -1,33 +1,38 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
-const GameContext = createContext(undefined);
+const GameContext = createContext();
+
+const initialPhrases = [
+  'Z małej chmury duży deszcz',
+  'Co nagle to po diable',
+  'Lepszy wróbel w garści',
+  'Kto pyta nie błądzi',
+  'Czas leczy rany',
+  'Bez pracy nie ma kołaczy',
+  'Prawda w oczy kole',
+  'Kto pod kim dołki kopie',
+];
+
+const vowels = ['A', 'E', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'];
 
 export const GameContextProvider = ({ children }) => {
-  const [phrases, setPhrases] = useState([
-    'Z małej chmury duży deszcz',
-    'Co nagle to po diable',
-    'Lepszy wróbel w garści',
-    'Kto pyta nie błądzi',
-    'Czas leczy rany',
-    'Bez pracy nie ma kołaczy',
-    'Prawda w oczy kole',
-    'Kto pod kim dołki kopie',
-  ]);
+  const [phrases, setPhrases] = useState(initialPhrases);
 
-  const getRandomPhrase = () => {
+  const getRandomPhrase = useCallback(() => {
     const randomIndex = Math.floor(Math.random() * phrases.length);
     return phrases[randomIndex];
-  };
+  }, [phrases]);
 
   const [gameInfo, setGameInfo] = useState({
     stake: 0,
     players: [
-      { name: 'Bartek', amount: 100, total: 0 },
-      { name: 'Oliwia', amount: 200, total: 0 },
-      { name: 'Gosia', amount: 300, total: 0 },
-      { name: 'Sebastian', amount: 400, total: 0 },
+      { name: 'Bartek', amount: 0, total: 0 },
+      { name: 'Oliwia', amount: 0, total: 0 },
+      { name: 'Gosia', amount: 0, total: 0 },
+      { name: 'Sebastian', amount: 0, total: 0 },
     ],
     round: 1,
+    maxRounds: 3,
     currentPlayer: 0,
     badLetters: [],
     goodLetters: [],
@@ -35,19 +40,13 @@ export const GameContextProvider = ({ children }) => {
     category: 'Przysłowia',
     currentLetter: '',
     rotate: 0,
-
     mode: 'rotating', // guessing, rotating, onlyVowels, letter
-
     rotating: false,
-
     goodGuess: true,
-
     onlyVowels: false,
   });
 
-  const lowels = ['A', 'E', 'U', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'];
-
-  const addPoints = (letterCount) => {
+  const addPoints = useCallback((letterCount) => {
     setGameInfo((prevGameInfo) => {
       const updatedPlayers = [...prevGameInfo.players];
       const currentPlayer = updatedPlayers[prevGameInfo.currentPlayer];
@@ -62,28 +61,23 @@ export const GameContextProvider = ({ children }) => {
         players: updatedPlayers,
       };
     });
-  };
+  }, []);
 
-  const nextPlayer = () => {
+  const nextPlayer = useCallback(() => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
       mode: 'rotating',
       currentPlayer:
         (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
     }));
-  };
+  }, []);
 
-  const resetPoints = () => {
+  const resetPoints = useCallback(() => {
     setGameInfo((prevGameInfo) => {
       const updatedPlayers = prevGameInfo.players.map((player, index) => {
         if (index === prevGameInfo.currentPlayer) {
-          // Reset amount only for the current player
-          return {
-            ...player,
-            amount: 0,
-          };
+          return { ...player, amount: 0 };
         }
-        // Keep other players unchanged
         return player;
       });
 
@@ -94,9 +88,9 @@ export const GameContextProvider = ({ children }) => {
           (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
       };
     });
-  };
+  }, []);
 
-  const resetHalf = () => {
+  const resetHalf = useCallback(() => {
     setGameInfo((prevGameInfo) => {
       const updatedPlayers = prevGameInfo.players.map((player, index) => {
         if (index === prevGameInfo.currentPlayer) {
@@ -105,7 +99,6 @@ export const GameContextProvider = ({ children }) => {
             amount: player.amount > 0 ? player.amount / 2 : 0,
           };
         }
-        // Keep other players unchanged
         return player;
       });
 
@@ -116,168 +109,174 @@ export const GameContextProvider = ({ children }) => {
           (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
       };
     });
-  };
+  }, []);
 
-  const rotateWheel = () => {
+  const rotateWheel = useCallback(() => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
       rotate: Math.floor(Math.random() * (721 - 360)) + 180,
     }));
-  };
+  }, []);
 
-  const letMeGuess = () => {
+  const letMeGuess = useCallback(() => {
     setGameInfo((prevGameInfo) => ({
       ...prevGameInfo,
       mode: 'guessing',
     }));
-  };
+  }, []);
 
-  const letterClick = (letter) => {
-    const upperLetter = letter.toUpperCase();
-    const upperPhrase = gameInfo.phrase.toUpperCase();
+  const letterClick = useCallback(
+    (letter) => {
+      const upperLetter = letter.toUpperCase();
+      const upperPhrase = gameInfo.phrase.toUpperCase();
 
-    setGameInfo((prevGameInfo) => {
-      const letterInPhrase = upperPhrase.includes(upperLetter);
+      setGameInfo((prevGameInfo) => {
+        const letterInPhrase = upperPhrase.includes(upperLetter);
 
-      if (prevGameInfo.mode === 'guessing') {
-        // Guessing mode
-        if (letterInPhrase) {
-          // Add the letter to goodLetters
-          const newGoodLetters = [
-            ...new Set([...prevGameInfo.goodLetters, upperLetter]),
-          ];
+        if (prevGameInfo.mode === 'guessing') {
+          if (letterInPhrase) {
+            const newGoodLetters = [
+              ...new Set([...prevGameInfo.goodLetters, upperLetter]),
+            ];
 
-          // Check if all letters have been guessed
-          const allLettersInPhrase = new Set(
-            upperPhrase.replace(/\s/g, '').split('')
-          );
-          const guessedAllLetters = [...allLettersInPhrase].every((char) =>
-            newGoodLetters.includes(char)
-          );
+            const allLettersInPhrase = new Set(
+              upperPhrase.replace(/\s/g, '').split('')
+            );
+            const guessedAllLetters = [...allLettersInPhrase].every((char) =>
+              newGoodLetters.includes(char)
+            );
 
-          if (guessedAllLetters) {
-            // Update all players
+            if (guessedAllLetters) {
+              const currentPlayerIndex = prevGameInfo.currentPlayer;
+              const updatedPlayers = prevGameInfo.players.map(
+                (player, index) => {
+                  if (index === currentPlayerIndex) {
+                    return {
+                      ...player,
+                      total: player.total + player.amount,
+                      amount: 0,
+                    };
+                  } else {
+                    return { ...player, amount: 0 };
+                  }
+                }
+              );
+
+              // Usuwanie wykorzystanego przysłowia
+              const updatedPhrases = phrases.filter(
+                (phrase) => phrase !== prevGameInfo.phrase
+              );
+
+              let availablePhrases = updatedPhrases;
+              if (updatedPhrases.length === 0) {
+                availablePhrases = initialPhrases.filter(
+                  (phrase) => phrase !== prevGameInfo.phrase
+                );
+                setPhrases(initialPhrases);
+              } else {
+                setPhrases(updatedPhrases);
+              }
+
+              // Wybór nowego przysłowia
+              const newPhrase =
+                availablePhrases[
+                  Math.floor(Math.random() * availablePhrases.length)
+                ];
+
+              return {
+                ...prevGameInfo,
+                players: updatedPlayers,
+                goodLetters: [],
+                badLetters: [],
+                currentLetter: '',
+                phrase: newPhrase,
+                category: 'Przysłowia',
+                round: prevGameInfo.round + 1,
+                onlyVowels: false,
+                currentPlayer:
+                  (currentPlayerIndex + 1) % prevGameInfo.players.length,
+                mode: 'rotating',
+                rotate: 0,
+              };
+            }
+
+            return {
+              ...prevGameInfo,
+              goodLetters: newGoodLetters,
+            };
+          } else {
             const currentPlayerIndex = prevGameInfo.currentPlayer;
             const updatedPlayers = prevGameInfo.players.map((player, index) => {
               if (index === currentPlayerIndex) {
-                // Winning player: add amount to total and reset amount
-                return {
-                  ...player,
-                  total: player.total + player.amount,
-                  amount: 0,
-                };
-              } else {
-                // Other players: reset amount
-                return {
-                  ...player,
-                  amount: 0,
-                };
+                return { ...player, amount: 0 };
               }
+              return player;
             });
 
-            // Reset game state for a new round
             return {
               ...prevGameInfo,
               players: updatedPlayers,
-              goodLetters: [],
-              badLetters: [],
-              currentLetter: '',
-              category: getRandomPhrase(), // Replace with a new category
-              // Optionally, increment the round number
-              round: prevGameInfo.round + 1,
-              onlyVowels: false,
-              currentPlayer: currentPlayerIndex + 1,
+              currentPlayer:
+                (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+              mode: 'rotating',
+            };
+          }
+        } else {
+          const letterCount = upperPhrase
+            .split('')
+            .filter((char) => char === upperLetter).length;
+
+          const isCorrectLetter = letterCount > 0;
+          const newGoodLetters = isCorrectLetter
+            ? [...new Set([...prevGameInfo.goodLetters, upperLetter])]
+            : prevGameInfo.goodLetters;
+          const newBadLetters = !isCorrectLetter
+            ? [...new Set([...prevGameInfo.badLetters, upperLetter])]
+            : prevGameInfo.badLetters;
+
+          if (isCorrectLetter) {
+            addPoints(letterCount);
+          }
+
+          const allLettersInPhrase = new Set(
+            upperPhrase.replace(/\s/g, '').split('')
+          );
+          const unguessedLetters = [...allLettersInPhrase].filter(
+            (char) => !newGoodLetters.includes(char)
+          );
+
+          const onlyVowelsLeft = unguessedLetters.every((char) =>
+            vowels.includes(char)
+          );
+
+          if (onlyVowelsLeft) {
+            return {
+              ...prevGameInfo,
+              currentLetter: upperLetter,
+              goodLetters: newGoodLetters,
+              badLetters: newBadLetters,
+              goodGuess: isCorrectLetter,
+              onlyVowels: true,
             };
           }
 
           return {
             ...prevGameInfo,
-            goodLetters: newGoodLetters,
-          };
-        } else {
-          // Incorrect guess; pass turn to next player and exit guessing mode
-          const currentPlayerIndex = prevGameInfo.currentPlayer;
-          const updatedPlayers = prevGameInfo.players.map((player, index) => {
-            if (index === currentPlayerIndex) {
-              // Current player: reset amount
-              return {
-                ...player,
-                amount: 0,
-              };
-            } else {
-              // Other players: keep as is
-              return player;
-            }
-          });
-
-          return {
-            ...prevGameInfo,
-            players: updatedPlayers,
-            currentPlayer:
-              (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
-            mode: 'rotating',
-          };
-        }
-      } else {
-        // Normal mode
-        const letterCount = upperPhrase
-          .split('')
-          .filter((char) => char === upperLetter).length;
-
-        const isCorrectLetter = letterCount > 0;
-        const newGoodLetters = isCorrectLetter
-          ? [...new Set([...prevGameInfo.goodLetters, upperLetter])]
-          : prevGameInfo.goodLetters;
-        const newBadLetters = !isCorrectLetter
-          ? [...new Set([...prevGameInfo.badLetters, upperLetter])]
-          : prevGameInfo.badLetters;
-
-        if (isCorrectLetter) {
-          addPoints(letterCount);
-        }
-
-        const allLettersInPhrase = new Set(
-          upperPhrase.replace(/\s/g, '').split('')
-        );
-        const unguessedLetters = [...allLettersInPhrase].filter(
-          (char) => !newGoodLetters.includes(char)
-        );
-
-        // Define the set of vowels (using your 'lowels' array)
-        const vowels = lowels.map((vowel) => vowel.toUpperCase());
-
-        const onlyVowelsLeft = unguessedLetters.every((char) =>
-          vowels.includes(char)
-        );
-
-        // If only vowels are left, update 'afterRotate' and 'goodGuess'
-        if (onlyVowelsLeft) {
-          return {
-            ...prevGameInfo,
             currentLetter: upperLetter,
             goodLetters: newGoodLetters,
             badLetters: newBadLetters,
-            goodGuess: true,
-            currentPlayer: prevGameInfo.currentPlayer,
-            onlyVowels: true,
+            currentPlayer: isCorrectLetter
+              ? prevGameInfo.currentPlayer
+              : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
+            goodGuess: isCorrectLetter,
+            mode: 'rotating',
+            onlyVowels: false,
           };
         }
-
-        return {
-          ...prevGameInfo,
-          currentLetter: upperLetter,
-          goodLetters: newGoodLetters,
-          badLetters: newBadLetters,
-          currentPlayer: isCorrectLetter
-            ? prevGameInfo.currentPlayer
-            : (prevGameInfo.currentPlayer + 1) % prevGameInfo.players.length,
-          goodGuess: isCorrectLetter,
-          mode: 'rotating',
-          onlyVowels: false,
-        };
-      }
-    });
-  };
+      });
+    },
+    [addPoints, gameInfo.phrase, phrases]
+  );
 
   return (
     <GameContext.Provider
@@ -290,7 +289,7 @@ export const GameContextProvider = ({ children }) => {
         rotateWheel,
         letMeGuess,
         resetHalf,
-        lowels,
+        vowels,
       }}
     >
       {children}
@@ -299,6 +298,4 @@ export const GameContextProvider = ({ children }) => {
 };
 
 // Custom hook to use the game context
-export const useGameContext = () => {
-  return useContext(GameContext);
-};
+export const useGameContext = () => useContext(GameContext);

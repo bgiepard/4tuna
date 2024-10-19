@@ -2,7 +2,7 @@ import React from 'react';
 import { useGameContext } from '../gameContext';
 
 const Keyboard = () => {
-  const { gameInfo, letterClick, lowels } = useGameContext();
+  const { gameInfo, letterClick, vowels } = useGameContext();
 
   const rows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -25,13 +25,14 @@ const Keyboard = () => {
             <button
               key={keyIndex}
               disabled={
-                gameInfo.mode !== 'guessing' &&
+                (gameInfo.mode !== 'guessing' ||
+                  (gameInfo.mode === 'rotating' && gameInfo.onlyVowels)) &&
                 ([...gameInfo.goodLetters].includes(key) ||
                   [...gameInfo.badLetters].includes(key) ||
-                  lowels.includes(key))
+                  vowels.includes(key))
               }
               className={` bg-blue-300 text-center rounded w-[9%] m-[0.5%] p-0 py-1 shadow-blue-900 shadow
-              ${gameInfo.mode !== 'guessing' && lowels.includes(key) && '!bg-blue-400  text-blue-100 opacity-65 shadow-none'}
+              ${gameInfo.mode !== 'guessing' && vowels.includes(key) && '!bg-blue-400  text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.goodLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.badLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}
               `}

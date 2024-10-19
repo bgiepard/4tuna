@@ -6,7 +6,7 @@ const Buttons = () => {
 
   return (
     <>
-      <div className="flex items-center gap-2 relative z-10 mt-3">
+      <div className="flex items-center gap-2 relative z-10 mt-3 h-[36px]">
         <button
           onClick={nextPlayer}
           disabled={gameInfo.mode === 'rotating'}
@@ -17,7 +17,7 @@ const Buttons = () => {
 
         <button
           onClick={rotateWheel}
-          disabled={gameInfo.mode !== 'rotating'}
+          disabled={gameInfo.mode !== 'rotating' || gameInfo.onlyVowels}
           className={`p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-gradient-to-b from-orange-500 text-white to-orange-300 py-1.5'}`}
         >
           Zakręć

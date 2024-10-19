@@ -75,41 +75,39 @@ const Phrase = () => {
   const grid = createGrid(gameInfo.phrase);
 
   return (
-      <div className="px-2 mb-2 min-h-[33vw] relative">
-        <div className="flex items-center justify-between absolute left-2 top-0 right-2 z-10">
-          <span
-              className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[6vw] text-white font-semibold">
-            {gameInfo.category}
-          </span>
-            <span
-                className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[6vw] text-white font-semibold">
-            Runda {gameInfo.round} / 3
-          </span>
-        </div>
+    <div className="px-2 mb-2 min-h-[33vw] relative">
+      <div className="flex items-center justify-between absolute left-2 top-0 right-2 z-10">
+        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[6vw] text-white font-semibold">
+          {gameInfo.category}
+        </span>
+        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[6vw] text-white font-semibold">
+          Runda {gameInfo.round} / {gameInfo.maxRounds}
+        </span>
+      </div>
 
-        {grid.map((row, rowIndex) => (
-            <div key={rowIndex} className="grid grid-cols-14 gap-[2px] mb-[2px] ">
-              {row.map((char, charIndex) => (
-                  <div
-                      key={charIndex}
-                      className={`flex items-center justify-center text-[12px] h-[6vw] rounded-[4px]
+      {grid.map((row, rowIndex) => (
+        <div key={rowIndex} className="grid grid-cols-14 gap-[2px] mb-[2px] ">
+          {row.map((char, charIndex) => (
+            <div
+              key={charIndex}
+              className={`flex items-center justify-center text-[12px] h-[6vw] rounded-[4px]
               ${gameInfo.goodLetters.includes(char) && 'bg-yellow-400 font-semibold'}
               ${
-                          char === null || char === 'X'
-                              ? 'bg-blue-400'
-                              : 'bg-white text-black'
-                      }`}
-                  >
-                    {char && char !== 'X'
-                        ? gameInfo.goodLetters.includes(char)
-                            ? char
-                            : ''
-                        : ''}
-                  </div>
-              ))}
+                char === null || char === 'X'
+                  ? 'bg-blue-400'
+                  : 'bg-white text-black'
+              }`}
+            >
+              {char && char !== 'X'
+                ? gameInfo.goodLetters.includes(char)
+                  ? char
+                  : ''
+                : ''}
             </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ))}
+    </div>
   );
 };
 
