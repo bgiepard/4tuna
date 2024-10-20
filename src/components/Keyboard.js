@@ -31,7 +31,7 @@ const Keyboard = () => {
                   [...gameInfo.badLetters].includes(key) ||
                   vowels.includes(key))
               }
-              className={` bg-blue-300 text-center rounded w-[9%] m-[0.5%] p-0 py-1 shadow-blue-900 shadow
+              className={` bg-blue-300 text-center rounded w-[8.5%] m-[0.75%] p-0 py-1 shadow-blue-900 shadow
               ${gameInfo.mode !== 'guessing' && vowels.includes(key) && '!bg-blue-400  text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.goodLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.badLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}

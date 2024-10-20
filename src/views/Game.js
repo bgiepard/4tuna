@@ -100,13 +100,6 @@ const Game = () => {
           ref={gameContainerRef} // Attach ref to the container
           className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[800px]"
       >
-        {/* Replace the TEST button with Fullscreen toggle */}
-        <button
-            className="border mb-4 p-2 bg-white text-blue-800 rounded"
-            onClick={handleFullscreenToggle}
-        >
-          {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-        </button>
 
         {roundChange ? (
             <div className="h-full ">
@@ -135,12 +128,22 @@ const Game = () => {
               <Phrase />
               <div className="flex flex-col items-center justify-center flex-grow ">
                 <PieChart />
-                <Buttons />
+                <div className="-mt-6 z-10">
+                  <Buttons />
+                </div>
               </div>
               <PlayersInfo />
               <Keyboard />
             </>
         )}
+
+        {/* Replace the TEST button with Fullscreen toggle */}
+        {/*<button*/}
+        {/*    className="border p-2 mx-2 mt-2 bg-white text-blue-800 rounded"*/}
+        {/*    onClick={handleFullscreenToggle}*/}
+        {/*>*/}
+        {/*  {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}*/}
+        {/*</button>*/}
       </div>
   );
 };
