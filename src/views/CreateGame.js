@@ -5,7 +5,7 @@ import socket from '../socket';
 function CreateGame() {
   const [options, setOptions] = useState({
     rounds: 1,
-    maxPlayers: 4,
+    maxPlayers: 2,
   });
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function CreateGame() {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <div className="border p-4 flex gap-4 mb-2">
         <label htmlFor="">Liczba rund</label>
         <input

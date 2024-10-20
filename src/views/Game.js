@@ -34,22 +34,56 @@ const Game = () => {
       if (!response.success) {
         console.error(response.message);
       } else {
-        console.log('game data', response.game);
+        const newGameData = response.game.gameOptions;
         setGameInfo({
           ...gameInfo,
-          players: response.game.players,
-          phrase: response.game.phrase,
+          players: newGameData.players,
+          phrase: newGameData.phrase,
+          mode: newGameData.mode,
         });
       }
     });
 
+    socket.on('gameUpdate', (game) => {
+      console.log('game update', game);
+    });
+
     return () => {
       socket.off('startGame');
+      socket.off('gameUpdate');
     };
   }, [gameID]);
 
+  // const handleNewGameEvent = () => {
+  //   const siema = {
+  //     bla: 'bla',
+  //   };
+  //   socket.emit('newGameEvent', { gameID, siema }, (response) => {
+  //     if (!response.success) {
+  //       console.error(response.message);
+  //     } else {
+  //       console.log('newGameEvent', response);
+  //     }
+  //   });
+  // };
+
+  const handleNewGameEvent = () => {
+    const name = 'xxx';
+    socket.emit('newGameEvent', { gameID, name }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
+      } else {
+        console.log('newGameEvent', response);
+      }
+    });
+  };
+
   return (
     <div className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[800px]">
+      <button className="border" onClick={handleNewGameEvent}>
+        TEST
+      </button>
+
       {roundChange ? (
         <div className="h-full ">
           {gameInfo.round > gameInfo.maxRounds ? (

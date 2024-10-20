@@ -4,13 +4,13 @@ import socket from '../socket';
 
 function Lobby() {
   const { roomID } = useParams();
-  const [players, setPlayers] = useState([]);
-  const [hasJoined, setHasJoined] = useState(false); // Nowy stan, który kontroluje, czy gracz dołączył
 
+  const [players, setPlayers] = useState([]);
+  const [hasJoined, setHasJoined] = useState(false);
   const [afterJoin, setAfterJoin] = useState(false);
   const [userName, setUserName] = useState('');
-
   const [gameStarting, setGameStarting] = useState(false);
+  const [countdown, setCountdown] = useState(5); // New state for countdown
   const navigate = useNavigate();
 
   const joinGame = (name) => {
@@ -27,29 +27,37 @@ function Lobby() {
   };
 
   useEffect(() => {
-    socket.on('playerJoined', (data) => {
-      setPlayers(() => [...data.players]);
+    // Event when a player joins the room
+    socket.on('playerJoined', (room) => {
+      setPlayers(() => [...room.gameOptions.players]);
     });
 
-    socket.on('playerDisconnect', (data) => {
-      setPlayers(() => [...data.players]);
+    // Event when a player disconnects from the room
+    socket.on('playerDisconnect', (room) => {
+      setPlayers(() => [...room.gameOptions.players]);
     });
 
-    socket.on('startGame', (data) => {
-      console.log('data', data);
+    // Event when the game is starting
+    socket.on('startGame', ({ id }) => {
       setGameStarting(true);
 
-      setTimeout(() => {
-        console.log('start time out');
-        navigate(`/game/${data.room.id}`);
-      }, 5000);
+      // Start the countdown
+      const countdownInterval = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown <= 1) {
+            clearInterval(countdownInterval);
+            navigate(`/game/${id}`);
+          }
+          return prevCountdown - 1;
+        });
+      }, 1000);
     });
 
     return () => {
       socket.off('playerJoined');
       socket.off('startGame');
     };
-  }, [roomID, hasJoined]);
+  }, [roomID, hasJoined, navigate]);
 
   return (
     <div>
@@ -68,24 +76,30 @@ function Lobby() {
             className="w-full bg-blue-300"
             onClick={() => joinGame(userName)}
           >
-            JOIN GAME
+            Dołącz do gry
           </button>
         </>
       ) : (
         <>
           <h2>Poczekalnia - Pokój {roomID}</h2>
-          <>
-            <p>
-              {gameStarting
-                ? 'Gra zaraz się zacznie'
-                : 'Oczekiwanie na graczy...'}
-            </p>
-            <ul>
-              {players.map((player) => (
-                <li key={player.id}>{player.name}</li>
-              ))}
-            </ul>
-          </>
+          <div>
+            {gameStarting ? (
+              <p>Gra zaraz się zacznie w {countdown} sekund...</p>
+            ) : (
+              <p>Oczekiwanie na graczy...</p>
+            )}
+          </div>
+          <ul>
+            {players.map((player) => (
+              <li
+                key={player.id}
+                className="flex items-center gap-2 p-3 border"
+              >
+                <span className="w-[8px] h-[8px] bg-green-500 block animate-ping rounded-full"></span>
+                <span>{player.name}</span>
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </div>
