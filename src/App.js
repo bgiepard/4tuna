@@ -7,9 +7,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<CreateGame />} />
-        <Route path="/lobby/:roomID" element={<Lobby />} />
-        <Route path="/game/:gameID" element={<Game />} />
+        {/*<Route path="/" element={<CreateGame />} />*/}
+        {/*<Route path="/lobby/:roomID" element={<Lobby />} />*/}
+        {/*<Route path="/game/:gameID" element={<Game />} />*/}
+        <Route path="/" element={<Game />} />
       </Routes>
     </Router>
   );

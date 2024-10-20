@@ -3,128 +3,58 @@ import { useGameContext } from '../gameContext';
 import wheelImage from '../assets/wheel.svg';
 
 const PieChart = () => {
-  const { gameInfo, setGameInfo, resetPoints, resetHalf, nextPlayer } =
-    useGameContext();
+    const {
+        gameInfo,
+        processSelectedValue,
+        determineSelectedValue,
+        handleRotate
+    } = useGameContext();
 
-  const prevRoundRotate = useRef();
+    const prevRoundRotate = useRef();
+    const [rotationAngle, setRotationAngle] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [selectedValue, setSelectedValue] = useState(null);
+    const [transitionDuration, setTransitionDuration] = useState(2000);
+    const easingFunction = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
 
-  const [rotationAngle, setRotationAngle] = useState(0); // in degrees
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null); // Track the selected value
-  const [transitionDuration, setTransitionDuration] = useState(2000); // duration in ms
-  const easingFunction = 'cubic-bezier(0.22, 0.61, 0.36, 1)'; // easeOutCubic
+    useEffect(() => {
+        const prevRotate = prevRoundRotate.current;
 
-  // Update the data array to match your 16 values
-  const data = [
-    '-100%',
-    1000,
-    400,
-    300,
-    150,
-    600,
-    700,
-    800,
-    'STOP',
-    600,
-    200,
-    100,
-    250,
-    500,
-    800,
-    1500,
-  ];
+        if (gameInfo.rotate > 0 && prevRotate !== gameInfo.rotate) {
+            handleRotate(
+                gameInfo.rotate,
+                rotationAngle,
+                setRotationAngle,
+                isAnimating,
+                setIsAnimating,
+                setTransitionDuration
+            );
+        }
+        prevRoundRotate.current = gameInfo.rotate;
+    }, [gameInfo.rotate]);
 
-  useEffect(() => {
-    const prevRotate = prevRoundRotate.current;
 
-    if (gameInfo.rotate > 0 && prevRotate !== gameInfo.rotate) {
-      handleRotate(gameInfo.rotate);
-    }
-    prevRoundRotate.current = gameInfo.rotate;
-  }, [gameInfo.rotate]);
-
-  const handleRotate = (deg = 0) => {
-    if (isAnimating) return; // Prevent multiple animations at the same time
-    const randomDeg = Math.floor(deg);
-
-    // Ensure the wheel spins at least a minimum number of rotations
-    const newRotationAngle = rotationAngle + randomDeg;
-
-    // Calculate the duration based on the total degrees rotated
-    const totalDegrees = newRotationAngle - rotationAngle;
-    const rotations = totalDegrees / 360;
-    const newTransitionDuration = rotations * 1000; // adjust duration per rotation as needed
-    setTransitionDuration(newTransitionDuration);
-
-    setRotationAngle(newRotationAngle);
-    setIsAnimating(true);
-    setSelectedValue(null); // Clear displayed value during animation
-
-    // Aktualizuj stake w gameInfo bez zmiany rotate
-    setGameInfo((prevGameInfo) => ({
-      ...prevGameInfo,
-      stake: 0,
-    }));
-  };
-
-  const determineSelectedValue = (rotationAngle) => {
-    // Adjust angle so that 0 degrees corresponds to the top (12 o'clock position)
-    let adjustedAngle = ((rotationAngle % 360) + 360) % 360;
-
-    // Each slice covers 22.5 degrees (360 / 16 slices)
-    const sliceAngle = 360 / data.length;
-
-    // The arrow is pointing directly upwards (0 degrees)
-    const arrowAngle = 0; // degrees
-
-    // Calculate the angle where the arrow is pointing relative to the rotated wheel
-    let angleAtArrow = (adjustedAngle + arrowAngle) % 360;
-
-    const sliceIndex = Math.floor(angleAtArrow / sliceAngle) % data.length;
-
-    return data[sliceIndex];
-  };
-
-  return (
-    <div className="mx-auto flex flex-col justify-center items-center relative">
-      {/* Wheel Image */}
-      <img
-        src={wheelImage}
-        alt="Wheel"
-        style={{
-          transform: `rotate(${rotationAngle}deg)`,
-          transition: isAnimating
-            ? `transform ${transitionDuration}ms ${easingFunction}`
-            : 'none',
-          width: '80%',
-          maxWidth: '320px',
-          height: 'auto',
-        }}
-        onTransitionEnd={() => {
-          // Animation complete
-          setIsAnimating(false);
-
-          // Determine the selected value after rotation
-          const selectedValue = determineSelectedValue(rotationAngle);
-          setSelectedValue(selectedValue);
-
-          if (selectedValue === '-100%') {
-            resetPoints();
-          } else if (selectedValue === '-50%') {
-            resetHalf();
-          } else if (selectedValue === 'STOP') {
-            nextPlayer();
-          } else {
-            setGameInfo((prevGameInfo) => ({
-              ...prevGameInfo,
-              stake: selectedValue,
-              mode: 'letter',
-              goodGuess: false,
-              afterRotate: true, // todo wywalić
-            }));
-          }
-        }}
-      />
+    return (
+        <div className="mx-auto flex flex-col justify-center items-center relative">
+            <img
+                src={wheelImage}
+                alt="Wheel"
+                style={{
+                    transform: `rotate(${rotationAngle}deg)`,
+                    transition: isAnimating
+                        ? `transform ${transitionDuration}ms ${easingFunction}`
+                        : 'none',
+                    width: '80%',
+                    maxWidth: '320px',
+                    height: 'auto',
+                }}
+                onTransitionEnd={() => {
+                    setIsAnimating(false);
+                    const selectedValue = determineSelectedValue(rotationAngle);
+                    setSelectedValue(selectedValue);
+                    processSelectedValue(selectedValue);
+                }}
+            />
       {/* Arrow */}
       <div
         style={{
