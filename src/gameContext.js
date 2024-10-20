@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+import socket from './socket';
 
 const GameContext = createContext();
 
@@ -45,6 +52,25 @@ export const GameContextProvider = ({ children }) => {
     goodGuess: true,
     onlyVowels: false,
   });
+
+  // useEffect(() => {
+  //   socket.emit('getGameData', gameID, (response) => {
+  //     if (!response.success) {
+  //       console.error(response.message);
+  //     } else {
+  //       console.log('game data', response.game);
+  //       setGameInfo({
+  //         ...gameInfo,
+  //         players: response.game.players,
+  //         phrase: response.game.phrase,
+  //       });
+  //     }
+  //   });
+  //
+  //   return () => {
+  //     socket.off('startGame');
+  //   };
+  // }, [gameID]);
 
   const addPoints = useCallback((letterCount) => {
     setGameInfo((prevGameInfo) => {
