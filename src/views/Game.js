@@ -98,7 +98,7 @@ const Game = () => {
   return (
       <div
           ref={gameContainerRef} // Attach ref to the container
-          className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[800px]"
+          className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[500px]"
       >
 
         {roundChange ? (

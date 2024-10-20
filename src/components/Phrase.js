@@ -77,10 +77,10 @@ const Phrase = () => {
   return (
     <div className="px-2 mb-4 relative">
       <div className="flex items-center justify-between absolute left-2 top-0 right-2 z-10">
-        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[6vw] text-white font-semibold">
+        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[8%] text-white font-semibold">
           {gameInfo.category}
         </span>
-        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[6vw] text-white font-semibold">
+        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[8%] text-white font-semibold">
           Runda {gameInfo.round} / {gameInfo.maxRounds}
         </span>
       </div>
@@ -90,7 +90,7 @@ const Phrase = () => {
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[12px] h-[6vw] min-h-[20px] rounded-[4px]
+              className={`flex items-center justify-center text-[12px] h-[8%] min-h-[20px] rounded-[4px]
               ${gameInfo.goodLetters.includes(char) && 'bg-yellow-400 font-semibold'}
               ${
                 char === null || char === 'X'
