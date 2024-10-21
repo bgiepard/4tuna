@@ -16,9 +16,12 @@ const PieChart = () => {
   const prevRotateRef = useRef(0);
 
   useEffect(() => {
-    if (gameInfo.rotate && gameInfo.rotate !== prevRotateRef.current) {
-      // Accumulate rotation angles
-      setRotationAngle((prev) => prev + gameInfo.rotate);
+    if (
+      gameInfo.totalRotate !== undefined &&
+      gameInfo.totalRotate !== prevRotateRef.current
+    ) {
+      // Set rotation angle to totalRotate from backend
+      setRotationAngle(gameInfo.totalRotate);
 
       // Set transition duration proportional to rotation
       const duration = (gameInfo.rotate / 360) * 1000; // 1000ms per full rotation
@@ -28,9 +31,9 @@ const PieChart = () => {
       setIsAnimating(true);
 
       // Update previous rotate value
-      prevRotateRef.current = gameInfo.rotate;
+      prevRotateRef.current = gameInfo.totalRotate;
     }
-  }, [gameInfo.rotate]);
+  }, [gameInfo.totalRotate, gameInfo.rotate]);
 
   return (
     <div className="mx-auto flex flex-col justify-center items-center relative">
@@ -66,7 +69,7 @@ const PieChart = () => {
       ></div>
       {/* Display Selected Value */}
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[14px] flex items-center justify-center text-center">
-        {gameInfo.selectedValue !== undefined ? gameInfo.selectedValue : ' '}
+        {isAnimating ? ' ' : gameInfo.stake}
       </div>
     </div>
   );
