@@ -19,7 +19,7 @@ export const GameContextProvider = ({ children }) => {
     rotating: false,
     goodGuess: true,
     onlyVowels: false,
-    vowels: [],
+    vowels: ['A', 'E'],
     badLetters: [],
     goodLetters: [],
   });
@@ -41,7 +41,7 @@ export const GameContextProvider = ({ children }) => {
     }
 
     socket.on('gameUpdate', (updatedGameInfo) => {
-      setGameInfo(updatedGameInfo);
+      setGameInfo({ ...gameInfo, ...updatedGameInfo });
     });
 
     return () => {
