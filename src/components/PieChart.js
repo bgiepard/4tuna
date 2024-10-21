@@ -1,16 +1,14 @@
-// PieChart.js
-
 import React, { useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../gameContext';
 import wheelImage from '../assets/wheel.svg';
 
 const PieChart = () => {
-  const { gameInfo } = useGameContext();
+  const { gameInfo, processValue } = useGameContext();
 
   const [rotationAngle, setRotationAngle] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [transitionDuration, setTransitionDuration] = useState(2000);
-  const easingFunction = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
+  const easingFunction = 'cubic-bezier(0.25, 0.1, 0.25, 1)'; // Updated easing function
 
   // To keep track of previous rotate value
   const prevRotateRef = useRef(0);
@@ -24,7 +22,7 @@ const PieChart = () => {
       setRotationAngle(gameInfo.totalRotate);
 
       // Set transition duration proportional to rotation
-      const duration = (gameInfo.rotate / 360) * 1000; // 1000ms per full rotation
+      const duration = 2000; // 2000ms for 720 degrees
       setTransitionDuration(duration);
 
       // Start animation
@@ -51,6 +49,7 @@ const PieChart = () => {
         }}
         onTransitionEnd={() => {
           setIsAnimating(false);
+          // processValue();
         }}
       />
       {/* Arrow Indicator */}

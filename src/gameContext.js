@@ -19,7 +19,7 @@ export const GameContextProvider = ({ children }) => {
     rotating: false,
     goodGuess: true,
     onlyVowels: false,
-    vowels: ['A', 'E'],
+    vowels: ['A', 'E', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'],
     badLetters: [],
     goodLetters: [],
   });
@@ -34,7 +34,6 @@ export const GameContextProvider = ({ children }) => {
           setGameInfo({
             ...gameInfo,
             ...response.gameData.gameInfo,
-            vowels: response.gameData.vowels,
           });
         }
       });
@@ -92,7 +91,9 @@ export const GameContextProvider = ({ children }) => {
     );
   };
 
-  const nextPlayer = (gameID) => {
+  const nextPlayer = () => {
+    const gameID = gameInfo.gameID;
+
     socket.emit(
       'newGameEvent',
       { gameID, name: 'nextPlayer', payload: {} },
@@ -128,7 +129,8 @@ export const GameContextProvider = ({ children }) => {
     );
   };
 
-  const letMeGuess = (gameID) => {
+  const letMeGuess = () => {
+    const gameID = gameInfo.gameID;
     socket.emit(
       'newGameEvent',
       { gameID, name: 'letMeGuess', payload: {} },
@@ -156,6 +158,21 @@ export const GameContextProvider = ({ children }) => {
     setGameInfo({ ...gameInfo, gameID: gameID });
   };
 
+  const processValue = () => {
+    const gameID = gameInfo.gameID;
+    socket.emit(
+      'newGameEvent',
+      { gameID, name: 'processValue', payload: {} },
+      (response) => {
+        if (!response.success) {
+          console.error(response.message);
+        } else {
+          console.log('ProcessValue event processed', response.gameData);
+        }
+      }
+    );
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -169,6 +186,7 @@ export const GameContextProvider = ({ children }) => {
         resetHalf,
         letMeGuess,
         resetStake,
+        processValue,
       }}
     >
       {children}

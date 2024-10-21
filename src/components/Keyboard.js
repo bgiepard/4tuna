@@ -15,9 +15,13 @@ const Keyboard = () => {
     letterClick(gameInfo.gameID, key);
   };
 
+  const myUserName = localStorage.getItem('userName');
+  const currentPlayerName = gameInfo.players[gameInfo.currentPlayer]?.name;
+  const isMyTurn = currentPlayerName && currentPlayerName === myUserName;
+
   return (
     <div
-      className={`flex items-center flex-col p-1 ${gameInfo.mode === 'rotating' && 'pointer-events-none opacity-10'}`}
+      className={`flex items-center flex-col p-1 ${(gameInfo.mode === 'rotating' || !isMyTurn) && 'pointer-events-none opacity-10'}`}
     >
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="w-full flex items-center justify-center">

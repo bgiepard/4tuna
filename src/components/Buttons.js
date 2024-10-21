@@ -1,8 +1,22 @@
 import React from 'react';
 import { useGameContext } from '../gameContext';
+import lobby from '../views/Lobby';
 
 const Buttons = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
+
+  const myUserName = localStorage.getItem('userName');
+  const currentPlayerName = gameInfo.players[gameInfo.currentPlayer]?.name;
+  const isMyTurn = currentPlayerName && currentPlayerName === myUserName;
+
+  if (!isMyTurn && currentPlayerName) {
+    return (
+      <div className="pt-8">
+        Poczekaj na swoją kolej, aktualny gracz:{' '}
+        {gameInfo.players[gameInfo.currentPlayer].name}
+      </div>
+    );
+  }
 
   return (
     <>

@@ -78,7 +78,7 @@ const Phrase = () => {
     <div className="px-2 mb-4 relative">
       <div className="flex items-center justify-between absolute left-2 top-0 right-2 z-10">
         <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[8%] text-white font-semibold">
-          {gameInfo.category} / {gameInfo.gameID}
+          {gameInfo.category}
         </span>
         <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[8%] text-white font-semibold">
           Runda {gameInfo.round} / {gameInfo.maxRounds}

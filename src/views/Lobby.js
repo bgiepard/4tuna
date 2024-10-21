@@ -15,6 +15,7 @@ function Lobby() {
 
   const joinGame = (name) => {
     if (!hasJoined) {
+      localStorage.setItem('userName', name);
       socket.emit('joinRoom', { roomID, name }, (response) => {
         if (!response.success) {
           alert(response.message);
