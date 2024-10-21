@@ -7,84 +7,37 @@ import PieChart from '../components/PieChart';
 import Buttons from '../components/Buttons';
 import PlayersInfo from '../components/PlayersInfo';
 import Keyboard from '../components/Keyboard';
-import socket from '../socket';
 
 const Game = () => {
   const { gameID } = useParams();
 
-  const { gameInfo, setGameInfo } = useGameContext();
+  const { gameInfo, setGameID } = useGameContext();
   const [roundChange, setRoundChange] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false); // State to track fullscreen status
 
   const gameContainerRef = useRef(null); // Ref to the container you want to fullscreen
 
   const prevRoundRef = useRef();
 
   useEffect(() => {
+    console.log('use effect from Game', gameID);
+    if (gameID) {
+      setGameID(gameID);
+    }
+  }, [gameID]);
+
+  useEffect(() => {
     const prevRound = prevRoundRef.current;
-    if (prevRound !== undefined && gameInfo.round !== prevRound) {
+    if (prevRound !== undefined && gameInfo && gameInfo.round !== prevRound) {
       setRoundChange(true);
       setTimeout(
         () => setRoundChange(gameInfo.round > gameInfo.maxRounds),
         3000
       );
     }
-    prevRoundRef.current = gameInfo.round;
-  }, [gameInfo.round]);
-
-  useEffect(() => {
-    socket.emit('getGameData', gameID, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      } else {
-        const { players, phrase, mode } = response.gameData.gameInfo;
-        setGameInfo({
-          ...gameInfo,
-          gameID: gameID,
-          players: players,
-          phrase: phrase,
-          mode: mode,
-        });
-      }
-    });
-
-    socket.on('gameUpdate', (game) => {
-      setGameInfo({
-        ...game,
-        gameID: gameID,
-      });
-    });
-
-    return () => {
-      socket.off('startGame');
-      socket.off('gameUpdate');
-    };
-  }, [gameID]);
-
-  const handleRotate = () => {
-    const name = 'rotate';
-    socket.emit('newGameEvent', { gameID, name }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      } else {
-        console.log('Rotate event processed', response.gameData);
-      }
-    });
-  };
-
-  const handleLetterClick = () => {
-    const name = 'letterClick';
-    const payload = {
-      letter: 'Z',
-    };
-    socket.emit('newGameEvent', { gameID, name, payload }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      } else {
-        console.log('Rotate event processed', response.gameData);
-      }
-    });
-  };
+    if (gameInfo) {
+      prevRoundRef.current = gameInfo.round;
+    }
+  }, [gameInfo]);
 
   return (
     <div
@@ -93,7 +46,7 @@ const Game = () => {
     >
       {roundChange ? (
         <div className="h-full ">
-          {gameInfo.round > gameInfo.maxRounds ? (
+          {gameInfo && gameInfo.round > gameInfo.maxRounds ? (
             <div className="p-4">
               <h1 className="text-center text-white">KONIEC GRY</h1>
               <ul className="flex flex-col mx-5">
@@ -114,6 +67,7 @@ const Game = () => {
         </div>
       ) : (
         <>
+          {/*<pre>{JSON.stringify(gameInfo, null, 4)}</pre>*/}
           <Phrase />
           <div className="flex flex-col items-center justify-center flex-grow ">
             <PieChart />
@@ -123,10 +77,6 @@ const Game = () => {
           </div>
           <PlayersInfo />
           <Keyboard />
-          <div className="flex">
-            <button onClick={handleRotate}>new game event</button>
-            <button onClick={handleLetterClick}>handleLetterClick Z</button>
-          </div>
         </>
       )}
     </div>
