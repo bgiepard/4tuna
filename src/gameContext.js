@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-
+import socket from './socket';
 const GameContext = createContext();
 
 const initialPhrases = [
@@ -152,60 +152,60 @@ export const GameContextProvider = ({ children }) => {
   }, []);
 
   const processSelectedValue = useCallback(
-      (selectedValue) => {
-        if (selectedValue === '-100%') {
-          resetPoints();
-        } else if (selectedValue === '-50%') {
-          resetHalf();
-        } else if (selectedValue === 'STOP') {
-          nextPlayer();
-        } else {
-          setGameInfo((prevGameInfo) => ({
-            ...prevGameInfo,
-            stake: selectedValue,
-            mode: 'letter',
-            goodGuess: false,
-            afterRotate: true, // TODO: remove if not needed
-          }));
-        }
-      },
-      [resetPoints, resetHalf, nextPlayer]
+    (selectedValue) => {
+      if (selectedValue === '-100%') {
+        resetPoints();
+      } else if (selectedValue === '-50%') {
+        resetHalf();
+      } else if (selectedValue === 'STOP') {
+        nextPlayer();
+      } else {
+        setGameInfo((prevGameInfo) => ({
+          ...prevGameInfo,
+          stake: selectedValue,
+          mode: 'letter',
+          goodGuess: false,
+          afterRotate: true, // TODO: remove if not needed
+        }));
+      }
+    },
+    [resetPoints, resetHalf, nextPlayer]
   );
 
   const determineSelectedValue = useCallback(
-      (rotationAngle) => {
-        let adjustedAngle = ((rotationAngle % 360) + 360) % 360;
-        const sliceAngle = 360 / values.length;
-        const arrowAngle = 0;
-        let angleAtArrow = (adjustedAngle + arrowAngle) % 360;
-        const sliceIndex = Math.floor(angleAtArrow / sliceAngle) % values.length;
-        return values[sliceIndex];
-      },
-      [values]
+    (rotationAngle) => {
+      let adjustedAngle = ((rotationAngle % 360) + 360) % 360;
+      const sliceAngle = 360 / values.length;
+      const arrowAngle = 0;
+      let angleAtArrow = (adjustedAngle + arrowAngle) % 360;
+      const sliceIndex = Math.floor(angleAtArrow / sliceAngle) % values.length;
+      return values[sliceIndex];
+    },
+    [values]
   );
 
   const handleRotate = useCallback(
-      (
-          deg = 0,
-          rotationAngle,
-          setRotationAngle,
-          isAnimating,
-          setIsAnimating,
-          setTransitionDuration
-      ) => {
-        if (isAnimating) return;
-        const randomDeg = Math.floor(deg);
-        const newRotationAngle = rotationAngle + randomDeg;
-        const totalDegrees = newRotationAngle - rotationAngle;
-        const rotations = totalDegrees / 360;
-        const newTransitionDuration = rotations * 1000;
+    (
+      deg = 0,
+      rotationAngle,
+      setRotationAngle,
+      isAnimating,
+      setIsAnimating,
+      setTransitionDuration
+    ) => {
+      if (isAnimating) return;
+      const randomDeg = Math.floor(deg);
+      const newRotationAngle = rotationAngle + randomDeg;
+      const totalDegrees = newRotationAngle - rotationAngle;
+      const rotations = totalDegrees / 360;
+      const newTransitionDuration = rotations * 1000;
 
-        setTransitionDuration(newTransitionDuration);
-        setRotationAngle(newRotationAngle);
-        setIsAnimating(true);
-        resetStake();
-      },
-      [resetStake]
+      setTransitionDuration(newTransitionDuration);
+      setRotationAngle(newRotationAngle);
+      setIsAnimating(true);
+      resetStake();
+    },
+    [resetStake]
   );
 
   const letterClick = useCallback(
@@ -376,7 +376,7 @@ export const GameContextProvider = ({ children }) => {
         resetStake,
         processSelectedValue,
         handleRotate,
-        determineSelectedValue
+        determineSelectedValue,
       }}
     >
       {children}

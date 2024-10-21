@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import screenfull from 'screenfull';
 
 import { useGameContext } from '../gameContext';
 import Phrase from '../components/Phrase';
@@ -26,8 +25,8 @@ const Game = () => {
     if (prevRound !== undefined && gameInfo.round !== prevRound) {
       setRoundChange(true);
       setTimeout(
-          () => setRoundChange(gameInfo.round > gameInfo.maxRounds),
-          3000
+        () => setRoundChange(gameInfo.round > gameInfo.maxRounds),
+        3000
       );
     }
     prevRoundRef.current = gameInfo.round;
@@ -38,113 +37,99 @@ const Game = () => {
       if (!response.success) {
         console.error(response.message);
       } else {
-        const newGameData = response.game.gameOptions;
+        const { players, phrase, mode } = response.gameData.gameInfo;
         setGameInfo({
           ...gameInfo,
-          players: newGameData.players,
-          phrase: newGameData.phrase,
-          mode: newGameData.mode,
+          gameID: gameID,
+          players: players,
+          phrase: phrase,
+          mode: mode,
         });
       }
     });
 
     socket.on('gameUpdate', (game) => {
-      console.log('game update', game);
-      // Update gameInfo as needed
-      setGameInfo(game);
+      setGameInfo({
+        ...game,
+        gameID: gameID,
+      });
     });
 
     return () => {
       socket.off('startGame');
       socket.off('gameUpdate');
     };
-  }, [gameID, setGameInfo, gameInfo]);
+  }, [gameID]);
 
-  const handleNewGameEvent = () => {
-    const name = 'xxx';
+  const handleRotate = () => {
+    const name = 'rotate';
     socket.emit('newGameEvent', { gameID, name }, (response) => {
       if (!response.success) {
         console.error(response.message);
       } else {
-        console.log('newGameEvent', response);
+        console.log('Rotate event processed', response.gameData);
       }
     });
   };
 
-  // Handler to toggle fullscreen
-  const handleFullscreenToggle = () => {
-    if (screenfull.isEnabled) {
-      screenfull.toggle(gameContainerRef.current);
-      setIsFullscreen(!isFullscreen);
-    } else {
-      console.error('Fullscreen not supported');
-    }
+  const handleLetterClick = () => {
+    const name = 'letterClick';
+    const payload = {
+      letter: 'Z',
+    };
+    socket.emit('newGameEvent', { gameID, name, payload }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
+      } else {
+        console.log('Rotate event processed', response.gameData);
+      }
+    });
   };
 
-  // Optional: Listen to fullscreen change events
-  useEffect(() => {
-    if (screenfull.isEnabled) {
-      const onFullscreenChange = () => {
-        setIsFullscreen(screenfull.isFullscreen);
-      };
-      screenfull.on('change', onFullscreenChange);
-
-      return () => {
-        screenfull.off('change', onFullscreenChange);
-      };
-    }
-  }, []);
-
   return (
-      <div
-          ref={gameContainerRef} // Attach ref to the container
-          className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[500px]"
-      >
-
-        {roundChange ? (
-            <div className="h-full ">
-              {gameInfo.round > gameInfo.maxRounds ? (
-                  <div className="p-4">
-                    <h1 className="text-center text-white">KONIEC GRY</h1>
-                    <ul className="flex flex-col mx-5">
-                      {gameInfo.players
-                          .sort((a, b) => b.total - a.total)
-                          .map((player) => (
-                              <div key={player.name}>
-                                <span>{player.name}</span> -{' '}
-                                <span>{player.total}</span>
-                              </div>
-                          ))}
-                    </ul>
-                  </div>
-              ) : (
-                  <div className="h-full flex flex-col items-center justify-center">
-                    <h1 className="text-white">Zmiana rundy</h1>
-                  </div>
-              )}
+    <div
+      ref={gameContainerRef} // Attach ref to the container
+      className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[500px]"
+    >
+      {roundChange ? (
+        <div className="h-full ">
+          {gameInfo.round > gameInfo.maxRounds ? (
+            <div className="p-4">
+              <h1 className="text-center text-white">KONIEC GRY</h1>
+              <ul className="flex flex-col mx-5">
+                {gameInfo.players
+                  .sort((a, b) => b.total - a.total)
+                  .map((player) => (
+                    <div key={player.name}>
+                      <span>{player.name}</span> - <span>{player.total}</span>
+                    </div>
+                  ))}
+              </ul>
             </div>
-        ) : (
-            <>
-              <Phrase />
-              <div className="flex flex-col items-center justify-center flex-grow ">
-                <PieChart />
-                <div className="-mt-6 z-10">
-                  <Buttons />
-                </div>
-              </div>
-              <PlayersInfo />
-              <Keyboard />
-            </>
-        )}
-
-        {/* Replace the TEST button with Fullscreen toggle */}
-        {/*<button*/}
-        {/*    className="border p-2 mx-2 mt-2 bg-white text-blue-800 rounded"*/}
-        {/*    onClick={handleFullscreenToggle}*/}
-        {/*>*/}
-        {/*  {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}*/}
-        {/*</button>*/}
-      </div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center">
+              <h1 className="text-white">Zmiana rundy</h1>
+            </div>
+          )}
+        </div>
+      ) : (
+        <>
+          <Phrase />
+          <div className="flex flex-col items-center justify-center flex-grow ">
+            <PieChart />
+            <div className="-mt-6 z-10">
+              <Buttons />
+            </div>
+          </div>
+          <PlayersInfo />
+          <Keyboard />
+          <div className="flex">
+            <button onClick={handleRotate}>new game event</button>
+            <button onClick={handleLetterClick}>handleLetterClick Z</button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

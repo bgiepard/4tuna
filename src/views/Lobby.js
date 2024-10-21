@@ -28,17 +28,18 @@ function Lobby() {
 
   useEffect(() => {
     // Event when a player joins the room
-    socket.on('playerJoined', (room) => {
-      setPlayers(() => [...room.gameOptions.players]);
+    socket.on('playerJoined', (players) => {
+      setPlayers(() => [...players]);
     });
 
     // Event when a player disconnects from the room
     socket.on('playerDisconnect', (room) => {
-      setPlayers(() => [...room.gameOptions.players]);
+      setPlayers(() => [...players]);
     });
 
     // Event when the game is starting
-    socket.on('startGame', ({ id }) => {
+    socket.on('startGame', ({ gameID }) => {
+      console.log('id', gameID);
       setGameStarting(true);
 
       // Start the countdown
@@ -46,7 +47,7 @@ function Lobby() {
         setCountdown((prevCountdown) => {
           if (prevCountdown <= 1) {
             clearInterval(countdownInterval);
-            navigate(`/game/${id}`);
+            navigate(`/game/${gameID}`);
           }
           return prevCountdown - 1;
         });
