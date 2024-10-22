@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useGameContext } from '../gameContext';
 import lobby from '../views/Lobby';
 
 const Buttons = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
+  const spinSound = useRef(null);
 
   const myUserName = localStorage.getItem(`${gameInfo.gameID}userName`);
   const currentPlayerName = gameInfo.players[gameInfo.currentPlayer]?.name;
   const isMyTurn = currentPlayerName && currentPlayerName === myUserName;
 
+  const handleRotateWheel = () => {
+    if (spinSound.current) {
+      spinSound.current.play(); // Play the sound
+    }
+    rotateWheel(); // Call the rotateWheel function
+  };
+
   if (!isMyTurn && currentPlayerName) {
     return (
-      <div className="pt-8">
+      <div className="pt-8 pb-4 text-orange-400 text-center">
         Poczekaj na swoją kolej, aktualny gracz:{' '}
         {gameInfo.players[gameInfo.currentPlayer].name}
       </div>
@@ -20,6 +28,12 @@ const Buttons = () => {
 
   return (
     <>
+      <audio ref={spinSound}>
+        <source src="/assets/spin.mp3" type="audio/mpeg" />
+        <source src="/assets/spin.ogg" type="audio/ogg" />
+        Your browser does not support the audio element.
+      </audio>
+
       <div className="flex items-center gap-2 relative z-10 mt-3 h-[36px]">
         <button
           onClick={nextPlayer}
@@ -30,9 +44,9 @@ const Buttons = () => {
         </button>
 
         <button
-          onClick={rotateWheel}
+          onClick={handleRotateWheel} // Use the handler to play sound and rotate
           disabled={gameInfo.mode !== 'rotating' || gameInfo.onlyVowels}
-          className={`p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-gradient-to-b from-orange-500 text-white to-orange-300 py-1.5'}`}
+          className={`shadow shadow-black p-1 px-6 bg-blue-300 rounded mx-auto disabled:opacity-10 ${gameInfo.mode === 'rotating' && 'bg-gradient-to-b from-orange-500 text-white to-orange-300 py-1.5'}`}
         >
           Zakręć
         </button>

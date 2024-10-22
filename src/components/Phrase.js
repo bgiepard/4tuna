@@ -38,7 +38,7 @@ const Phrase = () => {
     return lines;
   }
 
-  function createGrid(sentence, cols = 14) {
+  function createGrid(sentence, cols = 13) {
     // Calculate the maximum number of characters per line
     const availableCols = cols - 2; // Exclude 1 blue tile on each side
     const maxCharsPerLine = availableCols;
@@ -46,15 +46,15 @@ const Phrase = () => {
     // Process the sentence into lines without breaking words
     const lines = processSentenceIntoLines(sentence, maxCharsPerLine);
 
-    // Number of rows is lines.length + 2 (for the empty blue lines above and below)
-    const totalRows = lines.length + 2;
+    // Number of rows is exactly the number of lines (no extra rows)
+    const totalRows = lines.length;
 
     // Initialize the grid with nulls (blue tiles)
     const grid = Array.from({ length: totalRows }, () =>
       Array(cols).fill(null)
     );
 
-    // Place the lines into the grid starting from row index 1 (leaving top empty line)
+    // Place the lines into the grid starting from row index 0
     lines.forEach((line, rowIndex) => {
       const chars = line.split('').map((char) => (char === ' ' ? 'X' : char));
       const lineLength = chars.length;
@@ -63,7 +63,7 @@ const Phrase = () => {
 
       chars.forEach((char) => {
         if (colIndex < cols - 1) {
-          grid[rowIndex + 1][colIndex] = char;
+          grid[rowIndex][colIndex] = char; // Place character in the grid
           colIndex++;
         }
       });
@@ -73,28 +73,30 @@ const Phrase = () => {
   }
 
   const grid = createGrid(gameInfo.phrase);
+  // const grid = createGrid('Gdzie kucharek sześć tam nie ma co jeśc');
 
   return (
-    <div className="px-2 mb-4 relative">
-      <div className="flex items-center justify-between absolute left-2 top-0 right-2 z-10">
-        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[98px] h-[8%] text-white font-semibold">
+    <div>
+      <div className="flex items-center justify-between">
+        <span className="flex items-center justify-center  rounded t text-white ">
           {gameInfo.category}
         </span>
-        <span className="flex items-center justify-center bg-blue-400 rounded text-[12px] w-[73px] h-[8%] text-white font-semibold">
-          Runda {gameInfo.round} / {gameInfo.maxRounds}
+        <span className="flex items-center justify-center  rounded  text-white ">
+          Runda&nbsp;<span className="text-orange-300"> {gameInfo.round}</span>
+          &nbsp;/ {gameInfo.maxRounds}
         </span>
       </div>
 
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="grid grid-cols-14 gap-[2px] mb-[2px] ">
+        <div key={rowIndex} className="grid grid-cols-13 gap-[4px] mb-[4px]">
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[12px] h-[8%] min-h-[20px] rounded-[4px]
-              ${gameInfo.goodLetters.includes(char) && 'bg-yellow-400 font-semibold'}
+              className={`flex items-center justify-center text-[14px] min-h-[20px] rounded-[2px]
+              ${gameInfo.goodLetters.includes(char) && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'}
               ${
                 char === null || char === 'X'
-                  ? 'bg-blue-400'
+                  ? 'bg-white bg-opacity-25'
                   : 'bg-white text-black'
               }`}
             >

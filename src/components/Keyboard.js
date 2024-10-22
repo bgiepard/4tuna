@@ -21,7 +21,7 @@ const Keyboard = () => {
 
   return (
     <div
-      className={`flex items-center flex-col p-1 ${(gameInfo.mode === 'rotating' || !isMyTurn) && 'pointer-events-none opacity-10'}`}
+      className={`flex items-center flex-col ${(gameInfo.mode === 'rotating' || !isMyTurn) && 'pointer-events-none opacity-10'}`}
     >
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="w-full flex items-center justify-center">
@@ -35,7 +35,7 @@ const Keyboard = () => {
                   [...gameInfo.badLetters].includes(key) ||
                   gameInfo.vowels.includes(key))
               }
-              className={` bg-blue-300 text-center rounded w-[8.5%] m-[0.75%] p-0 py-2 shadow-blue-900 shadow
+              className={`bg-blue-300 text-center rounded w-[10%] m-[0.55%] p-0 py-2 shadow-blue-900 shadow
               ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-blue-400  text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.goodLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}
               ${[...gameInfo.badLetters].includes(key) && '!bg-blue-400 text-blue-100 opacity-65 shadow-none'}

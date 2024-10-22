@@ -36,7 +36,7 @@ function CreateGame() {
           >
             -
           </button>
-          <span className="text-blue-200 font-bold text-xl block w-[30px] text-center">
+          <span className="text-green-500 font-bold text-2xl block w-[30px] text-center">
             {options.rounds}
           </span>
           <button
@@ -64,7 +64,7 @@ function CreateGame() {
           >
             -
           </button>
-          <span className="text-blue-200 font-bold text-xl block w-[30px] text-center">
+          <span className="text-green-500 font-bold text-2xl block w-[30px] text-center">
             {options.maxPlayers}
           </span>
           <button

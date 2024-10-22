@@ -109,20 +109,21 @@ function Lobby() {
         </div>
       ) : (
         <div className="flex flex-col h-full gap-10 justify-center items-center">
-          <div className="flex flex-col gap-2 items-center">
+          <div className="flex flex-col gap-6 items-center">
             <span className="text-blue-400 text-lg">
-              Poczekalnia - Pokój {roomID}
+              Poczekalnia - Pokój{' '}
+              <span className="text-green-400">{roomID}</span>
             </span>
             <div className="flex gap-2">
               <button
                 onClick={handleCopyClick}
-                className=" w-[150px] text-orange-400  border border-orange-500 p-1 px-4 rounded-lg"
+                className=" w-[150px] text-green-400  border border-green-500 p-1 px-4 rounded-lg"
               >
                 {copied ? 'Skopiowany!' : 'Kopiuj link'}
               </button>
               <button
                 onClick={handleShareClick}
-                className=" w-[150px] text-orange-400  border border-orange-500 p-1 px-4 rounded-lg"
+                className=" w-[150px] text-green-400  border border-green-500 p-1 px-4 rounded-lg"
               >
                 Udostępnij
               </button>
@@ -134,9 +135,9 @@ function Lobby() {
             {players.map((player) => (
               <li
                 key={player.id}
-                className="flex items-center gap-4 p-3 w-1/2 border border-blue-500 rounded"
+                className="flex items-center gap-4 p-3 py-1 w-[140px] border border-blue-500 rounded"
               >
-                <span className="w-[8px] h-[8px] bg-green-500 block animate-ping rounded-full"></span>
+                <span className="w-[8px] h-[8px] bg-green-500 block animate-ping rounded-full shrink-0"></span>
                 <span className="text-blue-300">{player.name}</span>
               </li>
             ))}

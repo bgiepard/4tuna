@@ -40,7 +40,7 @@ const Game = () => {
   }, [gameInfo]);
 
   return (
-    <div ref={gameContainerRef} className="h-full mx-auto flex flex-col">
+    <div ref={gameContainerRef} className="h-full flex flex-col">
       {roundChange ? (
         <div className="h-full ">
           {gameInfo && gameInfo.round > gameInfo.maxRounds ? (

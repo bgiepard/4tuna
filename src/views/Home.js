@@ -35,7 +35,7 @@ const Home = () => {
         <input
           type="text"
           onChange={(e) => navigateToRoom(e.target.value)}
-          className="w-4/5 mb-8 px-4 py-3 rounded bg-transparent border-2 border-blue-300 text-white uppercase placeholder:text-blue-400 placeholder:capitalize"
+          className="w-4/5 mb-8 px-4 py-3 text-center bg-black bg-opacity-10 rounded-lg bg-transparent border-2 border-blue-300 text-white uppercase placeholder:text-blue-400 placeholder:capitalize"
           placeholder="Wpisz kod pokoju"
         />
 
