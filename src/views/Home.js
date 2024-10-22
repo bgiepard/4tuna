@@ -19,6 +19,7 @@ const Home = () => {
         <h1 className="text-white text-[30px] text-center font-extrabold">
           4TUNA.PL
         </h1>
+        <span className="text-gray-700">v1</span>
       </div>
 
       <div className="flex gap-4 justify-center mt-2">
