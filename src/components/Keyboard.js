@@ -15,7 +15,7 @@ const Keyboard = () => {
     letterClick(gameInfo.gameID, key);
   };
 
-  const myUserName = localStorage.getItem('userName');
+  const myUserName = localStorage.getItem(`${gameInfo.gameID}userName`);
   const currentPlayerName = gameInfo.players[gameInfo.currentPlayer]?.name;
   const isMyTurn = currentPlayerName && currentPlayerName === myUserName;
 

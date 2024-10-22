@@ -5,7 +5,7 @@ import lobby from '../views/Lobby';
 const Buttons = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
 
-  const myUserName = localStorage.getItem('userName');
+  const myUserName = localStorage.getItem(`${gameInfo.gameID}userName`);
   const currentPlayerName = gameInfo.players[gameInfo.currentPlayer]?.name;
   const isMyTurn = currentPlayerName && currentPlayerName === myUserName;
 

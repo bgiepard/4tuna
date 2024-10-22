@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 #root, body, html {
     height: 100%;
-    font-family: "DM Sans", sans-serif;
+    font-family: "Itim", cursive;
     font-optical-sizing: auto;
     font-style: normal;
 }

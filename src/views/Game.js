@@ -40,10 +40,7 @@ const Game = () => {
   }, [gameInfo]);
 
   return (
-    <div
-      ref={gameContainerRef} // Attach ref to the container
-      className="h-full bg-gradient-to-b from-blue-500 to-blue-800 py-1 mx-auto flex flex-col max-w-[500px]"
-    >
+    <div ref={gameContainerRef} className="h-full mx-auto flex flex-col">
       {roundChange ? (
         <div className="h-full ">
           {gameInfo && gameInfo.round > gameInfo.maxRounds ? (
@@ -67,7 +64,6 @@ const Game = () => {
         </div>
       ) : (
         <>
-          {/*<pre>{JSON.stringify(gameInfo, null, 4)}</pre>*/}
           <Phrase />
           <div className="flex flex-col items-center justify-center flex-grow ">
             <PieChart />
