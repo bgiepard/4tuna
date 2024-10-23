@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importujemy hook useNavigate
+import { useNavigate } from 'react-router-dom';
 import socket from '../socket';
 
 function CreateGame() {
