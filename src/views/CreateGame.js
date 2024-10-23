@@ -11,11 +11,16 @@ function CreateGame() {
   const navigate = useNavigate();
 
   const handleCreateGame = () => {
+    console.log('create game', options);
+    console.log('before emit');
     socket.emit('createRoom', options, (response) => {
       if (response.roomID) {
         navigate(`/lobby/${response.roomID}`);
+      } else {
+        console.log('response from socket', response);
       }
     });
+    console.log('after emit');
   };
 
   return (
