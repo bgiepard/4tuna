@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import logo from '../assets/logo.svg';
+import logo from '../assets/newLogo.svg';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -15,11 +15,17 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full max-w-[500px] h-full mx-auto">
       <div className="flex justify-center items-center gap-2">
-        <img src={logo} alt="" className="mb-1" />
-        <h1 className="text-white text-[38px] text-center font-extrabold">
+        <h1 className="text-white text-[42px] text-center font-bold">
           4TUNA.PL
         </h1>
-        <span className="text-gray-700">v1</span>
+      </div>
+
+      <div className="flex items-center justify-center">
+        <img
+          src={logo}
+          alt=""
+          className="mb-1 w-[40px] h-[40px] animate-spin"
+        />
       </div>
 
       <div className="flex gap-4 justify-center mt-2">
