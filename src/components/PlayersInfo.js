@@ -14,7 +14,7 @@ const PlayersInfo = () => {
           <div
             className={`mx-auto text-[14px] flex flex-col items-center justify-center text-center text-gray-500 ${gameInfo.currentPlayer === index && '!text-white'}`}
           >
-            <span className="">{player.name}</span>
+            <span className="mb-1">{player.name}</span>
             {/*<span className="text-[10px] -mt-[3px]">{player.total}</span>*/}
           </div>
 

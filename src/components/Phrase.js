@@ -76,7 +76,7 @@ const Phrase = () => {
   // const grid = createGrid('Gdzie kucharek sześć tam nie ma co jeśc');
 
   return (
-    <div>
+    <div className="mb-4">
       <div className="flex items-center justify-between">
         <span className="flex items-center justify-center  rounded t text-white ">
           {gameInfo.category}
@@ -92,11 +92,11 @@ const Phrase = () => {
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[14px] min-h-[20px] rounded-[2px]
+              className={`flex items-center justify-center text-[14px] min-h-[24px] rounded-[2px]
               ${gameInfo.goodLetters.includes(char) && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'}
               ${
                 char === null || char === 'X'
-                  ? 'bg-white bg-opacity-25'
+                  ? 'bg-white bg-opacity-15'
                   : 'bg-white text-black'
               }`}
             >
