@@ -11,14 +11,12 @@ const Phrase = () => {
 
     words.forEach((word) => {
       if (word.length > maxCharsPerLine) {
-        // Handle words longer than maxCharsPerLine
         if (currentLine.length > 0) {
           lines.push(currentLine);
         }
         lines.push(word); // Place the long word on its own line
         currentLine = '';
       } else if (currentLine.length === 0) {
-        // Start a new line with the word
         currentLine = word;
       } else if (currentLine.length + 1 + word.length <= maxCharsPerLine) {
         // Add word to current line
@@ -39,31 +37,24 @@ const Phrase = () => {
   }
 
   function createGrid(sentence, cols = 13) {
-    // Calculate the maximum number of characters per line
-    const availableCols = cols - 2; // Exclude 1 blue tile on each side
-    const maxCharsPerLine = availableCols;
+    const availableCols = cols - 2;
+    const lines = processSentenceIntoLines(sentence, availableCols);
 
-    // Process the sentence into lines without breaking words
-    const lines = processSentenceIntoLines(sentence, maxCharsPerLine);
-
-    // Number of rows is exactly the number of lines (no extra rows)
     const totalRows = lines.length;
 
-    // Initialize the grid with nulls (blue tiles)
     const grid = Array.from({ length: totalRows }, () =>
       Array(cols).fill(null)
     );
 
-    // Place the lines into the grid starting from row index 0
     lines.forEach((line, rowIndex) => {
-      const chars = line.split('').map((char) => (char === ' ' ? 'X' : char));
+      const chars = line.split('').map((char) => (char === ' ' ? '_' : char));
       const lineLength = chars.length;
       const padding = Math.floor((availableCols - lineLength) / 2);
-      let colIndex = 1 + padding; // Start from column index 1 + padding to center
+      let colIndex = 1 + padding;
 
       chars.forEach((char) => {
         if (colIndex < cols - 1) {
-          grid[rowIndex][colIndex] = char; // Place character in the grid
+          grid[rowIndex][colIndex] = char;
           colIndex++;
         }
       });
@@ -85,12 +76,12 @@ const Phrase = () => {
               className={`flex items-center justify-center text-[14px] min-h-[24px] rounded-[2px]
               ${gameInfo.goodLetters.includes(char) && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'}
               ${
-                char === null || char === 'X'
+                char === null || char === '_'
                   ? 'bg-white bg-opacity-15'
                   : 'bg-white text-black'
               }`}
             >
-              {char && char !== 'X'
+              {char && char !== '_'
                 ? gameInfo.goodLetters.includes(char)
                   ? char
                   : ''
