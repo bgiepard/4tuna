@@ -6,7 +6,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const navigateToRoom = (room) => {
-    if (room.length === 6) {
+    if (room.length === 3) {
       const roomName = room.toUpperCase();
       navigate(`/lobby/${roomName}`);
     }
