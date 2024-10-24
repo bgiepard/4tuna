@@ -76,17 +76,7 @@ const Phrase = () => {
   // const grid = createGrid('Gdzie kucharek sześć tam nie ma co jeśc');
 
   return (
-    <div className="mb-4">
-      <div className="flex items-center justify-between">
-        <span className="flex items-center justify-center  rounded t text-white ">
-          {gameInfo.category}
-        </span>
-        <span className="flex items-center justify-center  rounded  text-white ">
-          Runda&nbsp;<span className="text-orange-300"> {gameInfo.round}</span>
-          &nbsp;/ {gameInfo.maxRounds}
-        </span>
-      </div>
-
+    <div className="">
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="grid grid-cols-13 gap-[4px] mb-[4px]">
           {row.map((char, charIndex) => (
@@ -109,6 +99,16 @@ const Phrase = () => {
           ))}
         </div>
       ))}
+      <div className="flex items-center justify-between">
+        <span className="flex items-center justify-center  rounded t text-white ">
+          {gameInfo.category}
+        </span>
+        <span className="flex items-center justify-center  rounded  text-white ">
+          Runda&nbsp;
+          <span className="text-orange-300 font-bold"> {gameInfo.round}</span>
+          &nbsp;/ {gameInfo.maxRounds}
+        </span>
+      </div>
     </div>
   );
 };

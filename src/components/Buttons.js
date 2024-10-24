@@ -19,22 +19,32 @@ const Buttons = () => {
 
   if (!isMyTurn && currentPlayerName) {
     return (
-      <div className="pt-8 pb-4 text-orange-400 text-center">
-        Poczekaj na swoją kolej, aktualny gracz:{' '}
-        {gameInfo.players[gameInfo.currentPlayer].name}
+      <div className=" text-center text-sm min-h-[48px] flex items-center justify-center">
+        {gameInfo.mode === 'guessing' ? (
+          <span className="text-blue-400">
+            {' '}
+            {gameInfo.players[gameInfo.currentPlayer].name} próbuje odgadnąć
+            hasło
+          </span>
+        ) : (
+          <span className="text-orange-400">
+            Poczekaj na swoją kolej, aktualny gracz:{' '}
+            {gameInfo.players[gameInfo.currentPlayer].name}
+          </span>
+        )}
       </div>
     );
   }
 
   return (
-    <>
+    <div className="">
       <audio ref={spinSound}>
         <source src="/assets/spin.mp3" type="audio/mpeg" />
         <source src="/assets/spin.ogg" type="audio/ogg" />
         Your browser does not support the audio element.
       </audio>
 
-      <div className="flex items-center gap-2 relative z-10 mt-3 h-[36px]">
+      <div className="flex items-center gap-2 relative z-10 h-[48px]">
         <button
           onClick={nextPlayer}
           disabled={gameInfo.mode === 'rotating'}
@@ -61,7 +71,7 @@ const Buttons = () => {
           Rozwiąż
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
