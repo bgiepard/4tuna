@@ -15,17 +15,17 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full max-w-[500px] h-full mx-auto">
       <div className="flex justify-center items-center gap-2">
-        <img src={logo} alt="" />
-        <h1 className="text-white text-[30px] text-center font-extrabold">
+        <img src={logo} alt="" className="mb-1" />
+        <h1 className="text-white text-[38px] text-center font-extrabold">
           4TUNA.PL
         </h1>
         <span className="text-gray-700">v1</span>
       </div>
 
       <div className="flex gap-4 justify-center mt-2">
-        <span className="text-blue-200 text-[13px]">Bez rejestracji</span>
-        <span className="text-blue-200 text-[13px]">Bez pobierania</span>
-        <span className="text-blue-200 text-[13px]">Całkowicie za darmo</span>
+        <span className="text-gray-400 text-[14px]">Bez rejestracji</span>
+        <span className="text-gray-400 text-[14px]">Bez pobierania</span>
+        <span className="text-gray-400 text-[14px]">Całkowicie za darmo</span>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow">
@@ -42,19 +42,19 @@ const Home = () => {
 
         <span className="mb-8 text-blue-400 text-[14px] mt-1">lub</span>
 
-        <button className="opacity-50 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500">
-          Zagraj solo
-        </button>
-        <span className="mb-6 text-blue-200 text-[14px] mt-1">
-          Ćwicz samemu odgadywanie haseł!
-        </span>
+        {/*<button className="opacity-50 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500">*/}
+        {/*  Zagraj solo*/}
+        {/*</button>*/}
+        {/*<span className="mb-6 text-blue-200 text-[14px] mt-1">*/}
+        {/*  Ćwicz samemu odgadywanie haseł!*/}
+        {/*</span>*/}
 
-        <button className="opacity-50 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500">
-          Wylosuj przeciwników
-        </button>
-        <span className="mb-6 text-blue-200 text-[14px] mt-1">
-          Dołącz do gry online z innymi
-        </span>
+        {/*<button className="opacity-50 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500">*/}
+        {/*  Wylosuj przeciwników*/}
+        {/*</button>*/}
+        {/*<span className="mb-6 text-blue-200 text-[14px] mt-1">*/}
+        {/*  Dołącz do gry online z innymi*/}
+        {/*</span>*/}
 
         <button
           onClick={() => navigate(`/createGame`)}

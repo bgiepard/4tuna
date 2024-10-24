@@ -74,7 +74,7 @@ const Game = () => {
 
           <div className="">
             <Buttons />
-            <div className="bg-black bg-opacity-25 pt-1 pb-2 mb-2 mt-4">
+            <div className=" mb-2 mt-4">
               <PlayersInfo />
             </div>
             <div className="mb-2">

@@ -66,7 +66,7 @@ const PieChart = () => {
           borderLeft: '12px solid white',
         }}
       ></div>
-      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[14px] flex items-center justify-center text-center">
+      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[15px] leading-[15px] flex items-center justify-center text-center">
         {isAnimating ? ' ' : gameInfo.stake}
       </div>
     </div>
