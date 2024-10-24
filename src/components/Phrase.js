@@ -100,7 +100,7 @@ const Phrase = () => {
         </div>
       ))}
       <div className="flex items-center justify-between">
-        <span className="flex items-center justify-center  rounded t text-white ">
+        <span className="flex items-center justify-center  rounded t text-white uppercase">
           {gameInfo.category}
         </span>
         <span className="flex items-center justify-center  rounded  text-white ">

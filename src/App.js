@@ -11,11 +11,11 @@ function App() {
       <div className="w-full max-w-[500px] max-h-[800px] mx-auto h-full ">
         <Router>
           <Routes>
-            {/*<Route path="/" element={<Game />} />*/}
-            <Route path="/" element={<Home />} />
-            <Route path="/createGame" element={<CreateGame />} />
-            <Route path="/lobby/:roomID" element={<Lobby />} />
-            <Route path="/game/:gameID" element={<Game />} />
+            <Route path="/" element={<Game />} />
+            {/*<Route path="/" element={<Home />} />*/}
+            {/*<Route path="/createGame" element={<CreateGame />} />*/}
+            {/*<Route path="/lobby/:roomID" element={<Lobby />} />*/}
+            {/*<Route path="/game/:gameID" element={<Game />} />*/}
           </Routes>
         </Router>
       </div>
