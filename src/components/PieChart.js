@@ -10,7 +10,6 @@ const PieChart = () => {
   const [transitionDuration, setTransitionDuration] = useState(2000);
   const easingFunction = 'cubic-bezier(0.25, 0.1, 0.25, 1)'; // Updated easing function
 
-  // To keep track of previous rotate value
   const prevRotateRef = useRef(0);
 
   useEffect(() => {
@@ -53,11 +52,12 @@ const PieChart = () => {
         }}
       />
       {/* Arrow Indicator */}
+      <div className="w-[50px] h-[50px] rounded-full bg-black absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
       <div
         style={{
           position: 'absolute',
           top: '50%',
-          left: '56.75%',
+          left: '57.5%',
           transform: 'translateY(-50%)',
           width: '0',
           height: '0',
@@ -66,7 +66,6 @@ const PieChart = () => {
           borderLeft: '12px solid white',
         }}
       ></div>
-      {/* Display Selected Value */}
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[14px] flex items-center justify-center text-center">
         {isAnimating ? ' ' : gameInfo.stake}
       </div>

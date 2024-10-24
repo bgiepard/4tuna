@@ -63,17 +63,25 @@ const Game = () => {
           )}
         </div>
       ) : (
-        <>
-          <Phrase />
-          <div className="flex flex-col items-center justify-center flex-grow ">
-            <PieChart />
-            <div className="-mt-6 z-10">
-              <Buttons />
+        <div className="h-full flex flex-col justify-between">
+          <div className="div">
+            <Phrase />
+
+            <div className="flex flex-col items-center justify-center flex-grow ">
+              <PieChart />
             </div>
           </div>
-          <PlayersInfo />
-          <Keyboard />
-        </>
+
+          <div className="">
+            <Buttons />
+            <div className="bg-black bg-opacity-25 pt-1 pb-2 mb-2 mt-4">
+              <PlayersInfo />
+            </div>
+            <div className="mb-2">
+              <Keyboard />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

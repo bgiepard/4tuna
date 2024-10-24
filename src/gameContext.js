@@ -7,7 +7,28 @@ export const GameContextProvider = ({ children }) => {
   const [gameInfo, setGameInfo] = useState({
     gameID: null,
     stake: 0,
-    players: [],
+    players: [
+      {
+        name: 'Bartek',
+        amount: 1200,
+        total: 400,
+      },
+      {
+        name: 'Jadwiga',
+        amount: 1200,
+        total: 400,
+      },
+      {
+        name: 'Tomasz',
+        amount: 1200,
+        total: 400,
+      },
+      {
+        name: 'Dżony',
+        amount: 1200,
+        total: 400,
+      },
+    ],
     round: 1,
     maxRounds: 3,
     currentPlayer: 0,

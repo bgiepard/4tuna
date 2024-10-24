@@ -5,21 +5,21 @@ const PlayersInfo = () => {
   const { gameInfo } = useGameContext();
 
   return (
-    <div className={`flex gap-2 m-2 mb-2.5`}>
+    <div className={`flex px-2`}>
       {gameInfo.players.map((player, index) => (
         <div
-          className={`flex flex-col text-sm flex-grow rounded-[6px] opacity-60 ${gameInfo.currentPlayer === index && '!opacity-100'}`}
+          className={`flex flex-col flex-grow opacity-60 ${gameInfo.currentPlayer === index && '!opacity-100'}`}
           key={player.name}
         >
           <div
-            className={`text-blue-500 h-[30px] w-2/3 pb-5 mx-auto text-[14px] flex flex-col items-center justify-center rounded-[4px] text-center bg-white bg-opacity-25 ${gameInfo.currentPlayer === index && '!text-white bg-orange-400'}`}
+            className={`mx-auto text-[14px] flex flex-col items-center justify-center text-center text-gray-500 ${gameInfo.currentPlayer === index && '!text-white'}`}
           >
-            <span className="-mt-3">{player.name}</span>
-            <span className="text-[10px] -mt-[3px]">{player.total}</span>
+            <span className="">{player.name}</span>
+            {/*<span className="text-[10px] -mt-[3px]">{player.total}</span>*/}
           </div>
 
           <span
-            className={`-mt-4 leading-[19px] block text-[16px] text-blue-900 text-center mx-1 bg-blue-300 rounded-[3px] h-[19px]  ${gameInfo.currentPlayer === index && 'bg-orange-500 !text-white '} `}
+            className={`block p-0 w-4/5 mx-auto text-[12px] leading-[12px] pt-1 pb-0.5 text-center rounded-[3px] text-gray-400 ${gameInfo.currentPlayer === index && 'ring-2 ring-orange-500 !text-white '} `}
           >
             {player.amount}
           </span>
