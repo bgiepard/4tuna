@@ -13,11 +13,26 @@ export const GameContextProvider = ({ children }) => {
         amount: 1200,
         total: 400,
       },
+      {
+        name: 'Tom',
+        amount: 1200,
+        total: 400,
+      },
+      {
+        name: 'Marta',
+        amount: 1200,
+        total: 400,
+      },
+      {
+        name: 'Bob',
+        amount: 1200,
+        total: 400,
+      },
     ],
     round: 1,
     maxRounds: 3,
     currentPlayer: 0,
-    phrase: 'Kto pod kim dołki kopie sam w nie wpada mateusz zawada',
+    phrase: 'Kto pod kim dołki kopie ten sam idzie ',
     category: 'Przysłowia',
     currentLetter: '',
     rotate: 0,
@@ -200,5 +215,4 @@ export const GameContextProvider = ({ children }) => {
   );
 };
 
-// Custom hook do korzystania z kontekstu gry
 export const useGameContext = () => useContext(GameContext);

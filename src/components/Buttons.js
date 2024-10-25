@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
 import { useGameContext } from '../gameContext';
-import lobby from '../views/Lobby';
-
 const Buttons = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
   const spinSound = useRef(null);
@@ -17,24 +15,24 @@ const Buttons = () => {
     rotateWheel(); // Call the rotateWheel function
   };
 
-  if (!isMyTurn && currentPlayerName) {
-    return (
-      <div className=" text-center text-sm min-h-[48px] flex items-center justify-center">
-        {gameInfo.mode === 'guessing' ? (
-          <span className="text-blue-400">
-            {' '}
-            {gameInfo.players[gameInfo.currentPlayer].name} próbuje odgadnąć
-            hasło
-          </span>
-        ) : (
-          <span className="text-orange-400">
-            Poczekaj na swoją kolej, aktualny gracz:{' '}
-            {gameInfo.players[gameInfo.currentPlayer].name}
-          </span>
-        )}
-      </div>
-    );
-  }
+  // if (!isMyTurn && currentPlayerName) {
+  //   return (
+  //     <div className=" text-center text-sm min-h-[48px] flex items-center justify-center">
+  //       {gameInfo.mode === 'guessing' ? (
+  //         <span className="text-blue-400">
+  //           {' '}
+  //           {gameInfo.players[gameInfo.currentPlayer].name} próbuje odgadnąć
+  //           hasło
+  //         </span>
+  //       ) : (
+  //         <span className="text-orange-400">
+  //           Poczekaj na swoją kolej, aktualny gracz:{' '}
+  //           {gameInfo.players[gameInfo.currentPlayer].name}
+  //         </span>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="">

@@ -36,7 +36,7 @@ const Phrase = () => {
     return lines;
   }
 
-  function createGrid(sentence, cols = 13) {
+  function createGrid(sentence, cols = 15) {
     const availableCols = cols - 2;
     const lines = processSentenceIntoLines(sentence, availableCols);
 
@@ -69,15 +69,15 @@ const Phrase = () => {
   return (
     <div className="">
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="grid grid-cols-13 gap-[4px] mb-[4px]">
+        <div key={rowIndex} className="grid grid-cols-15 gap-[4px] mb-[4px]">
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[14px] min-h-[24px] rounded-[2px]
+              className={`flex items-center justify-center text-[14px] min-h-[24px] rounded-[4px]
               ${gameInfo.goodLetters.includes(char) && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'}
               ${
                 char === null || char === '_'
-                  ? 'bg-white bg-opacity-15'
+                  ? 'bg-white bg-opacity-5'
                   : 'bg-white text-black'
               }`}
             >

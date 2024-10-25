@@ -8,7 +8,7 @@ const PieChart = () => {
   const [rotationAngle, setRotationAngle] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [transitionDuration, setTransitionDuration] = useState(2000);
-  const easingFunction = 'cubic-bezier(0.25, 0.1, 0.25, 1)'; // Updated easing function
+  const easingFunction = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
 
   const prevRotateRef = useRef(0);
 
@@ -17,17 +17,13 @@ const PieChart = () => {
       gameInfo.totalRotate !== undefined &&
       gameInfo.totalRotate !== prevRotateRef.current
     ) {
-      // Set rotation angle to totalRotate from backend
       setRotationAngle(gameInfo.totalRotate);
 
-      // Set transition duration proportional to rotation
       const duration = 2000; // 2000ms for 720 degrees
       setTransitionDuration(duration);
 
-      // Start animation
       setIsAnimating(true);
 
-      // Update previous rotate value
       prevRotateRef.current = gameInfo.totalRotate;
     }
   }, [gameInfo.totalRotate, gameInfo.rotate]);
@@ -42,8 +38,7 @@ const PieChart = () => {
           transition: isAnimating
             ? `transform ${transitionDuration}ms ${easingFunction}`
             : 'none',
-          width: '80%',
-          maxWidth: '320px',
+          width: '100%',
           height: 'auto',
         }}
         onTransitionEnd={() => {

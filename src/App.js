@@ -7,7 +7,7 @@ import Home from './views/Home';
 function App() {
   return (
     <div className="p-4 h-full bg-[#1E1E1E] mx-auto flex flex-col">
-      <div className="w-full max-w-[500px] max-h-[800px] mx-auto h-full ">
+      <div className="w-full max-w-[500px] max-h-[1000px] mx-auto h-full ">
         <Router>
           <Routes>
             {/*<Route path="/" element={<Game />} />*/}

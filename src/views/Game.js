@@ -64,19 +64,18 @@ const Game = () => {
         </div>
       ) : (
         <div className="h-full flex flex-col justify-between">
-          <div className="div">
-            <Phrase />
-
-            <div className="flex flex-col items-center justify-center flex-grow ">
-              <PieChart />
-            </div>
-          </div>
+          <Phrase />
 
           <div className="">
-            <Buttons />
-            <div className=" mb-2 mt-4">
-              <PlayersInfo />
+            <div className="flex items-center pb-4">
+              <div className="w-[120px] shrink-0">
+                <PlayersInfo />
+              </div>
+              <div className="">
+                <PieChart />
+              </div>
             </div>
+            <Buttons />
             <div className="mb-2">
               <Keyboard />
             </div>

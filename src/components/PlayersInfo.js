@@ -5,7 +5,7 @@ const PlayersInfo = () => {
   const { gameInfo } = useGameContext();
 
   return (
-    <div className={`flex -mx-2`}>
+    <div className={`flex flex-col `}>
       {gameInfo.players.map((player, index) => (
         <div
           className={`flex flex-col flex-grow opacity-60 pt-2 pb-2 ${gameInfo.currentPlayer === index && '!opacity-100 rounded-lg bg-black bg-opacity-25'}`}
@@ -15,7 +15,6 @@ const PlayersInfo = () => {
             className={`mx-auto text-[14px] flex flex-col items-center justify-center text-center text-gray-500 ${gameInfo.currentPlayer === index && '!text-white'}`}
           >
             <span className="mb-1">{player.name}</span>
-            {/*<span className="text-[10px] -mt-[3px]">{player.total}</span>*/}
           </div>
 
           <span

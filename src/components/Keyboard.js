@@ -5,10 +5,10 @@ const Keyboard = () => {
   const { gameInfo, letterClick } = useGameContext();
 
   const rows = [
-    ['Ń', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Ó'],
-    ['Ą', 'Ś', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ł'],
-    ['Ę', 'Ć', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Ź', 'Ż'],
-    // ['Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ź', 'Ż'],
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+    ['Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ź', 'Ż'],
   ];
 
   const handleKeyClick = (key) => {
@@ -35,7 +35,7 @@ const Keyboard = () => {
                   [...gameInfo.badLetters].includes(key) ||
                   gameInfo.vowels.includes(key))
               }
-              className={`bg-[#3E3B3B] text-center rounded w-1/12 m-[3px] h-[33px] p-0 text-white leading-[32px] text-[18px]
+              className={`bg-[#3E3B3B] text-center rounded w-1/12 m-[6px] h-[33px] p-0 text-white leading-[32px] text-[18px]
               ${['Ą', 'Ć', 'Ę', 'Ł', 'Ś', 'Ć', 'Ó', 'Ń', 'Ź', 'Ż'].includes(key) && '!bg-red-500'}
               ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-opacity-30 text-opacity-20'}
               ${[...gameInfo.goodLetters].includes(key) && '!bg-opacity-30'}
