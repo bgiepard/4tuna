@@ -12,8 +12,13 @@ function Lobby() {
   const [gameStarting, setGameStarting] = useState(false);
   const [countdown, setCountdown] = useState(5); // New state for countdown
   const navigate = useNavigate();
-
   const [copied, setCopied] = useState(false);
+
+  const [gameOptions, setGameOptions] = useState({
+    maxPlayers: 0,
+    players: [],
+    rounds: 0,
+  });
 
   const handleCopyClick = () => {
     const pageUrl = window.location.href; // Get the current page URL
@@ -29,7 +34,7 @@ function Lobby() {
         await navigator.share({
           title: 'Check out this page!',
           text: 'I found this interesting page and wanted to share it with you.',
-          url: window.location.href, // The current page URL
+          url: window.location.href,
         });
         console.log('Page shared successfully');
       } catch (error) {
@@ -42,32 +47,29 @@ function Lobby() {
 
   const joinGame = (name) => {
     if (!hasJoined) {
-      localStorage.setItem(`${roomID}userName`, name);
       socket.emit('joinRoom', { roomID, name }, (response) => {
         if (!response.success) {
           alert(response.message);
         } else {
           setHasJoined(true);
+          setAfterJoin(true);
         }
       });
-      setAfterJoin(true);
     }
   };
 
   useEffect(() => {
-    socket.on('playerJoined', (players) => {
-      setPlayers(() => [...players]);
+    socket.on('playerJoined', (options) => {
+      setGameOptions(options);
+      setPlayers(() => [...options.players]);
     });
 
     socket.on('playerDisconnect', (room) => {
       setPlayers(() => [...players]);
     });
 
-    socket.on('startGame', ({ gameID }) => {
-      console.log('id', gameID);
+    socket.on('gameStarting', ({ gameID }) => {
       setGameStarting(true);
-
-      // Start the countdown
       const countdownInterval = setInterval(() => {
         setCountdown((prevCountdown) => {
           if (prevCountdown <= 1) {
@@ -110,8 +112,8 @@ function Lobby() {
       ) : (
         <div className="flex flex-col h-full gap-10 justify-center items-center">
           <div className="flex flex-col gap-6 items-center">
-            <span className="text-blue-400 text-lg">
-              Poczekalnia - Pokój{' '}
+            <span className="text-blue-400 text-lg text-center">
+              Poczekalnia - Pokój <br />
               <span className="text-green-400">{roomID}</span>
             </span>
             <div className="flex gap-2">
@@ -131,7 +133,10 @@ function Lobby() {
           </div>
 
           <ul className="w-full flex flex-col gap-2 items-center justify-center mt-8">
-            <span className="text-blue-400">Połączeni gracze:</span>
+            <span className="text-blue-400">
+              Połączeni gracze: {gameOptions.players.length} /{' '}
+              {gameOptions.maxPlayers}
+            </span>
             {players.map((player) => (
               <li
                 key={player.id}

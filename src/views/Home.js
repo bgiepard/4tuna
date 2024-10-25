@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import logo from '../assets/newLogo.svg';
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -15,7 +13,9 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full max-w-[500px] h-full mx-auto">
       <div className="flex justify-center items-center gap-2">
-        <h1 className="text-center font-bold">4TUNA.PL</h1>
+        <h1 className="text-center font-bold text-white text-[30px]">
+          4TUNA.PL
+        </h1>
       </div>
 
       <div className="flex items-center justify-center"></div>
@@ -27,14 +27,11 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow">
-        <span className="mb-2 text-blue-200 text-[20px] mt-1">
-          Dołącz do znajomych
-        </span>
-
+        <span className="text-blue-200 text-[14px] mb-1">Dołącz do pokoju</span>
         <input
           type="text"
           onChange={(e) => navigateToRoom(e.target.value)}
-          className="w-4/5 mb-8 px-4 py-3 text-center bg-black bg-opacity-10 rounded-lg bg-transparent border-2 border-blue-300 text-white uppercase placeholder:text-blue-400 placeholder:capitalize"
+          className="w-4/5 mb-8 px-4 py-3 text-center bg-black bg-opacity-10 rounded-lg bg-transparent border-2 border-blue-300 text-white uppercase placeholder:text-blue-400 placeholder:normal-case"
           placeholder="Wpisz kod pokoju"
         />
 
@@ -47,6 +44,7 @@ const Home = () => {
         {/*  Ćwicz samemu odgadywanie haseł!*/}
         {/*</span>*/}
 
+        {/*@todo create view to search and check open rooms*/}
         {/*<button className="opacity-50 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500">*/}
         {/*  Wylosuj przeciwników*/}
         {/*</button>*/}
@@ -54,21 +52,15 @@ const Home = () => {
         {/*  Dołącz do gry online z innymi*/}
         {/*</span>*/}
 
+        <span className="text-blue-200 text-[14px] mb-1">
+          Stwórz własną gre i zaproś znajomych
+        </span>
         <button
           onClick={() => navigate(`/createGame`)}
           className="w-4/5 bg-gradient-to-b from-cyan-500 to-cyan-700 border-b-4 border-cyan-900 text-blue-100 rounded-[8px] text-[18px] hover:from-cyan-400 hover:to-cyan-600"
         >
           Stwórz pokój
         </button>
-        <span className="text-blue-200 text-[14px] mt-1">
-          Stwórz własną gre i zaproś znajomych
-        </span>
-      </div>
-
-      <div className="w-full">
-        <span className="text-blue-400 text-center block">
-          &copy; 4tuna.pl 2024
-        </span>
       </div>
     </div>
   );
