@@ -6,13 +6,12 @@ function CreateGame() {
   const [options, setOptions] = useState({
     rounds: 3,
     maxPlayers: 2,
+    public: false,
   });
 
   const navigate = useNavigate();
 
   const handleCreateGame = () => {
-    console.log('create game', options);
-    console.log('before emit');
     socket.emit('createRoom', options, (response) => {
       if (response.roomID) {
         navigate(`/lobby/${response.roomID}`);
@@ -20,7 +19,6 @@ function CreateGame() {
         console.log('response from socket', response);
       }
     });
-    console.log('after emit');
   };
 
   return (
@@ -81,6 +79,30 @@ function CreateGame() {
           >
             +
           </button>
+        </div>
+      </div>
+
+      <div className="">
+        <span className="text-blue-300 mb-2 block">Typ gry</span>
+        <div className="flex">
+          <input
+            type="checkbox"
+            className="p-1 mr-1"
+            value={options.public}
+            onClick={() => setOptions({ ...options, public: !options.public })}
+            id="public"
+          />
+          <label htmlFor="public" className="text-2xl text-blue-200">
+            Pokój publiczny
+          </label>
+        </div>
+      </div>
+
+      <div className="opacity-10">
+        <span className="text-blue-300 mb-2 block">Kategorie</span>
+        <div className="flex">
+          <input type="checkbox" className="p-1" />
+          <span className="text-2xl text-blue-200">Wszystkie kategorie </span>
         </div>
       </div>
 

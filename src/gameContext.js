@@ -6,43 +6,43 @@ const GameContext = createContext();
 export const GameContextProvider = ({ children }) => {
   const [gameInfo, setGameInfo] = useState({
     gameID: null,
-    stake: 0,
-    players: [
-      {
-        name: 'Bartek',
-        amount: 1200,
-        total: 400,
-      },
-      {
-        name: 'Tom',
-        amount: 1200,
-        total: 400,
-      },
-      {
-        name: 'Marta',
-        amount: 1200,
-        total: 400,
-      },
-      {
-        name: 'Bob',
-        amount: 1200,
-        total: 400,
-      },
-    ],
-    round: 1,
-    maxRounds: 3,
-    currentPlayer: 0,
-    phrase: 'Kto pod kim dołki kopie ten sam idzie ',
-    category: 'Przysłowia',
-    currentLetter: '',
-    rotate: 0,
-    mode: 'rotating',
-    rotating: false,
-    goodGuess: true,
-    onlyVowels: false,
-    vowels: ['A', 'E', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'],
-    badLetters: [],
-    goodLetters: [],
+    // stake: 0,
+    // players: [
+    //   {
+    //     name: 'Bartek',
+    //     amount: 1200,
+    //     total: 400,
+    //   },
+    //   {
+    //     name: 'Tom',
+    //     amount: 1200,
+    //     total: 400,
+    //   },
+    //   {
+    //     name: 'Marta',
+    //     amount: 1200,
+    //     total: 400,
+    //   },
+    //   {
+    //     name: 'Bob',
+    //     amount: 1200,
+    //     total: 400,
+    //   },
+    // ],
+    // round: 1,
+    // maxRounds: 3,
+    // currentPlayer: 0,
+    // phrase: 'Kto pod kim dołki kopie ten sam idzie ',
+    // category: 'Przysłowia',
+    // currentLetter: '',
+    // rotate: 0,
+    // mode: 'rotating',
+    // rotating: false,
+    // goodGuess: true,
+    // onlyVowels: false,
+    // vowels: ['A', 'E', 'I', 'O', 'U', 'Y', 'Ą', 'Ę', 'Ó'],
+    // badLetters: [],
+    // goodLetters: [],
   });
 
   useEffect(() => {
@@ -53,8 +53,7 @@ export const GameContextProvider = ({ children }) => {
           console.error(response.message);
         } else {
           setGameInfo({
-            ...gameInfo,
-            ...response.gameData.gameInfo,
+            ...response.gameData,
           });
         }
       });

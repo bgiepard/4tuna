@@ -3,7 +3,7 @@ import { useGameContext } from '../gameContext';
 import wheelImage from '../assets/wheel.svg';
 
 const PieChart = () => {
-  const { gameInfo, processValue } = useGameContext();
+  const { gameInfo } = useGameContext();
 
   const [rotationAngle, setRotationAngle] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -11,22 +11,28 @@ const PieChart = () => {
   const easingFunction = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
 
   const prevRotateRef = useRef(0);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (
+    if (isFirstRender.current) {
+      // On first render, set the rotation angle without animating
+      isFirstRender.current = false;
+      setRotationAngle(gameInfo.totalRotate || 0);
+      prevRotateRef.current = gameInfo.totalRotate || 0;
+    } else if (
       gameInfo.totalRotate !== undefined &&
       gameInfo.totalRotate !== prevRotateRef.current
     ) {
       setRotationAngle(gameInfo.totalRotate);
 
-      const duration = 2000; // 2000ms for 720 degrees
+      const duration = 2000; // Adjust duration as needed
       setTransitionDuration(duration);
 
       setIsAnimating(true);
 
       prevRotateRef.current = gameInfo.totalRotate;
     }
-  }, [gameInfo.totalRotate, gameInfo.rotate]);
+  }, [gameInfo.totalRotate]);
 
   return (
     <div className="mx-auto flex flex-col justify-center items-center relative">
@@ -43,7 +49,6 @@ const PieChart = () => {
         }}
         onTransitionEnd={() => {
           setIsAnimating(false);
-          // processValue();
         }}
       />
       {/* Arrow Indicator */}
@@ -52,13 +57,13 @@ const PieChart = () => {
         style={{
           position: 'absolute',
           top: '50%',
-          left: '57.5%',
+          right: '0',
           transform: 'translateY(-50%)',
           width: '0',
           height: '0',
-          borderTop: '5px solid transparent',
-          borderBottom: '5px solid transparent',
-          borderLeft: '12px solid white',
+          borderTop: '8px solid transparent',
+          borderBottom: '8px solid transparent',
+          borderRight: '20px solid white',
         }}
       ></div>
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[15px] leading-[15px] flex items-center justify-center text-center">

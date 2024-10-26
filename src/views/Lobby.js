@@ -10,7 +10,8 @@ function Lobby() {
   const [afterJoin, setAfterJoin] = useState(false);
   const [userName, setUserName] = useState('');
   const [gameStarting, setGameStarting] = useState(false);
-  const [countdown, setCountdown] = useState(5); // New state for countdown
+  const [countdown, setCountdown] = useState(5);
+  const [gameID, setGameID] = useState(null); // New state for gameID
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
 
@@ -36,12 +37,7 @@ function Lobby() {
           text: 'I found this interesting page and wanted to share it with you.',
           url: window.location.href,
         });
-        console.log('Page shared successfully');
-      } catch (error) {
-        console.error('Error sharing:', error);
-      }
-    } else {
-      console.warn('Web Share API is not supported in this browser.');
+      } catch (error) {}
     }
   };
 
@@ -59,18 +55,36 @@ function Lobby() {
   };
 
   useEffect(() => {
-    socket.on('playerJoined', (options) => {
+    const handlePlayerJoined = (options) => {
       setGameOptions(options);
       setPlayers(() => [...options.players]);
-    });
+    };
 
-    socket.on('playerDisconnect', (room) => {
+    const handlePlayerDisconnect = (players) => {
       setPlayers(() => [...players]);
-    });
+    };
 
-    socket.on('gameStarting', ({ gameID }) => {
+    const handleGameStarting = ({ gameID }) => {
       setGameStarting(true);
-      const countdownInterval = setInterval(() => {
+      setGameID(gameID);
+    };
+
+    socket.on('playerJoined', handlePlayerJoined);
+    socket.on('playerDisconnect', handlePlayerDisconnect);
+    socket.on('gameStarting', handleGameStarting);
+
+    return () => {
+      socket.off('playerJoined', handlePlayerJoined);
+      socket.off('playerDisconnect', handlePlayerDisconnect);
+      socket.off('gameStarting', handleGameStarting);
+    };
+  }, [roomID]);
+
+  useEffect(() => {
+    let countdownInterval;
+    if (gameStarting) {
+      setCountdown(5); // Reset countdown to 5
+      countdownInterval = setInterval(() => {
         setCountdown((prevCountdown) => {
           if (prevCountdown <= 1) {
             clearInterval(countdownInterval);
@@ -79,13 +93,11 @@ function Lobby() {
           return prevCountdown - 1;
         });
       }, 1000);
-    });
-
+    }
     return () => {
-      socket.off('playerJoined');
-      socket.off('startGame');
+      if (countdownInterval) clearInterval(countdownInterval);
     };
-  }, [roomID, hasJoined, navigate]);
+  }, [gameStarting, navigate, gameID]);
 
   return (
     <>

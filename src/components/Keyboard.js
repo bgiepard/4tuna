@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGameContext } from '../gameContext';
+import socket from '../socket';
 
 const Keyboard = () => {
   const { gameInfo, letterClick } = useGameContext();
@@ -15,9 +16,8 @@ const Keyboard = () => {
     letterClick(gameInfo.gameID, key);
   };
 
-  const myUserName = localStorage.getItem(`${gameInfo.gameID}userName`);
-  const currentPlayerName = gameInfo.players[gameInfo.currentPlayer]?.name;
-  const isMyTurn = currentPlayerName && currentPlayerName === myUserName;
+  const currentPlayer = gameInfo.players[gameInfo.currentPlayer]?.id;
+  const isMyTurn = currentPlayer && currentPlayer === socket.id;
 
   return (
     <div
