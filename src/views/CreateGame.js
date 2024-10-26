@@ -98,14 +98,6 @@ function CreateGame() {
         </div>
       </div>
 
-      <div className="opacity-10">
-        <span className="text-blue-300 mb-2 block">Kategorie</span>
-        <div className="flex">
-          <input type="checkbox" className="p-1" />
-          <span className="text-2xl text-blue-200">Wszystkie kategorie </span>
-        </div>
-      </div>
-
       <button
         onClick={handleCreateGame}
         className="w-4/5  bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500"

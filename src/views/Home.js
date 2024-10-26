@@ -44,13 +44,15 @@ const Home = () => {
         {/*  Ćwicz samemu odgadywanie haseł!*/}
         {/*</span>*/}
 
-        {/*@todo create view to search and check open rooms*/}
-        {/*<button className="opacity-50 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500">*/}
-        {/*  Wylosuj przeciwników*/}
-        {/*</button>*/}
-        {/*<span className="mb-6 text-blue-200 text-[14px] mt-1">*/}
-        {/*  Dołącz do gry online z innymi*/}
-        {/*</span>*/}
+        <span className="text-blue-200 text-[14px] mb-1">
+          Dołącz do gry online z innymi
+        </span>
+        <button
+          className="mb-12 w-4/5 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500"
+          onClick={() => navigate('/findRoom')}
+        >
+          Wylosuj przeciwników
+        </button>
 
         <span className="text-blue-200 text-[14px] mb-1">
           Stwórz własną gre i zaproś znajomych

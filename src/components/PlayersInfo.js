@@ -14,7 +14,12 @@ const PlayersInfo = () => {
           <div
             className={`mx-auto text-[14px] flex flex-col items-center justify-center text-center text-gray-500 ${gameInfo.currentPlayer === index && '!text-white'}`}
           >
-            <span className="mb-1">{player.name}</span>
+            <span className="mb-1">
+              <span
+                className={`w-[10px] h-[10px]  rounded-full inline-block mr-1 ${player.connected ? 'bg-green-400' : 'bg-red-500'}`}
+              ></span>
+              {player.name}
+            </span>
           </div>
 
           <span
