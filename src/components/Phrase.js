@@ -37,7 +37,7 @@ const Phrase = () => {
   }
 
   function createGrid(sentence, cols = 15) {
-    const availableCols = cols - 2;
+    const availableCols = cols; // No subtraction
     const lines = processSentenceIntoLines(sentence, availableCols);
 
     const totalRows = lines.length;
@@ -49,11 +49,11 @@ const Phrase = () => {
     lines.forEach((line, rowIndex) => {
       const chars = line.split('').map((char) => (char === ' ' ? '_' : char));
       const lineLength = chars.length;
-      const padding = Math.floor((availableCols - lineLength) / 2);
-      let colIndex = 1 + padding;
+      let colIndex = Math.max(0, Math.floor((availableCols - lineLength) / 2)); // Start from padding, not 1 + padding
 
       chars.forEach((char) => {
-        if (colIndex < cols - 1) {
+        if (colIndex < cols) {
+          // Adjusted boundary condition
           grid[rowIndex][colIndex] = char;
           colIndex++;
         }
@@ -64,7 +64,7 @@ const Phrase = () => {
   }
 
   const grid = createGrid(gameInfo.phrase);
-  // const grid = createGrid('Gdzie kucharek sześć tam nie ma co jeśc');
+  // const grid = createGrid('W Szczebrzeszynie chrząszcz brzmi w trzcinie');
 
   return (
     <div className="">
