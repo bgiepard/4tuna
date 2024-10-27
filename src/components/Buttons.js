@@ -9,96 +9,92 @@ const Buttons = () => {
   const currentPlayer = gameInfo.players[gameInfo.currentPlayer]?.id;
   const isMyTurn = currentPlayer && currentPlayer === socket.id;
 
-  const [remainingTime, setRemainingTime] = useState(15000); // 15 seconds in milliseconds
-  const timerRef = useRef(null);
-  const isPausedRef = useRef(false);
+  // const [remainingTime, setRemainingTime] = useState(15000); // 15 seconds in milliseconds
+  // const timerRef = useRef(null);
+  // const isPausedRef = useRef(false);
   const modeRef = useRef(gameInfo.mode);
 
-  // New state variable to control the disabled state of the rotate button
   const [rotateButtonDisabled, setRotateButtonDisabled] = useState(false);
 
-  // Keep track of the current game mode and re-enable the rotate button when appropriate
   useEffect(() => {
     modeRef.current = gameInfo.mode;
 
-    // Re-enable the rotate button when mode is 'rotating'
     if (gameInfo.mode === 'rotating') {
       setRotateButtonDisabled(false);
     }
   }, [gameInfo.mode]);
 
   // Function to start the timer
-  const startTimer = () => {
-    if (timerRef.current) return; // Timer already running
-    isPausedRef.current = false;
-
-    timerRef.current = setInterval(() => {
-      setRemainingTime((prevTime) => {
-        if (prevTime <= 100) {
-          clearInterval(timerRef.current);
-          timerRef.current = null;
-
-          if (modeRef.current === 'guessing') {
-            nextPlayer();
-          }
-
-          nextPlayer();
-          return 0;
-        }
-        return prevTime - 100;
-      });
-    }, 100);
-  };
+  // const startTimer = () => {
+  //   if (timerRef.current) return; // Timer already running
+  //   isPausedRef.current = false;
+  //
+  //   timerRef.current = setInterval(() => {
+  //     setRemainingTime((prevTime) => {
+  //       if (prevTime <= 100) {
+  //         clearInterval(timerRef.current);
+  //         timerRef.current = null;
+  //
+  //         if (modeRef.current === 'guessing') {
+  //           nextPlayer();
+  //         }
+  //
+  //         nextPlayer();
+  //         return 0;
+  //       }
+  //       return prevTime - 100;
+  //     });
+  //   }, 100);
+  // };
 
   // Function to stop the timer
-  const stopTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-  };
+  // const stopTimer = () => {
+  //   if (timerRef.current) {
+  //     clearInterval(timerRef.current);
+  //     timerRef.current = null;
+  //   }
+  // };
 
   // Function to pause the timer
-  const pauseTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-      isPausedRef.current = true;
-    }
-  };
+  // const pauseTimer = () => {
+  //   if (timerRef.current) {
+  //     clearInterval(timerRef.current);
+  //     timerRef.current = null;
+  //     isPausedRef.current = true;
+  //   }
+  // };
 
   // Function to resume the timer
-  const resumeTimer = () => {
-    if (!timerRef.current && isPausedRef.current) {
-      isPausedRef.current = false;
-      startTimer();
-    }
-  };
+  // const resumeTimer = () => {
+  //   if (!timerRef.current && isPausedRef.current) {
+  //     isPausedRef.current = false;
+  //     startTimer();
+  //   }
+  // };
 
   // Effect to handle timer based on turn and game mode
   useEffect(() => {
-    if (isMyTurn) {
-      if (gameInfo.mode === 'guessing') {
-        // Reset timer to 15 seconds when entering guessing mode
-        stopTimer();
-        setRemainingTime(15000);
-        startTimer();
-      } else {
-        // Start or resume the timer if not already running or paused
-        if (!timerRef.current && !isPausedRef.current) {
-          startTimer();
-        }
-      }
-    } else {
-      // Not my turn, stop the timer and reset remaining time
-      stopTimer();
-      setRemainingTime(15000);
-    }
-
+    // if (isMyTurn) {
+    //   if (gameInfo.mode === 'guessing') {
+    //     // Reset timer to 15 seconds when entering guessing mode
+    //     stopTimer();
+    //     setRemainingTime(15000);
+    //     startTimer();
+    //   } else {
+    //     // Start or resume the timer if not already running or paused
+    //     if (!timerRef.current && !isPausedRef.current) {
+    //       startTimer();
+    //     }
+    //   }
+    // } else {
+    //   // Not my turn, stop the timer and reset remaining time
+    //   stopTimer();
+    //   setRemainingTime(15000);
+    // }
     // Cleanup when component unmounts or dependencies change
-    return () => {
-      stopTimer();
-    };
+    // return () => {
+    //   stopTimer();
+    // };
   }, [isMyTurn, gameInfo.mode]);
 
   // Handle Rotate Wheel action
@@ -106,28 +102,28 @@ const Buttons = () => {
     if (spinSound.current) {
       spinSound.current.play();
     }
-    pauseTimer(); // Pause the timer during rotation
+    // pauseTimer(); // Pause the timer during rotation
     rotateWheel();
 
     setRotateButtonDisabled(true); // Disable the rotate button
 
     // After 2 seconds (duration of rotation), resume the timer
-    setTimeout(() => {
-      resumeTimer();
-    }, 2000); // Adjust duration as needed
+    // setTimeout(() => {
+    //   resumeTimer();
+    // }, 2000); // Adjust duration as needed
   };
 
   // Handle Let Me Guess action
   const handleLetMeGuess = () => {
-    stopTimer();
-    setRemainingTime(15000);
-    startTimer();
+    // stopTimer();
+    // setRemainingTime(15000);
+    // startTimer();
     letMeGuess();
   };
 
   // Handle Next Player action
   const handleNextPlayer = () => {
-    stopTimer();
+    // stopTimer();
     nextPlayer();
   };
 
@@ -194,15 +190,15 @@ const Buttons = () => {
       </div>
 
       {/* Countdown Bar */}
-      <div className="bg-gray-800 h-[10px] w-full">
-        <div
-          className="bg-red-500 h-full"
-          style={{
-            width: `${(remainingTime / 15000) * 100}%`,
-            transition: 'width 0.1s linear',
-          }}
-        ></div>
-      </div>
+      {/*<div className="bg-gray-800 h-[10px] w-full">*/}
+      {/*  <div*/}
+      {/*    className="bg-red-500 h-full"*/}
+      {/*    style={{*/}
+      {/*      width: `${(remainingTime / 15000) * 100}%`,*/}
+      {/*      transition: 'width 0.1s linear',*/}
+      {/*    }}*/}
+      {/*  ></div>*/}
+      {/*</div>*/}
     </div>
   );
 };
