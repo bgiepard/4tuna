@@ -8,7 +8,7 @@ import FindRoom from './views/FindRoom';
 function App() {
   return (
     <div className="h-full bg-gradient-to-b from-[#56A1FC] to-[#6E41DA] mx-auto flex flex-col">
-      <div className="w-full max-w-[390px] max-h-[700px] mx-auto h-full ">
+      <div className="w-full max-w-[650px] max-h-[900px] mx-auto h-full ">
         <Router>
           <Routes>
             {/*<Route path="/" element={<Game />} />*/}

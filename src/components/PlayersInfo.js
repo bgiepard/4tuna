@@ -20,7 +20,7 @@ const PlayersInfo = () => {
           `}
           key={player.id}
         >
-          <div className="w-[25px] h-[25px] bg-white rounded-full ml-2"></div>
+          <div className="w-[25px] h-[25px] bg-white rounded-full ml-2 mr-2"></div>
           <div className="flex flex-col grow">
             <div
               className={`mx-auto text-[14px] flex flex-col items-center justify-center text-center text-blue-500 overflow-hidden ${gameInfo.currentPlayer === index && '!text-white'}`}

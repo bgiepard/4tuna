@@ -35,7 +35,7 @@ const Keyboard = () => {
                   [...gameInfo.badLetters].includes(key) ||
                   gameInfo.vowels.includes(key))
               }
-              className={`shadow-lg w-[28px] mx-[4px] my-[6px] h-[32px] p-0 text-center rounded-[4px] text-white leading-[32px] text-[18px] bg-white bg-opacity-30
+              className={`shadow-lg w-[40px] mx-[4px] my-[6px] h-[36px] p-0 text-center rounded-[4px] text-white leading-[32px] text-[18px] bg-white bg-opacity-30
 
               ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-opacity-5 text-opacity-50 !shadow-none'}
               ${[...gameInfo.goodLetters].includes(key) && '!shadow-none !bg-blue-800 !text-pink-300 !bg-opacity-40'}
