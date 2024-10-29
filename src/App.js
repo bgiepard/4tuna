@@ -7,7 +7,7 @@ import FindRoom from './views/FindRoom';
 
 function App() {
   return (
-    <div className="p-4 h-full bg-[#1E1E1E] mx-auto flex flex-col">
+    <div className="h-full bg-gradient-to-b from-[#56A1FC] to-[#6E41DA] mx-auto flex flex-col">
       <div className="w-full max-w-[500px] max-h-[1000px] mx-auto h-full ">
         <Router>
           <Routes>

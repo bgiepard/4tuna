@@ -21,7 +21,7 @@ const Keyboard = () => {
 
   return (
     <div
-      className={`flex items-center flex-col -mx-2 ${(gameInfo.mode === 'rotating' || !isMyTurn) && 'pointer-events-none opacity-30'}`}
+      className={`flex items-center flex-col p-2  ${(gameInfo.mode === 'rotating' || !isMyTurn) && 'pointer-events-none opacity-30'}`}
     >
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="w-full flex items-center justify-center">
@@ -35,11 +35,11 @@ const Keyboard = () => {
                   [...gameInfo.badLetters].includes(key) ||
                   gameInfo.vowels.includes(key))
               }
-              className={`bg-[#3E3B3B] text-center rounded w-1/12 m-[6px] h-[33px] p-0 text-white leading-[32px] text-[18px]
-              ${['Ą', 'Ć', 'Ę', 'Ł', 'Ś', 'Ć', 'Ó', 'Ń', 'Ź', 'Ż'].includes(key) && '!bg-red-500'}
-              ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-opacity-30 text-opacity-20'}
-              ${[...gameInfo.goodLetters].includes(key) && '!bg-opacity-30'}
-              ${[...gameInfo.badLetters].includes(key) && '!bg-opacity-30'}
+              className={`shadow-lg w-[28px] mx-[4px] my-[6px] h-[32px] p-0 text-center rounded-[4px] text-white leading-[32px] text-[18px] bg-white bg-opacity-30
+
+              ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-opacity-5 text-opacity-50 !shadow-none'}
+              ${[...gameInfo.goodLetters].includes(key) && '!shadow-none !bg-pink-400 !text-pink-300 !bg-opacity-40'}
+              ${[...gameInfo.badLetters].includes(key) && '!shadow-none !bg-pink-400 !text-pink-300 !bg-opacity-40'}
               `}
               onClick={() => handleKeyClick(key)}
             >

@@ -36,7 +36,7 @@ const Phrase = () => {
     return lines;
   }
 
-  function createGrid(sentence, cols = 15) {
+  function createGrid(sentence, cols = 12) {
     const availableCols = cols; // No subtraction
     const lines = processSentenceIntoLines(sentence, availableCols);
 
@@ -64,21 +64,24 @@ const Phrase = () => {
   }
 
   const grid = createGrid(gameInfo.phrase);
-  // const grid = createGrid('W Szczebrzeszynie chrząszcz brzmi w trzcinie');
+  // const grid = createGrid('Biednemu zawsze wiatr w oczy i chuj w dupe');
 
   return (
-    <div className="">
+    <div className="mx-auto p-2 pb-0">
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="grid grid-cols-15 gap-[4px] mb-[4px]">
+        <div
+          key={rowIndex}
+          className="flex items-center justify-center gap-[3px] mb-[3px]"
+        >
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[14px] min-h-[24px] rounded-[4px]
-              ${gameInfo.goodLetters.includes(char) && 'bg-gradient-to-b from-orange-500 text-white to-orange-300'}
+              className={`flex items-center justify-center text-[14px] w-[23px] h-[23px] rounded-[4px]
+              ${gameInfo.goodLetters.includes(char) && '!bg-white !bg-opacity-100 shadow'}
               ${
                 char === null || char === '_'
-                  ? 'bg-white bg-opacity-5'
-                  : 'bg-white text-black'
+                  ? 'bg-transparent'
+                  : 'bg-white bg-opacity-30'
               }`}
             >
               {char && char !== '_'
@@ -90,16 +93,6 @@ const Phrase = () => {
           ))}
         </div>
       ))}
-      <div className="flex items-center justify-between">
-        <span className="flex items-center justify-center  rounded t text-white uppercase">
-          {gameInfo.category}
-        </span>
-        <span className="flex items-center justify-center  rounded  text-white ">
-          Runda&nbsp;
-          <span className="text-orange-300 font-bold"> {gameInfo.round}</span>
-          &nbsp;/ {gameInfo.maxRounds}
-        </span>
-      </div>
     </div>
   );
 };
