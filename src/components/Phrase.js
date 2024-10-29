@@ -80,7 +80,7 @@ const Phrase = () => {
               ${gameInfo.goodLetters.includes(char) && '!bg-white !bg-opacity-100 shadow'}
               ${
                 char === null || char === '_'
-                  ? 'bg-transparent'
+                  ? 'bg-transparent border border-white border-opacity-20'
                   : 'bg-white bg-opacity-30 font-semibold'
               }`}
             >

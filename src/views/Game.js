@@ -117,29 +117,29 @@ const Game = () => {
             <CantConnectGameView />
           ) : (
             <div className="h-full flex flex-col">
-              <>
-                <SubheadingView />
+              <div className="">
                 <Phrase />
-              </>
+                <SubheadingView />
+              </div>
 
-              <div className="grow">
+              <div className="grow ">
                 <div className="flex items-center pb-4 relative h-[100%]">
-                  <div className="absolute left-0 top-0 right-0 bottom-0">
+                  <div className="absolute left-0 top-0 right-0 bottom-0 z-10">
                     <PlayersInfo />
                   </div>
 
-                  <div className="min-w-[280px] w-[60%] mx-auto flex items-center justify-center">
+                  <div className="min-w-[240px] h-[80%] mx-auto flex items-center justify-center">
                     <PieChart />
                   </div>
                 </div>
               </div>
 
-              <>
+              <div className="">
                 <Buttons />
                 <div className="mb-2">
                   <Keyboard />
                 </div>
-              </>
+              </div>
             </div>
           )}
         </div>
