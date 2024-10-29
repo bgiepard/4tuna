@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../gameContext';
 import socket from '../socket';
 
@@ -6,31 +6,24 @@ const Buttons = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
   const spinSound = useRef(null);
 
-  const currentPlayer = gameInfo.players[gameInfo.currentPlayer]?.id;
-  const isMyTurn = currentPlayer && currentPlayer === socket.id;
+  const { players, currentPlayer, mode, onlyVowels, goodLetters } = gameInfo;
+  const currentPlayerId = players[currentPlayer]?.id;
+  const isMyTurn = currentPlayerId && currentPlayerId === socket.id;
 
-  // const [remainingTime, setRemainingTime] = useState(15000); // 15 seconds in milliseconds
-  // const timerRef = useRef(null);
-  // const isPausedRef = useRef(false);
-  const modeRef = useRef(gameInfo.mode);
-
-  const [rotateButtonDisabled, setRotateButtonDisabled] = useState(false);
+  const [rotateClicked, setRotateClicked] = useState(false);
 
   useEffect(() => {
-    modeRef.current = gameInfo.mode;
-
-    if (gameInfo.mode === 'rotating') {
-      setRotateButtonDisabled(false);
-    }
+    setRotateClicked(false);
   }, [gameInfo.mode]);
 
   const handleRotateWheel = () => {
+    if (rotateClicked) return;
+    setRotateClicked(true);
+
     if (spinSound.current) {
       spinSound.current.play();
     }
     rotateWheel();
-
-    setRotateButtonDisabled(true);
   };
 
   const handleLetMeGuess = () => {
@@ -44,22 +37,23 @@ const Buttons = () => {
   if (!isMyTurn) {
     return (
       <div className="text-center text-sm h-[58px] flex flex-col items-center justify-center">
-        {gameInfo.mode === 'guessing' ? (
+        {mode === 'guessing' ? (
           <span className="text-blue-400">
-            {gameInfo.players[gameInfo.currentPlayer].name} próbuje odgadnąć
-            hasło
+            {players[currentPlayer].name} próbuje odgadnąć hasło
           </span>
         ) : (
           <span className="text-yellow-300">
-            Poczekaj na swoją kolej, <br /> aktualny gracz: &nbsp;
-            <span className="text-orange-400 ">
-              {gameInfo.players[gameInfo.currentPlayer].name}
+            Poczekaj na swoją kolej, <br /> aktualny gracz:&nbsp;
+            <span className="text-orange-400">
+              {players[currentPlayer].name}
             </span>
           </span>
         )}
       </div>
     );
   }
+
+  const isRotateButtonDisabled = mode !== 'rotating' || onlyVowels;
 
   return (
     <div>
@@ -72,21 +66,19 @@ const Buttons = () => {
       <div className="flex items-center gap-2 relative z-10 h-[58px]">
         <button
           onClick={handleNextPlayer}
-          disabled={gameInfo.mode === 'rotating'}
-          className={`shadow-xl p-1 px-4 bg-gradient-to-b from-[#95388C] to-[#C64CB9] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px]`}
+          disabled={mode === 'rotating'}
+          className="shadow-xl p-1 px-4 bg-gradient-to-b from-[#95388C] to-[#C64CB9] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px]"
         >
           Odpuść
         </button>
 
         <button
           onClick={handleRotateWheel}
-          disabled={
-            // rotateButtonDisabled ||
-            gameInfo.mode !== 'rotating' || gameInfo.onlyVowels
-          }
-          className={` p-1 px-10 bg-blue-300 rounded-[6px] mx-auto disabled:opacity-10 ${
-            gameInfo.mode === 'rotating' &&
-            'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white py-1.5 shadow-xl shadow-blue-800'
+          disabled={isRotateButtonDisabled}
+          className={`p-1 px-10 rounded-[6px] mx-auto disabled:opacity-10 ${
+            !isRotateButtonDisabled
+              ? 'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white py-1.5 shadow-xl shadow-blue-800'
+              : 'bg-blue-300'
           }`}
         >
           Zakręć
@@ -94,10 +86,8 @@ const Buttons = () => {
 
         <button
           onClick={handleLetMeGuess}
-          className={`shadow-xl p-1 px-4 bg-gradient-to-b from-[#467C1D] to-[#65B12C] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px]`}
-          disabled={
-            gameInfo.goodLetters.length < 2 || gameInfo.mode === 'guessing'
-          }
+          disabled={goodLetters.length < 2 || mode === 'guessing'}
+          className="shadow-xl p-1 px-4 bg-gradient-to-b from-[#467C1D] to-[#65B12C] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px]"
         >
           Rozwiąż
         </button>

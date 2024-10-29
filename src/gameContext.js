@@ -60,6 +60,7 @@ export const GameContextProvider = ({ children }) => {
     }
 
     socket.on('gameUpdate', (updatedGameInfo) => {
+      console.log('change round update');
       setGameInfo({ ...gameInfo, ...updatedGameInfo });
     });
 
