@@ -55,7 +55,7 @@ const PieChart = () => {
         }}
       />
       {/* Arrow Indicator */}
-      <div className="w-[45px] h-[45px] rounded-full bg-gradient-to-b from-[#FF7933] to-[#FF58E0] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
+      <div className="w-[50px] h-[50px] rounded-full bg-gradient-to-b from-[#FF7933] to-[#FF58E0] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
       <div
         style={{
           position: 'absolute',
@@ -69,7 +69,7 @@ const PieChart = () => {
           borderRight: '20px solid white',
         }}
       ></div>
-      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[15px] leading-[15px] flex items-center justify-center text-center">
+      <div className="absolute top-[50%] left-[50%] pt-[2.5px] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[15px] leading-[21px] flex items-center justify-center text-center">
         {isAnimating ? ' ' : gameInfo.stake}
       </div>
     </div>

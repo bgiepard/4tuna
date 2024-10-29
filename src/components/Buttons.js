@@ -17,7 +17,7 @@ const Buttons = () => {
   }, [gameInfo.mode]);
 
   const handleRotateWheel = () => {
-    if (rotateClicked) return;
+    // if (rotateClicked) return;
     setRotateClicked(true);
 
     if (spinSound.current) {
@@ -67,7 +67,7 @@ const Buttons = () => {
         <button
           onClick={handleNextPlayer}
           disabled={mode === 'rotating'}
-          className="shadow-xl p-1 px-4 bg-gradient-to-b from-[#95388C] to-[#C64CB9] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px]"
+          className=" p-1 px-4 bg-[#C64CB9] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400"
         >
           Odpuść
         </button>
@@ -87,7 +87,7 @@ const Buttons = () => {
         <button
           onClick={handleLetMeGuess}
           disabled={goodLetters.length < 2 || mode === 'guessing'}
-          className="shadow-xl p-1 px-4 bg-gradient-to-b from-[#467C1D] to-[#65B12C] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px]"
+          className=" p-1 px-4 bg-[#65B12C] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400"
         >
           Rozwiąż
         </button>

@@ -81,7 +81,7 @@ const Phrase = () => {
               ${
                 char === null || char === '_'
                   ? 'bg-transparent'
-                  : 'bg-white bg-opacity-30'
+                  : 'bg-white bg-opacity-30 font-semibold'
               }`}
             >
               {char && char !== '_'

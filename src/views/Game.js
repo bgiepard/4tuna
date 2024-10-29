@@ -128,7 +128,7 @@ const Game = () => {
                     <PlayersInfo />
                   </div>
 
-                  <div className="w-[220px] mx-auto flex items-center justify-center">
+                  <div className="w-[260px] mx-auto flex items-center justify-center">
                     <PieChart />
                   </div>
                 </div>
