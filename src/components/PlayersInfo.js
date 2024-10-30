@@ -5,18 +5,14 @@ const PlayersInfo = () => {
   const { gameInfo } = useGameContext();
 
   return (
-    <div className={`w-full h-full`}>
+    <div className={`w-full h-full flex items-start justify-around`}>
       {/*${index === 1 && gameInfo.players.length < 3 ? 'absolute right-0 bottom-0 bg-black' : 'left-0 top-0 bottom-auto right-auto'}*/}
       {/*${index === 2 && 'absolute left-0 top-0 bg-black'}*/}
       {/*${index === 3 && 'absolute right-0 top-0 bg-black'}*/}
       {gameInfo.players.map((player, index) => (
         <div
           className={`flex items-center justify-between pt-1 pb-1 min-w-[90px] pr-4 m-4 bg-[#6D42DA] opacity-70 rounded-[10px] ${gameInfo.currentPlayer === index && '!opacity-100 bg-[#E4BC45] shadow-xl'}
-          ${index === 0 && 'absolute left-0 bottom-0 '}
-          ${index === 1 && 'absolute right-0 bottom-0'}
-          ${index === 1 && gameInfo.players.length > 2 && 'absolute right-auto bottom-auto top-0 left-0'}
-          ${index === 2 && 'absolute right-0 top-0'}
-          ${index === 3 && 'absolute right-0 bottom-0'}
+
           `}
           key={player.id}
         >

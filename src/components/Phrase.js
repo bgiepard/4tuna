@@ -36,15 +36,13 @@ const Phrase = () => {
     return lines;
   }
 
-  function createGrid(sentence, cols = 12) {
+  function createGrid(sentence, cols = 14) {
     const availableCols = cols; // No subtraction
     const lines = processSentenceIntoLines(sentence, availableCols);
 
     const totalRows = lines.length;
 
-    const grid = Array.from({ length: totalRows }, () =>
-      Array(cols).fill(null)
-    );
+    const grid = Array.from({ length: totalRows }, () => Array(cols).fill(null));
 
     lines.forEach((line, rowIndex) => {
       const chars = line.split('').map((char) => (char === ' ' ? '_' : char));
@@ -64,31 +62,20 @@ const Phrase = () => {
   }
 
   const grid = createGrid(gameInfo.phrase);
-  // const grid = createGrid('Biednemu zawsze wiatr w oczy i chuj w dupe');
+  // const grid = createGrid('Król Karol kupił królowej Karolinie korale');
 
   return (
-    <div className="mx-auto p-2 pb-0">
+    <div className="p-1">
       {grid.map((row, rowIndex) => (
-        <div
-          key={rowIndex}
-          className="flex items-center justify-center gap-[3px] mb-[3px]"
-        >
+        <div key={rowIndex} className="flex gap-[3px] mb-[3px] justify-center">
           {row.map((char, charIndex) => (
             <div
               key={charIndex}
-              className={`flex items-center justify-center text-[14px] w-[23px] h-[23px] rounded-[4px]
-              ${gameInfo.goodLetters.includes(char) && '!bg-white !bg-opacity-100 shadow'}
-              ${
-                char === null || char === '_'
-                  ? 'bg-transparent border border-white border-opacity-20'
-                  : 'bg-white bg-opacity-30 font-semibold'
-              }`}
+              className={`flex items-center justify-center text-[14px] rounded-[6px] h-[28px] w-full max-w-[28px]
+              ${gameInfo.goodLetters.includes(char) && '!bg-[#E4BC45] !bg-opacity-100 shadow text-white'}
+              ${char === null || char === '_' ? 'bg-transparent' : 'bg-white bg-opacity-40 font-semibold'}`}
             >
-              {char && char !== '_'
-                ? gameInfo.goodLetters.includes(char)
-                  ? char
-                  : ''
-                : ''}
+              {char && char !== '_' ? (gameInfo.goodLetters.includes(char) ? char : '') : ''}
             </div>
           ))}
         </div>

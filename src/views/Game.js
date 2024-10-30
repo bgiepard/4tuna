@@ -29,10 +29,7 @@ const Game = () => {
     const prevRound = prevRoundRef.current;
     if (prevRound !== undefined && gameInfo && gameInfo.round !== prevRound) {
       setRoundChange(true);
-      setTimeout(
-        () => setRoundChange(gameInfo.round > gameInfo.maxRounds),
-        3000
-      );
+      setTimeout(() => setRoundChange(gameInfo.round > gameInfo.maxRounds), 3000);
     }
     if (gameInfo) {
       prevRoundRef.current = gameInfo.round;
@@ -83,20 +80,14 @@ const Game = () => {
   };
 
   const CantConnectGameView = () => {
-    return (
-      <span className="text-white">
-        Niestety nie możesz dołączyć do tej gry.
-      </span>
-    );
+    return <span className="text-white">Niestety nie możesz dołączyć do tej gry.</span>;
   };
 
   const SubheadingView = () => {
     return (
       <div className="px-2 mt-1">
         <div className="flex items-center justify-between">
-          <span className="flex items-center justify-center  rounded t text-white uppercase">
-            {gameInfo.category}
-          </span>
+          <span className="flex items-center justify-center  rounded t text-white uppercase">{gameInfo.category}</span>
           <span className="flex items-center justify-center  rounded  text-white ">
             Runda&nbsp;
             <span className="text-orange-300 font-bold"> {gameInfo.round}</span>
@@ -116,27 +107,29 @@ const Game = () => {
           {loading ? (
             <CantConnectGameView />
           ) : (
-            <div className="h-full flex flex-col">
-              <div className="">
-                <Phrase />
-                <SubheadingView />
-              </div>
-
-              <div className="grow ">
-                <div className="flex items-center pb-4 relative h-[100%]">
-                  <div className="absolute left-0 top-0 right-0 bottom-0 z-10">
-                    <PlayersInfo />
-                  </div>
-
-                  <div className="min-w-[240px] h-[80%] mx-auto flex items-center justify-center">
-                    <PieChart />
-                  </div>
+            <div className="h-full flex justify-between flex-col">
+              <div className="h-[50vh] bg-blue-800">
+                <div className="">
+                  <SubheadingView />
+                </div>
+                <div className="">
+                  <Phrase />
+                </div>
+                <div className="">
+                  <PlayersInfo />
                 </div>
               </div>
 
-              <div className="">
-                <Buttons />
-                <div className="mb-2">
+              <div className="flex flex-col justify-end h-[30vh] min-h-[230px] relative ">
+                <div
+                  className={`-translate-y-1/2 mx-auto absolute top-0 left-0 right-0  transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'w-[70%]' : 'w-[0px]'}`}
+                >
+                  <PieChart />
+                </div>
+                <div className={`absolute top-0 left-0 right-0 -translate-y-1/2 transition-all duration-500 z-20 `}>
+                  <Buttons />
+                </div>
+                <div className={`pt-[80px] ${gameInfo.mode === 'rotating' ? 'opacity-0' : 'opacity-100]'}`}>
                   <Keyboard />
                 </div>
               </div>

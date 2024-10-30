@@ -17,7 +17,7 @@ const Buttons = () => {
   }, [gameInfo.mode]);
 
   const handleRotateWheel = () => {
-    // if (rotateClicked) return;
+    if (rotateClicked) return;
     setRotateClicked(true);
 
     if (spinSound.current) {
@@ -34,24 +34,20 @@ const Buttons = () => {
     nextPlayer();
   };
 
-  if (!isMyTurn) {
-    return (
-      <div className="text-center text-sm h-[58px] flex flex-col items-center justify-center">
-        {mode === 'guessing' ? (
-          <span className="text-blue-400">
-            {players[currentPlayer].name} próbuje odgadnąć hasło
-          </span>
-        ) : (
-          <span className="text-yellow-300">
-            Poczekaj na swoją kolej, <br /> aktualny gracz:&nbsp;
-            <span className="text-orange-400">
-              {players[currentPlayer].name}
-            </span>
-          </span>
-        )}
-      </div>
-    );
-  }
+  // if (!isMyTurn) {
+  //   return (
+  //     <div className="text-center text-sm h-[58px] -mt-[180px] flex flex-col items-center justify-center">
+  //       {mode === 'guessing' ? (
+  //         <span className="text-blue-400">{players[currentPlayer].name} próbuje odgadnąć hasło</span>
+  //       ) : (
+  //         <span className="text-yellow-300">
+  //           Poczekaj na swoją kolej, <br /> aktualny gracz:&nbsp;
+  //           <span className="text-orange-400">{players[currentPlayer].name}</span>
+  //         </span>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   const isRotateButtonDisabled = mode !== 'rotating' || onlyVowels;
 
@@ -63,35 +59,43 @@ const Buttons = () => {
         Your browser does not support the audio element.
       </audio>
 
-      <div className="flex items-center gap-2 relative z-10 h-[58px]">
-        <button
-          onClick={handleNextPlayer}
-          disabled={mode === 'rotating'}
-          className=" p-1 px-4 bg-[#C64CB9] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400"
-        >
-          Odpuść
-        </button>
+      {isMyTurn ? (
+        <>
+          <div className="flex items-center justify-around gap-2 relative z-10">
+            <button
+              onClick={handleNextPlayer}
+              disabled={mode === 'rotating'}
+              className=" p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400"
+            >
+              Odpuść
+            </button>
 
-        <button
-          onClick={handleRotateWheel}
-          disabled={isRotateButtonDisabled}
-          className={`p-1 px-10 rounded-[6px] mx-auto disabled:opacity-10 ${
-            !isRotateButtonDisabled
-              ? 'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white py-1.5 shadow-xl shadow-blue-800'
-              : 'bg-blue-300'
-          }`}
-        >
-          Zakręć
-        </button>
+            <button
+              onClick={handleRotateWheel}
+              disabled={isRotateButtonDisabled}
+              className={`w-[80px] h-[80px] rounded-full border text-center disabled:opacity-10 ${
+                !isRotateButtonDisabled ? 'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white' : 'bg-blue-300'
+              }
+          ${rotateClicked ? 'shadow-none' : 'shadow-xl shadow-blue-800'}
+          `}
+            >
+              Zakręć
+            </button>
 
-        <button
-          onClick={handleLetMeGuess}
-          disabled={goodLetters.length < 2 || mode === 'guessing'}
-          className=" p-1 px-4 bg-[#65B12C] rounded-[10px] mx-auto disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400"
-        >
-          Rozwiąż
-        </button>
-      </div>
+            <button
+              onClick={handleLetMeGuess}
+              disabled={goodLetters.length < 2 || mode === 'guessing'}
+              className=" p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400"
+            >
+              Rozwiąż
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <span>poczekaj</span>
+        </>
+      )}
     </div>
   );
 };

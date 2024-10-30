@@ -60,7 +60,7 @@ export const GameContextProvider = ({ children }) => {
     }
 
     socket.on('gameUpdate', (updatedGameInfo) => {
-      console.log('change round update');
+      console.log('pdate', updatedGameInfo.currentPlayer);
       setGameInfo({ ...gameInfo, ...updatedGameInfo });
     });
 
@@ -73,106 +73,74 @@ export const GameContextProvider = ({ children }) => {
 
   const rotateWheel = () => {
     const gameID = gameInfo.gameID;
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'rotate', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        } else {
-          console.log('Rotate event processed', response.gameData);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'rotate', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
+      } else {
+        console.log('Rotate event processed', response.gameData);
       }
-    );
+    });
   };
 
   const letterClick = (gameID, letter) => {
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'letterClick', payload: { letter } },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        } else {
-          console.log('LetterClick event processed', response.gameData);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'letterClick', payload: { letter } }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
+      } else {
+        // console.log('LetterClick event processed', response.gameData);
       }
-    );
+    });
   };
 
   const addPoints = (gameID, letterCount) => {
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'addPoints', payload: { letterCount } },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'addPoints', payload: { letterCount } }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
       }
-    );
+    });
   };
 
   const nextPlayer = () => {
     const gameID = gameInfo.gameID;
 
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'nextPlayer', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'nextPlayer', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
       }
-    );
+    });
   };
 
   const resetPoints = (gameID) => {
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'resetPoints', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'resetPoints', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
       }
-    );
+    });
   };
 
   const resetHalf = (gameID) => {
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'resetHalf', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'resetHalf', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
       }
-    );
+    });
   };
 
   const letMeGuess = () => {
     const gameID = gameInfo.gameID;
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'letMeGuess', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'letMeGuess', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
       }
-    );
+    });
   };
 
   const resetStake = (gameID) => {
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'resetStake', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'resetStake', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
       }
-    );
+    });
   };
 
   const setGameID = (gameID) => {
@@ -181,17 +149,13 @@ export const GameContextProvider = ({ children }) => {
 
   const processValue = () => {
     const gameID = gameInfo.gameID;
-    socket.emit(
-      'newGameEvent',
-      { gameID, name: 'processValue', payload: {} },
-      (response) => {
-        if (!response.success) {
-          console.error(response.message);
-        } else {
-          console.log('ProcessValue event processed', response.gameData);
-        }
+    socket.emit('newGameEvent', { gameID, name: 'processValue', payload: {} }, (response) => {
+      if (!response.success) {
+        console.error(response.message);
+      } else {
+        console.log('ProcessValue event processed', response.gameData);
       }
-    );
+    });
   };
 
   return (
