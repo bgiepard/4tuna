@@ -50,7 +50,7 @@ const PlayerInfo = ({ player, index, isCurrentPlayer }) => {
 
         {showTooltip && (
           <div
-            className={`absolute flex justify-center animate-bounce items-center top-[150%] left-0 right-0 mx-auto w-1/4 text-center  shadow-md text-white text-[16px] rounded  py-0.5 ${amountChange > 0 ? 'bg-green-500' : 'bg-red-500'}`}
+            className={`absolute flex justify-center animate-bounce items-center top-[150%] left-0 right-0 mx-auto px-4  text-center  shadow-md text-white text-[16px] rounded  py-0.5 ${amountChange > 0 ? 'bg-green-500' : 'bg-red-500'}`}
           >
             {amountChange > 0 ? '+' : ''}
             {amountChange}

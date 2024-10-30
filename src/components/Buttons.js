@@ -73,7 +73,7 @@ const Buttons = () => {
             <button
               onClick={handleRotateWheel}
               disabled={isRotateButtonDisabled}
-              className={`w-[80px] h-[80px] rounded-full border-2 flex items-center justify-center disabled:opacity-0 ${
+              className={`w-[80px] h-[80px] rounded-full border-2 flex items-center justify-center disabled:opacity-30 ${
                 !isRotateButtonDisabled ? 'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white' : 'bg-blue-300'
               }
           ${rotateClicked ? '' : ''}
