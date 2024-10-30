@@ -52,7 +52,7 @@ const Buttons = () => {
   const isRotateButtonDisabled = mode !== 'rotating' || onlyVowels;
 
   return (
-    <div>
+    <div className="">
       <audio ref={spinSound}>
         <source src="/assets/spin.mp3" type="audio/mpeg" />
         <source src="/assets/spin.ogg" type="audio/ogg" />
@@ -61,11 +61,11 @@ const Buttons = () => {
 
       {isMyTurn ? (
         <>
-          <div className="flex items-center justify-around gap-2 relative z-10">
+          <div className="flex items-center justify-around gap-2 z-10 relative">
             <button
               onClick={handleNextPlayer}
               disabled={mode === 'rotating'}
-              className=" p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400"
+              className="w-[100px] p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400"
             >
               Odpuść
             </button>
@@ -73,7 +73,7 @@ const Buttons = () => {
             <button
               onClick={handleRotateWheel}
               disabled={isRotateButtonDisabled}
-              className={`w-[80px] h-[80px] rounded-full border text-center disabled:opacity-10 ${
+              className={`w-[80px] h-[80px] rounded-full border-2 flex items-center justify-center disabled:opacity-0 ${
                 !isRotateButtonDisabled ? 'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white' : 'bg-blue-300'
               }
           ${rotateClicked ? 'shadow-none' : 'shadow-xl shadow-blue-800'}
@@ -85,7 +85,7 @@ const Buttons = () => {
             <button
               onClick={handleLetMeGuess}
               disabled={goodLetters.length < 2 || mode === 'guessing'}
-              className=" p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400"
+              className=" w-[100px] right-5 p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400"
             >
               Rozwiąż
             </button>
@@ -93,7 +93,7 @@ const Buttons = () => {
         </>
       ) : (
         <>
-          <span>poczekaj</span>
+          <span></span>
         </>
       )}
     </div>

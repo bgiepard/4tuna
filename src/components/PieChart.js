@@ -32,7 +32,7 @@ const PieChart = () => {
   }, [gameInfo.totalRotate]);
 
   return (
-    <div className="flex flex-col justify-center items-center relative pr-[1px]">
+    <div className="flex flex-col justify-center items-center relative">
       <img
         src={wheelImage}
         alt="Wheel"
@@ -41,8 +41,8 @@ const PieChart = () => {
           transition: isAnimating ? `transform ${transitionDuration}ms ${easingFunction}` : 'none',
           width: '100%',
           height: 'auto',
-          // border: '15px solid rgba(256,256,256,0.2)',
-          // boxShadow: '0 0 0 15px rgba(256,256,256,0.1)',
+          border: '15px solid rgba(256,256,256,0.2)',
+          boxShadow: '0 0 0 15px rgba(256,256,256,0.1)',
           borderRadius: '100%',
         }}
         onTransitionEnd={() => {
@@ -51,24 +51,24 @@ const PieChart = () => {
       />
       {/*circle*/}
 
-      {/*<div className="w-[80px] h-[80px] rounded-full bg-gradient-to-b from-[#FF7933] to-[#FF58E0] absolute left-0 right-0 top-1/2 mx-auto -translate-y-1/2 border-2 border-transparent"></div>*/}
+      <div className="w-[80px] h-[80px] rounded-full bg-[#FF58E0] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
 
       {/* Arrow Indicator */}
-      {/*{gameInfo.mode === 'rotating' && (*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      position: 'absolute',*/}
-      {/*      top: '50%',*/}
-      {/*      right: '0',*/}
-      {/*      transform: 'translateY(-50%)',*/}
-      {/*      width: '0',*/}
-      {/*      height: '0',*/}
-      {/*      borderTop: '8px solid transparent',*/}
-      {/*      borderBottom: '8px solid transparent',*/}
-      {/*      borderRight: '20px solid white',*/}
-      {/*    }}*/}
-      {/*  ></div>*/}
-      {/*)}*/}
+      {gameInfo.mode === 'rotating' && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(39px, -50%)',
+            width: '0',
+            height: '0',
+            borderTop: '8px solid transparent',
+            borderBottom: '8px solid transparent',
+            borderLeft: '20px solid white',
+          }}
+        ></div>
+      )}
       <div className="absolute top-[50%] left-[50%] pt-[2.5px] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[15px] leading-[21px] flex items-center justify-center text-center">
         {isAnimating ? ' ' : gameInfo.stake > 0 && gameInfo.stake}
       </div>

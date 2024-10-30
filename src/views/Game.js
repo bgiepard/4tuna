@@ -108,7 +108,7 @@ const Game = () => {
             <CantConnectGameView />
           ) : (
             <div className="h-full flex justify-between flex-col">
-              <div className="h-[50vh] bg-blue-800">
+              <div className="h-[50vh]">
                 <div className="">
                   <SubheadingView />
                 </div>
@@ -129,7 +129,7 @@ const Game = () => {
                 <div className={`absolute top-0 left-0 right-0 -translate-y-1/2 transition-all duration-500 z-20 `}>
                   <Buttons />
                 </div>
-                <div className={`pt-[80px] ${gameInfo.mode === 'rotating' ? 'opacity-0' : 'opacity-100]'}`}>
+                <div className={`pt-[80px] pb-2 ${gameInfo.mode === 'rotating' ? 'opacity-0' : 'opacity-100]'}`}>
                   <Keyboard />
                 </div>
               </div>
