@@ -10,7 +10,7 @@ function App() {
     <div className="h-full bg-gradient-to-br from-[#56A1FC] to-[#6E41DA] mx-auto flex flex-col">
       {/*<div className="w-full max-w-[750px] max-h-[1000px] mx-auto h-full border ">*/}
       {/*<div className="w-full max-w-[320px] max-h-[550px] mx-auto h-full border ">*/}
-      <div className="w-full max-w-[660px] max-h-[1150px] mx-auto h-full border overflow-hidden">
+      <div className="w-full max-w-[660px] max-h-[1150px] mx-auto h-full  overflow-hidden">
         <Router>
           <Routes>
             {/*<Route path="/" element={<Game />} />*/}

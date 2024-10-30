@@ -122,14 +122,14 @@ const Game = () => {
 
               <div className="flex flex-col justify-end h-[30vh] min-h-[230px] relative ">
                 <div
-                  className={`-translate-y-1/2 mx-auto absolute top-0 left-0 right-0  transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'w-[70%]' : 'w-[0px]'}`}
+                  className={`w-[70%] -translate-y-1/2 mx-auto absolute top-0 left-0 right-0  transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-100' : 'scale-0'}`}
                 >
                   <PieChart />
                 </div>
                 <div className={`absolute top-0 left-0 right-0 -translate-y-1/2 transition-all duration-500 z-20 `}>
                   <Buttons />
                 </div>
-                <div className={`pt-[80px] pb-2 ${gameInfo.mode === 'rotating' ? 'opacity-0' : 'opacity-100]'}`}>
+                <div className={`pt-[80px] pb-2 transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-0' : 'scale-100]'}`}>
                   <Keyboard />
                 </div>
               </div>

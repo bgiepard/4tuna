@@ -51,7 +51,7 @@ const PieChart = () => {
       />
       {/*circle*/}
 
-      <div className="w-[80px] h-[80px] rounded-full bg-[#FF58E0] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
+      <div className="w-[80px] h-[80px] rounded-full bg-[#FF58E0] bg-opacity-70 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
 
       {/* Arrow Indicator */}
       {gameInfo.mode === 'rotating' && (
