@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../gameContext';
 import wheelImage from '../assets/wheel.svg';
+import socket from '../socket';
 
 const PieChart = () => {
   const { gameInfo } = useGameContext();
@@ -12,6 +13,9 @@ const PieChart = () => {
 
   const prevRotateRef = useRef(0);
   const isFirstRender = useRef(true);
+
+  const currentPlayerId = gameInfo?.players?.length > 0 && gameInfo?.players[gameInfo?.currentPlayer]?.id;
+  const isMyTurn = gameInfo?.players?.length > 0 && currentPlayerId && currentPlayerId === socket.id;
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -40,7 +44,7 @@ const PieChart = () => {
           style={{
             transform: `rotate(${rotationAngle}deg)`,
             transition: isAnimating ? `transform ${transitionDuration}ms ${easingFunction}` : 'none',
-            border: '15px solid rgba(256,256,256,0.2)',
+            border: isMyTurn ? '15px solid rgba(237, 233, 157,0.6)' : '15px solid rgba(256,256,256,0.2)',
             boxShadow: '0 0 0 15px rgba(256,256,256,0.1)',
             borderRadius: '100%',
           }}

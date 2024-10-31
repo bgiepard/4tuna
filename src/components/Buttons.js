@@ -70,7 +70,7 @@ const Buttons = () => {
             <button
               onClick={handleLetMeGuess}
               disabled={goodLetters.length < 2 || mode === 'guessing'}
-              className={`transition-all duration-500 ${gameInfo.mode === 'rotating' ? '-translate-y-[80px]' : ''}  w-[100px]  p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400`}
+              className={`transition-all duration-500 ${gameInfo.mode === 'rotating' ? '-translate-y-[80px]' : ''}  w-[100px]  p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400 ${gameInfo.onlyVowels && 'animate-bounce'}`}
             >
               Rozwiąż
             </button>

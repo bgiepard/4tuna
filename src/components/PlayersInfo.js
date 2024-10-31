@@ -24,11 +24,10 @@ const PlayerInfo = ({ player, index, isCurrentPlayer }) => {
 
   return (
     <div
-      className={`flex items-center justify-between pt-1 pb-1 w-full pr-4 m-4 bg-[#6D42DA] opacity-70 rounded-[10px] ${
+      className={`flex flex-col items-center justify-between pt-1 pb-1 w-full mx-2  bg-[#6D42DA] opacity-70 rounded-[10px] ${
         isCurrentPlayer && '!opacity-100 bg-[#E4BC45] shadow-xl'
       }`}
     >
-      <div className="w-[25px] h-[25px] bg-white rounded-full ml-2 mr-2"></div>
       <div className="flex flex-col grow relative">
         <div
           className={`mx-auto text-[14px] flex flex-col items-center justify-center text-center text-blue-500 overflow-hidden ${
@@ -39,6 +38,7 @@ const PlayerInfo = ({ player, index, isCurrentPlayer }) => {
             <span className="truncate">{player.name}</span>
           </span>
         </div>
+        {/*<div className="w-[25px] h-[25px] bg-white rounded-full mx-auto my-1"></div>*/}
 
         <span
           className={`block p-0 w-4/5 mx-auto text-[16px] leading-[12px] pt-1 pb-0.5 text-center rounded-[3px] text-gray-400 ${

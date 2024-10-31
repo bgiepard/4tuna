@@ -68,8 +68,8 @@ const Game = () => {
         ) : (
           <div className="h-full flex flex-col items-center justify-center">
             <h1 className="text-white">Zmiana rundy</h1>
-            <ul className="flex flex-col mx-5 mt-3 text-white">
-              {gameInfo.players
+            <ul className="flex flex-col mx-5 text-white">
+              {[...gameInfo.players]
                 .sort((a, b) => b.total - a.total)
                 .map((player) => (
                   <div key={player.name}>
@@ -91,7 +91,7 @@ const Game = () => {
     return (
       <div className="px-2 mt-1">
         <div className="flex items-center justify-between">
-          <span className="flex items-center justify-center  rounded t text-white uppercase">{gameInfo.category}</span>
+          <span className="flex items-center justify-center rounded text-white uppercase w-1/2">{gameInfo.category}</span>
           <span className="flex items-center justify-center  rounded  text-white ">
             Runda&nbsp;
             <span className="text-orange-300 font-bold"> {gameInfo.round}</span>
@@ -113,10 +113,10 @@ const Game = () => {
           ) : (
             <div className="h-full flex justify-between flex-col p-1">
               <div className="h-[50vh]">
-                <div className="">
+                <div className="mb-2">
                   <SubheadingView />
                 </div>
-                <div className="">
+                <div className="mb-2">
                   <Phrase />
                 </div>
                 <div className="">
@@ -138,7 +138,7 @@ const Game = () => {
                 <div className={` transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-0' : 'scale-100'}`}>
                   <Keyboard />
                 </div>
-                <div className="h-[24px] flex items-center justify-center text-white text-[14px]">
+                <div className="h-[30px] flex items-center justify-center text-white text-[16px]">
                   {!isMyTurn && (
                     <>
                       {gameInfo.mode == 'guessing' ? (
@@ -151,7 +151,7 @@ const Game = () => {
                     </>
                   )}
 
-                  {isMyTurn && gameInfo.onlyVowels && <span className="text-yellow-300 animate-bounce">Zostały same samogłoski! Rozwiąż hasło</span>}
+                  {isMyTurn && gameInfo.onlyVowels && <span className="text-yellow-300">Zostały same samogłoski! Rozwiąż hasło</span>}
                 </div>
               </div>
             </div>
