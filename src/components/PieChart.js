@@ -33,25 +33,26 @@ const PieChart = () => {
 
   return (
     <div className="flex flex-col justify-center items-center relative">
-      <img
-        src={wheelImage}
-        alt="Wheel"
-        style={{
-          transform: `rotate(${rotationAngle}deg)`,
-          transition: isAnimating ? `transform ${transitionDuration}ms ${easingFunction}` : 'none',
-          width: '100%',
-          height: 'auto',
-          border: '15px solid rgba(256,256,256,0.2)',
-          boxShadow: '0 0 0 15px rgba(256,256,256,0.1)',
-          borderRadius: '100%',
-        }}
-        onTransitionEnd={() => {
-          setIsAnimating(false);
-        }}
-      />
+      <div className={`w-[70%] transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-100' : 'scale-0'}`}>
+        <img
+          src={wheelImage}
+          alt="Wheel"
+          style={{
+            transform: `rotate(${rotationAngle}deg)`,
+            transition: isAnimating ? `transform ${transitionDuration}ms ${easingFunction}` : 'none',
+            border: '15px solid rgba(256,256,256,0.2)',
+            boxShadow: '0 0 0 15px rgba(256,256,256,0.1)',
+            borderRadius: '100%',
+          }}
+          onTransitionEnd={() => {
+            setIsAnimating(false);
+          }}
+          className={`w-full   `}
+        />
+      </div>
       {/*circle*/}
 
-      <div className="w-[80px] h-[80px] rounded-full bg-[#FF58E0] bg-opacity-70 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white"></div>
+      <div className="w-[80px] h-[80px] rounded-full bg-[#FF58E0] absolute left-0 right-0 mx-auto top-1/2  -translate-y-1/2 border-2 border-white"></div>
 
       {/* Arrow Indicator */}
       {gameInfo.mode === 'rotating' && (

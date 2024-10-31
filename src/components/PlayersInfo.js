@@ -24,7 +24,7 @@ const PlayerInfo = ({ player, index, isCurrentPlayer }) => {
 
   return (
     <div
-      className={`flex items-center justify-between pt-2 pb-2 w-full pr-4 m-4 bg-[#6D42DA] opacity-70 rounded-[10px] ${
+      className={`flex items-center justify-between pt-1 pb-1 w-full pr-4 m-4 bg-[#6D42DA] opacity-70 rounded-[10px] ${
         isCurrentPlayer && '!opacity-100 bg-[#E4BC45] shadow-xl'
       }`}
     >
@@ -49,11 +49,11 @@ const PlayerInfo = ({ player, index, isCurrentPlayer }) => {
         </span>
 
         {showTooltip && (
-          <div
-            className={`absolute flex justify-center animate-bounce items-center top-[150%] left-0 right-0 mx-auto px-4  text-center  shadow-md text-white text-[16px] rounded  py-0.5 ${amountChange > 0 ? 'bg-green-500' : 'bg-red-500'}`}
-          >
-            {amountChange > 0 ? '+' : ''}
-            {amountChange}
+          <div className={`absolute flex justify-center  items-center animate-bounce top-[150%] left-0 right-0`}>
+            <div className={`px-4 text-center  shadow-md text-white text-[16px] rounded  py-0.5 ${amountChange > 0 ? 'bg-green-500' : 'bg-red-500'}`}>
+              {amountChange > 0 ? '+' : ''}
+              {amountChange}
+            </div>
           </div>
         )}
       </div>

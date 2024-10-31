@@ -14,7 +14,7 @@ const Buttons = () => {
 
   useEffect(() => {
     setRotateClicked(false);
-  }, [gameInfo.mode]);
+  }, [gameInfo.mode, gameInfo.currentPlayer]);
 
   const handleRotateWheel = () => {
     if (rotateClicked) return;
@@ -34,21 +34,6 @@ const Buttons = () => {
     nextPlayer();
   };
 
-  // if (!isMyTurn) {
-  //   return (
-  //     <div className="text-center text-sm h-[58px] -mt-[180px] flex flex-col items-center justify-center">
-  //       {mode === 'guessing' ? (
-  //         <span className="text-blue-400">{players[currentPlayer].name} próbuje odgadnąć hasło</span>
-  //       ) : (
-  //         <span className="text-yellow-300">
-  //           Poczekaj na swoją kolej, <br /> aktualny gracz:&nbsp;
-  //           <span className="text-orange-400">{players[currentPlayer].name}</span>
-  //         </span>
-  //       )}
-  //     </div>
-  //   );
-  // }
-
   const isRotateButtonDisabled = mode !== 'rotating' || onlyVowels;
 
   return (
@@ -64,8 +49,8 @@ const Buttons = () => {
           <div className="flex items-center justify-around gap-2 z-10 relative">
             <button
               onClick={handleNextPlayer}
-              disabled={mode === 'rotating'}
-              className="w-[100px] p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400"
+              disabled={mode === 'rotating' && !onlyVowels}
+              className={`transition-all duration-500 ${gameInfo.mode === 'rotating' ? '-translate-y-[80px]' : ''}  w-[100px] p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400`}
             >
               Odpuść
             </button>
@@ -73,10 +58,10 @@ const Buttons = () => {
             <button
               onClick={handleRotateWheel}
               disabled={isRotateButtonDisabled}
-              className={`w-[80px] h-[80px] rounded-full border-2 flex items-center justify-center disabled:opacity-30 ${
+              className={`w-[80px] h-[80px] top-[10vh] rounded-full border-2 flex items-center justify-center disabled:opacity-0 ${
                 !isRotateButtonDisabled ? 'bg-gradient-to-b from-[#FF7933] to-[#FF58E0] text-white' : 'bg-blue-300'
               }
-          ${rotateClicked ? '' : ''}
+              ${rotateClicked ? '' : ''}
           `}
             >
               Zakręć
@@ -85,7 +70,7 @@ const Buttons = () => {
             <button
               onClick={handleLetMeGuess}
               disabled={goodLetters.length < 2 || mode === 'guessing'}
-              className=" w-[100px] right-5 p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400"
+              className={`transition-all duration-500 ${gameInfo.mode === 'rotating' ? '-translate-y-[80px]' : ''}  w-[100px]  p-1 px-4 bg-[#65B12C] rounded-[10px] disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-green-400`}
             >
               Rozwiąż
             </button>

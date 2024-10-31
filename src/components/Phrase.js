@@ -62,7 +62,7 @@ const Phrase = () => {
   }
 
   const grid = createGrid(gameInfo.phrase);
-  // const grid = createGrid('Król Karol kupił królowej Karolinie korale');
+  // const grid = createGrid('Król Karol kupił królowej Karolinie korale koloru koralowego');
 
   return (
     <div className="p-1">
@@ -73,7 +73,7 @@ const Phrase = () => {
               key={charIndex}
               className={`flex items-center justify-center text-[14px] rounded-[6px] h-[28px] w-full max-w-[28px]
               ${gameInfo.goodLetters.includes(char) && '!bg-[#E4BC45] !bg-opacity-100 shadow text-white'}
-              ${char === null || char === '_' ? 'bg-transparent' : 'bg-white bg-opacity-40 font-semibold'}`}
+              ${char === null || char === '_' ? 'bg-transparent border-[1px] border-blue-200 border-opacity-20' : 'bg-white bg-opacity-40 font-semibold'}`}
             >
               {char && char !== '_' ? (gameInfo.goodLetters.includes(char) ? char : '') : ''}
             </div>

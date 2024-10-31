@@ -7,6 +7,7 @@ import PieChart from '../components/PieChart';
 import Buttons from '../components/Buttons';
 import PlayersInfo from '../components/PlayersInfo';
 import Keyboard from '../components/Keyboard';
+import socket from '../socket';
 
 const Game = () => {
   const { gameID } = useParams();
@@ -14,6 +15,9 @@ const Game = () => {
   const [roundChange, setRoundChange] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const currentPlayerId = gameInfo?.players?.length > 0 && gameInfo?.players[gameInfo?.currentPlayer]?.id;
+  const isMyTurn = gameInfo?.players?.length > 0 && currentPlayerId && currentPlayerId === socket.id;
 
   const gameContainerRef = useRef(null); // Ref to the container you want to fullscreen
 
@@ -107,7 +111,7 @@ const Game = () => {
           {loading ? (
             <CantConnectGameView />
           ) : (
-            <div className="h-full flex justify-between flex-col">
+            <div className="h-full flex justify-between flex-col p-1">
               <div className="h-[50vh]">
                 <div className="">
                   <SubheadingView />
@@ -120,17 +124,34 @@ const Game = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-end h-[30vh] min-h-[230px] relative ">
-                <div
-                  className={`w-[70%] -translate-y-1/2 mx-auto absolute top-0 left-0 right-0  transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-100' : 'scale-0'}`}
-                >
+              <div
+                className={`flex flex-col justify-end relative transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'min-h-[120px]' : 'min-h-[250px]'}`}
+              >
+                <div className={`-translate-y-1/2 mx-auto absolute top-0 left-0 right-0`}>
                   <PieChart />
                 </div>
+
                 <div className={`absolute top-0 left-0 right-0 -translate-y-1/2 transition-all duration-500 z-20 `}>
                   <Buttons />
                 </div>
-                <div className={`pt-[80px] pb-2 transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-0' : 'scale-100]'}`}>
+
+                <div className={` transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-0' : 'scale-100'}`}>
                   <Keyboard />
+                </div>
+                <div className="h-[24px] flex items-center justify-center text-white text-[14px]">
+                  {!isMyTurn && (
+                    <>
+                      {gameInfo.mode == 'guessing' ? (
+                        <span className="text-orange-300">
+                          <span className="text-white">{gameInfo?.players[gameInfo?.currentPlayer].name}</span> próbuje rozwiązać hasło
+                        </span>
+                      ) : (
+                        ' Poczekaj na swoją kolej'
+                      )}
+                    </>
+                  )}
+
+                  {isMyTurn && gameInfo.onlyVowels && <span className="text-yellow-300 animate-bounce">Zostały same samogłoski! Rozwiąż hasło</span>}
                 </div>
               </div>
             </div>

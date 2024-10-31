@@ -21,7 +21,6 @@ export const GameContextProvider = ({ children }) => {
     }
 
     socket.on('gameUpdate', (updatedGameInfo) => {
-      console.log('pdate', updatedGameInfo.currentPlayer);
       setGameInfo({ ...gameInfo, ...updatedGameInfo });
     });
 
@@ -53,34 +52,10 @@ export const GameContextProvider = ({ children }) => {
     });
   };
 
-  const addPoints = (gameID, letterCount) => {
-    socket.emit('newGameEvent', { gameID, name: 'addPoints', payload: { letterCount } }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      }
-    });
-  };
-
   const nextPlayer = () => {
     const gameID = gameInfo.gameID;
 
     socket.emit('newGameEvent', { gameID, name: 'nextPlayer', payload: {} }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      }
-    });
-  };
-
-  const resetPoints = (gameID) => {
-    socket.emit('newGameEvent', { gameID, name: 'resetPoints', payload: {} }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      }
-    });
-  };
-
-  const resetHalf = (gameID) => {
-    socket.emit('newGameEvent', { gameID, name: 'resetHalf', payload: {} }, (response) => {
       if (!response.success) {
         console.error(response.message);
       }
@@ -96,43 +71,19 @@ export const GameContextProvider = ({ children }) => {
     });
   };
 
-  const resetStake = (gameID) => {
-    socket.emit('newGameEvent', { gameID, name: 'resetStake', payload: {} }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      }
-    });
-  };
-
   const setGameID = (gameID) => {
     setGameInfo({ ...gameInfo, gameID: gameID });
-  };
-
-  const processValue = () => {
-    const gameID = gameInfo.gameID;
-    socket.emit('newGameEvent', { gameID, name: 'processValue', payload: {} }, (response) => {
-      if (!response.success) {
-        console.error(response.message);
-      } else {
-        console.log('ProcessValue event processed', response.gameData);
-      }
-    });
   };
 
   return (
     <GameContext.Provider
       value={{
         gameInfo,
-        setGameID,
         rotateWheel,
         letterClick,
-        addPoints,
         nextPlayer,
-        resetPoints,
-        resetHalf,
         letMeGuess,
-        resetStake,
-        processValue,
+        setGameID,
       }}
     >
       {children}
