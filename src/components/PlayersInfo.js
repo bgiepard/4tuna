@@ -24,9 +24,9 @@ const PlayerInfo = ({ player, index, isCurrentPlayer }) => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-between pt-1 pb-1 w-full mx-2  bg-[#6D42DA] opacity-70 rounded-[10px] ${
+      className={`flex flex-col items-center justify-between pt-1 pb-1 w-full mx-2  bg-[#6D42DA] opacity-70 rounded-[10px] ${!player.connected && '!opacity-10 bg-red-500'} ${
         isCurrentPlayer && '!opacity-100 bg-[#E4BC45] shadow-xl'
-      }`}
+      } `}
     >
       <div className="flex flex-col grow relative">
         <div
