@@ -56,7 +56,7 @@ const Game = () => {
           <div className="p-2">
             <h1 className="text-center text-white">KONIEC GRY</h1>
             <ul className="flex flex-col mx-5 text-white">
-              {gameInfo.players
+              {[...gameInfo.players]
                 .sort((a, b) => b.total - a.total)
                 .map((player) => (
                   <div key={player.name}>
@@ -114,44 +114,46 @@ const Game = () => {
             <div className="h-full flex justify-between flex-col p-1">
               <div className="h-[50vh]">
                 <div className="mb-2">
-                  <SubheadingView />
+                  <SubheadingView/>
                 </div>
                 <div className="mb-2">
-                  <Phrase />
+                  <Phrase/>
                 </div>
                 <div className="">
-                  <PlayersInfo />
+                  <PlayersInfo/>
+                </div>
+                <div className="pt-8 pb-2 flex items-center justify-center text-white text-[16px]">
+                  {!isMyTurn && (
+                      <>
+                        {gameInfo.mode == 'guessing' ? (
+                            <span className="text-orange-300">
+                          <span className="text-white">{gameInfo?.players[gameInfo?.currentPlayer].name}</span> próbuje rozwiązać hasło
+                        </span>
+                        ) : (
+                            ' Poczekaj na swoją kolej'
+                        )}
+                      </>
+                  )}
+
+                  {isMyTurn && gameInfo.onlyVowels &&
+                      <span className="text-yellow-300">Zostały same samogłoski! Rozwiąż hasło</span>}
                 </div>
               </div>
 
               <div
-                className={`flex flex-col justify-end relative transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'min-h-[120px]' : 'min-h-[250px]'}`}
+                  className={`flex flex-col justify-end relative transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'min-h-[120px]' : 'min-h-[250px]'}`}
               >
                 <div className={`-translate-y-1/2 mx-auto absolute top-0 left-0 right-0`}>
-                  <PieChart />
+                  <PieChart/>
                 </div>
 
                 <div className={`absolute top-0 left-0 right-0 -translate-y-1/2 transition-all duration-500 z-20 `}>
-                  <Buttons />
+                  <Buttons/>
                 </div>
 
-                <div className={` transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-0' : 'scale-100'}`}>
-                  <Keyboard />
-                </div>
-                <div className="h-[30px] flex items-center justify-center text-white text-[16px]">
-                  {!isMyTurn && (
-                    <>
-                      {gameInfo.mode == 'guessing' ? (
-                        <span className="text-orange-300">
-                          <span className="text-white">{gameInfo?.players[gameInfo?.currentPlayer].name}</span> próbuje rozwiązać hasło
-                        </span>
-                      ) : (
-                        ' Poczekaj na swoją kolej'
-                      )}
-                    </>
-                  )}
-
-                  {isMyTurn && gameInfo.onlyVowels && <span className="text-yellow-300">Zostały same samogłoski! Rozwiąż hasło</span>}
+                <div
+                    className={`p-1 transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-0' : 'scale-100'}`}>
+                  <Keyboard/>
                 </div>
               </div>
             </div>
