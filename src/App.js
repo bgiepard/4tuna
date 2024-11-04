@@ -4,10 +4,11 @@ import Lobby from './views/Lobby';
 import Game from './views/Game';
 import Home from './views/Home';
 import FindRoom from './views/FindRoom';
+import SoloGame from './views/SoloGame';
 
 function App() {
   return (
-    <div className="h-full bg-gradient-to-br from-[#56A1FC] to-[#6E41DA] mx-auto flex flex-col">
+    <div className="h-full bg-[#EC7C94] mx-auto flex flex-col">
       {/*<div className="w-full max-w-[750px] max-h-[1000px] mx-auto h-full border ">*/}
       {/*<div className="w-full max-w-[320px] max-h-[550px] mx-auto h-full border ">*/}
       <div className="w-full max-w-[660px] max-h-[1150px] mx-auto h-full  overflow-hidden">
@@ -19,6 +20,7 @@ function App() {
             <Route path="/lobby/:roomID" element={<Lobby />} />
             <Route path="/game/:gameID" element={<Game />} />
             <Route path="/findRoom" element={<FindRoom />} />
+            <Route path="/soloGame" element={<SoloGame />} />
           </Routes>
         </Router>
       </div>
