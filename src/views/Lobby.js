@@ -33,8 +33,8 @@ function Lobby() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Check out this page!',
-          text: 'I found this interesting page and wanted to share it with you.',
+          title: 'Dołącz do gry',
+          text: 'Czekamy na Ciebie - pokaż co potrafisz!',
           url: window.location.href,
         });
       } catch (error) {}
@@ -42,6 +42,7 @@ function Lobby() {
   };
 
   const joinGame = (name) => {
+    saveToLocalStorage('nickName', name);
     if (!hasJoined) {
       socket.emit('joinRoom', { roomID, name }, (response) => {
         if (!response.success) {
@@ -99,76 +100,107 @@ function Lobby() {
     };
   }, [gameStarting, navigate, gameID]);
 
+  const saveToLocalStorage = (key, value) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error('Error saving to localStorage', error);
+    }
+  };
+
+  const readFromLocalStorage = (key) => {
+    try {
+      const savedValue = localStorage.getItem(key);
+      return savedValue ? JSON.parse(savedValue) : null;
+    } catch (error) {
+      console.error('Error reading from localStorage', error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const storedNickname = readFromLocalStorage('nickName');
+    if (storedNickname) {
+      setUserName(storedNickname);
+    }
+  }, []);
+
   return (
     <>
       {!afterJoin ? (
-        <div className="flex flex-col h-full gap-10 justify-center items-center">
-          <span className="text-blue-200 text-xl">
-            Wpisz swoją nazwę gracza
-          </span>
+        <div className="flex flex-col h-full gap-14 justify-center items-center">
+          <div className="flex flex-col items-center text-white relative z-10 ">
+            <span className="font-[800] text-[22px] uppercase px-6 text-center">Wpisz swoją nazwę gracza</span>
+          </div>
           <input
             type="text"
-            className="p-2 px-4 bg-transparent border-blue-300 border-2 rounded-lg text-blue-200"
+            className="p-2 px-4 max-w-[200px] bg-transparent border-2 rounded-lg text-white font-semibold border-[#FFD224] text-center placeholder:text-pink-200 bg-white bg-opacity-10 outline-none"
             placeholder="Twój nick"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
+
           <button
-            disabled={userName.length < 3 || userName.length > 10}
-            className="w-4/5 disabled:opacity-40 bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500"
             onClick={() => joinGame(userName)}
+            disabled={userName.length < 3 || userName.length > 10}
+            className="px-4 min-w-[180px] h-[45px] font-semibold bg-gradient-to-b from-[#FFD224] to-[#BC9B1B] shadow-md text-white rounded-[8px] text-[14px] disabled:grayscale"
           >
-            Dalej
+            Dołącz
           </button>
         </div>
       ) : (
         <div className="flex flex-col h-full gap-10 justify-center items-center">
           <div className="flex flex-col gap-6 items-center">
-            <span className="text-blue-400 text-lg text-center">
-              Poczekalnia - Pokój <br />
-              <span className="text-green-400">{roomID}</span>
-            </span>
-            <div className="flex gap-2">
-              <button
-                onClick={handleCopyClick}
-                className=" w-[150px] text-green-400  border border-green-500 p-1 px-4 rounded-lg"
-              >
-                {copied ? 'Skopiowany!' : 'Kopiuj link'}
-              </button>
-              <button
-                onClick={handleShareClick}
-                className=" w-[150px] text-green-400  border border-green-500 p-1 px-4 rounded-lg"
-              >
-                Udostępnij
-              </button>
+            <div className="flex flex-col items-center text-white relative z-10 mt-4 -mb-6">
+              <span className="font-[800] text-[28px] uppercase">Poczekalnia</span>
+              <span className="opacity-100 font-[600] text-[14px] uppercase -mt-1">
+                Pokój gracza: <span className="text-yellow-300">{gameOptions?.players?.[0].name}</span>
+              </span>
             </div>
           </div>
 
+          <div className="flex gap-2">
+            <button
+              onClick={handleCopyClick}
+              className=" px-4 min-w-[160px] h-[35px] font-semibold bg-gradient-to-b from-[#FFD224] to-[#BC9B1B] shadow-md text-white rounded-[8px] text-[14px]  p-0"
+            >
+              {copied ? 'Skopiowany!' : 'Kopiuj link'}
+            </button>
+            <button
+              onClick={handleShareClick}
+              className=" px-4 min-w-[160px] h-[35px] font-semibold bg-gradient-to-b from-[#FFD224] to-[#BC9B1B] shadow-md text-white rounded-[8px] text-[14px]  p-0"
+            >
+              Udostępnij
+            </button>
+          </div>
+
           <ul className="w-full flex flex-col gap-2 items-center justify-center mt-8">
-            <span className="text-blue-400">
-              Połączeni gracze: {gameOptions.players.length} /{' '}
-              {gameOptions.maxPlayers}
-            </span>
-            {players.map((player) => (
-              <li
-                key={player.id}
-                className="flex items-center gap-4 p-3 py-1 w-[140px] border border-blue-500 rounded"
-              >
-                <span className="w-[8px] h-[8px] bg-green-500 block animate-ping rounded-full shrink-0"></span>
-                <span className="text-blue-300">{player.name}</span>
-              </li>
-            ))}
+            <span className="font-[600] text-[14px] uppercase text-white">Połączeni gracze:</span>
+
+            {Array.from({ length: gameOptions.maxPlayers }).map((_, index) => {
+              const player = players[index];
+              return player ? (
+                <li
+                  key={player.id}
+                  className="flex items-center gap-4 p-3 py-1 w-[180px] border border-green-500 bg-white bg-opacity-10 rounded text-white"
+                >
+                  <span className="w-[8px] h-[8px] bg-green-500 block animate-ping rounded-full shrink-0"></span>
+                  <span>{player.name}</span>
+                </li>
+              ) : (
+                <li key={index} className="flex items-center gap-4 p-3 py-1 w-[180px] bg-gray-700 bg-opacity-15 rounded text-gray-400 animate-pulse">
+                  <span className="w-[8px] h-[8px] block rounded-full shrink-0"></span>
+                  <span>&nbsp;</span>
+                </li>
+              );
+            })}
           </ul>
 
-          <span className="text-blue-200 text-lg mt-8">
-            {gameStarting ? (
-              <p className="text-orange-400">
-                Gra wystartuje za {countdown}...
-              </p>
-            ) : (
-              <p>Oczekiwanie na pozostałych graczy...</p>
-            )}
-          </span>
+          {gameStarting ? (
+            <span className="font-[600] text-[16px] text-white animate-bounce">Gra wystartuje za {countdown}s</span>
+          ) : (
+            <span className="font-[600] text-[14px] text-white animate-pulse">Oczekiwanie na pozostałych graczy...</span>
+          )}
         </div>
       )}
     </>

@@ -23,31 +23,24 @@ function CreateGame() {
 
   return (
     <div className="flex flex-col h-full gap-10 justify-center items-center">
-      <span className="text-blue-200 text-xl">
-        Wybierz ustawienia swojej gry
-      </span>
+      <div className="flex flex-col items-center text-white relative z-10 my-4">
+        <span className="font-[800] text-[22px] uppercase px-6 text-center">Wybierz ustawienia swojej gry</span>
+      </div>
+
       <div className="">
-        <span className="text-blue-300 mb-2 block">Liczba rund</span>
+        <span className="text-pink-100 mb-2 block">Liczba rund</span>
 
         <div className="flex gap-4 items-center justify-center">
           <button
-            onClick={() =>
-              options.rounds > 1 &&
-              setOptions({ ...options, rounds: options.rounds - 1 })
-            }
-            className="border border-blue-300 text-2xl text-blue-200 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl"
+            onClick={() => options.rounds > 1 && setOptions({ ...options, rounds: options.rounds - 1 })}
+            className="border-2 border-yellow-500 text-2xl text-yellow-300 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl bg-white bg-opacity-10"
           >
-            -
+            <span className="-mt-1">-</span>
           </button>
-          <span className="text-green-500 font-bold text-2xl block w-[30px] text-center">
-            {options.rounds}
-          </span>
+          <span className="text-white font-bold text-2xl block w-[30px] text-center">{options.rounds}</span>
           <button
-            onClick={() =>
-              options.rounds < 10 &&
-              setOptions({ ...options, rounds: options.rounds + 1 })
-            }
-            className="border border-blue-300 text-2xl text-blue-200 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl"
+            onClick={() => options.rounds < 15 && setOptions({ ...options, rounds: options.rounds + 1 })}
+            className="border-2 border-yellow-500 text-2xl text-yellow-300 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl bg-white bg-opacity-10"
           >
             +
           </button>
@@ -55,27 +48,19 @@ function CreateGame() {
       </div>
 
       <div className="">
-        <span className="text-blue-300 mb-2 block">Liczba graczy</span>
+        <span className="text-pink-100 mb-2 block">Liczba graczy</span>
 
         <div className="flex gap-4 items-center justify-center">
           <button
-            onClick={() =>
-              options.maxPlayers > 2 &&
-              setOptions({ ...options, maxPlayers: options.maxPlayers - 1 })
-            }
-            className="border border-blue-300 text-2xl text-blue-200 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl"
+            onClick={() => options.maxPlayers > 2 && setOptions({ ...options, maxPlayers: options.maxPlayers - 1 })}
+            className="border-2 border-yellow-500 text-2xl text-yellow-300 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl bg-white bg-opacity-10"
           >
             -
           </button>
-          <span className="text-green-500 font-bold text-2xl block w-[30px] text-center">
-            {options.maxPlayers}
-          </span>
+          <span className="text-white font-bold text-2xl block w-[30px] text-center">{options.maxPlayers}</span>
           <button
-            onClick={() =>
-              options.maxPlayers < 4 &&
-              setOptions({ ...options, maxPlayers: options.maxPlayers + 1 })
-            }
-            className="border border-blue-300 text-2xl text-blue-200 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl"
+            onClick={() => options.maxPlayers < 6 && setOptions({ ...options, maxPlayers: options.maxPlayers + 1 })}
+            className="border-2 border-yellow-500 text-2xl text-yellow-300 p-0 h-[40px] w-[40px] flex items-center justify-center rounded-xl bg-white bg-opacity-10"
           >
             +
           </button>
@@ -83,26 +68,26 @@ function CreateGame() {
       </div>
 
       <div className="">
-        <span className="text-blue-300 mb-2 block">Typ gry</span>
+        <span className="text-pink-100 mb-2 block">Typ pokoju</span>
         <div className="flex">
           <input
             type="checkbox"
-            className="p-1 mr-1"
+            className=" mr-2"
             value={options.public}
             onClick={() => setOptions({ ...options, public: !options.public })}
             id="public"
           />
-          <label htmlFor="public" className="text-2xl text-blue-200">
-            Pokój publiczny
+          <label htmlFor="public" className="text-md text-white leading-[22px]">
+            Widoczny w trybie <br /> 'wylosuj przeciwników'
           </label>
         </div>
       </div>
 
       <button
         onClick={handleCreateGame}
-        className="w-4/5  bg-gradient-to-b from-blue-400 to-blue-600 border-b-4 border-blue-700 text-blue-100 rounded-[8px] text-[18px] hover:from-blue-300 hover:to-blue-500"
+        className=" px-4 min-w-[180px] h-[45px] font-semibold bg-gradient-to-b from-[#FFD224] to-[#BC9B1B] shadow-md text-white rounded-[8px] text-[14px]  p-0"
       >
-        Dalej
+        Start
       </button>
     </div>
   );

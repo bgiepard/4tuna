@@ -27,20 +27,18 @@ function FindRoom() {
             <span>Wybierz pokój</span>
             <ul className="flex flex-col">
               {availableRooms.map((room) => (
-                <button
-                  className="p-2 border mb-2"
-                  key={room.roomID}
-                  onClick={() => navigate(`/lobby/${room.roomID}`)}
-                >
-                  Rundy: {room.maxRounds}, Liczba graczy: {room.players} /{' '}
-                  {room.maxPlayers}
+                <button className="p-2 border mb-2" key={room.roomID} onClick={() => navigate(`/lobby/${room.roomID}`)}>
+                  Rundy: {room.maxRounds}, Liczba graczy: {room.players} / {room.maxPlayers}
                 </button>
               ))}
             </ul>
           </>
         ) : (
           <>
-            <span>Brak publicznych gier</span>
+            <div className="flex flex-col items-center text-white relative z-10 mt-4 -mb-6">
+              <span className="opacity-80 font-[800] text-[24px] uppercase -mt-2 animate-pulse">Wyszukiwanie rywali</span>
+              <span className="opacity-60 font-[700] text-[22px] uppercase -mt-1 animate-pulse">Odśwież stronę</span>
+            </div>
           </>
         )}
       </div>

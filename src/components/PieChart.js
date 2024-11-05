@@ -44,7 +44,7 @@ const PieChart = () => {
           style={{
             transform: `rotate(${rotationAngle}deg)`,
             transition: isAnimating ? `transform ${transitionDuration}ms ${easingFunction}` : 'none',
-            border: isMyTurn ? '15px solid rgba(237, 233, 157,0.6)' : '15px solid rgba(256,256,256,0.2)',
+            border: isMyTurn ? '15px solid #9758D8' : '15px solid rgba(256,256,256,0.2)',
             boxShadow: '0 0 0 15px rgba(256,256,256,0.1)',
             borderRadius: '100%',
           }}
@@ -56,7 +56,7 @@ const PieChart = () => {
       </div>
       {/*circle*/}
 
-      <div className="w-[80px] h-[80px] rounded-full bg-[#FF58E0] absolute left-0 right-0 mx-auto top-1/2  -translate-y-1/2 border-2 border-white"></div>
+      <div className="w-[80px] h-[80px] rounded-full bg-[#E3744B] absolute left-0 right-0 mx-auto top-1/2  -translate-y-1/2 border-2 border-yellow-300"></div>
 
       {/* Arrow Indicator */}
       {gameInfo.mode === 'rotating' && (
@@ -74,7 +74,7 @@ const PieChart = () => {
           }}
         ></div>
       )}
-      <div className="absolute top-[50%] left-[50%] pt-[2.5px] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-white text-[15px] leading-[21px] flex items-center justify-center text-center">
+      <div className="absolute top-[50%] left-[50%] pt-[2.5px] -translate-x-1/2 -translate-y-1/2 h-[50px] w-[50px] text-[22px] flex items-center justify-center text-center font-bold text-white">
         {isAnimating ? ' ' : gameInfo.stake > 0 && gameInfo.stake}
       </div>
     </div>

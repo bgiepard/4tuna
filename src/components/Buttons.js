@@ -40,7 +40,6 @@ const Buttons = () => {
     <div className="">
       <audio ref={spinSound}>
         <source src="/assets/spin.mp3" type="audio/mpeg" />
-        <source src="/assets/spin.ogg" type="audio/ogg" />
         Your browser does not support the audio element.
       </audio>
 
@@ -50,7 +49,7 @@ const Buttons = () => {
             <button
               onClick={handleNextPlayer}
               disabled={mode === 'rotating' && !onlyVowels}
-              className={`transition-all duration-500 ${gameInfo.mode === 'rotating' ? '-translate-y-[80px]' : ''}  w-[100px] p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-400`}
+              className={`transition-all duration-500 ${gameInfo.mode === 'rotating' ? '-translate-y-[80px]' : ''}  w-[100px] p-1 px-4 bg-[#C64CB9] rounded-[10px]  disabled:opacity-10 text-white text-[14px] leading-[20px] border-2 border-pink-300`}
             >
               Odpuść
             </button>

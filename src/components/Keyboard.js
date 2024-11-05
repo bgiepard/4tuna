@@ -31,11 +31,12 @@ const Keyboard = () => {
                   (gameInfo.mode !== 'guessing' || (gameInfo.mode === 'rotating' && gameInfo.onlyVowels)) &&
                   ([...gameInfo.goodLetters].includes(key) || [...gameInfo.badLetters].includes(key) || gameInfo.vowels.includes(key))
                 }
-                className={`border border-gray-300 w-[8.5%] mx-[0.75%] my-[4px] h-[36px] p-0 text-center rounded-[4px] text-blue-400 font-semibold leading-[32px] text-[16px] bg-white
+                className={` w-[8.5%] mx-[1%] my-[4px] h-[36px] p-0 text-center rounded-[4px] text-gray-500
+                 font-semibold leading-[32px] text-[16px] bg-white
 
-              ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-opacity-5 border-opacity-50 text-opacity-50 !shadow-none'}
-              ${[...gameInfo.goodLetters].includes(key) && '!shadow-none !bg-blue-700 !text-blue-400 border-none !bg-opacity-100'}
-              ${[...gameInfo.badLetters].includes(key) && '!shadow-none !bg-blue-700 !text-blue-400 border-none !bg-opacity-100'}
+              ${gameInfo.mode !== 'guessing' && gameInfo.vowels.includes(key) && '!bg-opacity-10 border-opacity-50 !text-pink-300'}
+              ${[...gameInfo.goodLetters].includes(key) && ' opacity-30'}
+              ${[...gameInfo.badLetters].includes(key) && ' opacity-30'}
               `}
                 onClick={() => handleKeyClick(key)}
               >
