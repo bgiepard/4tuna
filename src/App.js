@@ -6,6 +6,10 @@ import Home from './views/Home';
 import FindRoom from './views/FindRoom';
 import SoloGame from './views/SoloGame';
 
+import ReactGA from 'react-ga';
+const TRACKING_ID = 'G-BMXN7WVYGJ'; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
+
 function App() {
   return (
     <div className="h-full bg-gradient-to-bl from-[#EC7C94] to-[#E3744B] mx-auto flex flex-col">
