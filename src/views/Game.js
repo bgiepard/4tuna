@@ -97,7 +97,7 @@ const Game = () => {
           <div className="h-full flex flex-col items-center justify-center">
             <div className="flex flex-col items-center text-white relative z-10 mt-4 mb-4">
               <span className="font-[800] text-[28px] ">
-                KONIEC RUNDY <span className="text-yellow-300">{gameInfo.round}</span> z {gameInfo.maxRounds}!
+                KONIEC RUNDY <span className="text-yellow-300">{gameInfo.round - 1}</span> z {gameInfo.maxRounds}!
               </span>
               <span className="opacity-60 font-[800] text-[22px]  -mt-1">Aktualny ranking:</span>
             </div>
