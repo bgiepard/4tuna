@@ -5,6 +5,7 @@ import socket from '../socket';
 const Buttons = () => {
   const { gameInfo, rotateWheel, letMeGuess, nextPlayer } = useGameContext();
   const spinSound = useRef(null);
+  const myTurnSound = useRef(null);
 
   const { players, currentPlayer, mode, onlyVowels, goodLetters } = gameInfo;
   const currentPlayerId = players[currentPlayer]?.id;
@@ -34,6 +35,14 @@ const Buttons = () => {
     nextPlayer();
   };
 
+  useEffect(() => {
+    if (isMyTurn) {
+      if (myTurnSound.current) {
+        myTurnSound.current.play();
+      }
+    }
+  }, [isMyTurn]);
+
   const isRotateButtonDisabled = mode !== 'rotating' || onlyVowels;
 
   return (
@@ -42,8 +51,11 @@ const Buttons = () => {
         <source src="/assets/spin.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
-
-      {isMyTurn ? (
+      <audio ref={myTurnSound}>
+        <source src="/assets/myTurn.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      {isMyTurn && gameInfo.mode !== 'phraseRevealed' ? (
         <>
           <div className="flex items-center justify-around gap-2 z-10 relative">
             <button

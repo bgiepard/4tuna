@@ -21,7 +21,9 @@ const Keyboard = () => {
 
   return (
     <div className="">
-      <div className={`flex items-center flex-col  ${(gameInfo.mode === 'rotating' || !isMyTurn) && 'pointer-events-none opacity-30'}`}>
+      <div
+        className={`flex items-center flex-col  ${(gameInfo.mode === 'rotating' || gameInfo.mode === 'phraseRevealed' || !isMyTurn) && 'pointer-events-none opacity-30'}`}
+      >
         {rows.map((row, rowIndex) => (
           <div key={rowIndex} className="w-full flex items-center justify-center">
             {row.map((key, keyIndex) => (

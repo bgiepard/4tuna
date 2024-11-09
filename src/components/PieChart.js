@@ -37,7 +37,7 @@ const PieChart = () => {
 
   return (
     <div className="flex flex-col justify-center items-center relative">
-      <div className={`w-[70%] transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-100' : 'scale-0'}`}>
+      <div className={`w-[70%] max-w-[300px] transition-all duration-500 ${gameInfo.mode === 'rotating' ? 'scale-100' : 'scale-0'}`}>
         <img
           src={wheelImage}
           alt="Wheel"

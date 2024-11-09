@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGameContext } from '../gameContext';
 
-const Phrase = () => {
+const Phrase = ({ phraseComplete }) => {
   const { gameInfo } = useGameContext();
 
   function processSentenceIntoLines(sentence, maxCharsPerLine) {
@@ -65,7 +65,7 @@ const Phrase = () => {
   // const grid = createGrid('Król Karol kupił królowej Karolinie korale koloru koralowego');
 
   return (
-    <div className="p-1">
+    <div className={`p-1 ${phraseComplete && 'animate-pulse'}`}>
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="flex gap-[3px] mb-[3px] justify-center">
           {row.map((char, charIndex) => (

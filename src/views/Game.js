@@ -35,7 +35,7 @@ const Game = () => {
     const prevRound = prevRoundRef.current;
     if (prevRound !== undefined && gameInfo && gameInfo.round !== prevRound) {
       setRoundChange(true);
-      setTimeout(() => setRoundChange(gameInfo.round > gameInfo.maxRounds), 6000);
+      setTimeout(() => setRoundChange(gameInfo.round > gameInfo.maxRounds), 3000);
     }
     if (gameInfo) {
       prevRoundRef.current = gameInfo.round;
@@ -53,6 +53,22 @@ const Game = () => {
 
   const RoundChangeView = () => {
     const { width, height } = useWindowSize();
+    const [progress, setProgress] = useState(100);
+
+    useEffect(() => {
+      const duration = 3000; // Total duration in milliseconds
+      const intervalTime = 50; // Interval time in milliseconds
+      const decrement = (intervalTime / duration) * 100; // Amount to decrement each interval
+
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          const newProgress = prev - decrement;
+          return newProgress <= 0 ? 0 : newProgress;
+        });
+      }, intervalTime);
+
+      return () => clearInterval(interval);
+    }, []);
 
     return (
       <div className="h-full ">
@@ -91,12 +107,19 @@ const Game = () => {
                 .map((player, index) => (
                   <div
                     key={player.name}
-                    className={`p-1 border-2 mb-4 rounded opacity-60 ${index === 0 && 'p-3 shadow-xl bg-white border-yellow-300 text-white bg-opacity-15 !opacity-80 '}  ${index === 1 && 'p-2 shadow-sm bg-white bg-opacity-5 opacity-100 border-pink-300 border-opacity-50 text-pink-200 '} ${index === 2 && 'p-2 shadow-sm bg-white bg-opacity-5 opacity-100 border-pink-300 border-opacity-50 text-pink-200 '}`}
+                    className={`p-1 border-2 mb-4 rounded  ${index === 0 && 'p-3 shadow-xl bg-white border-yellow-300 text-white bg-opacity-15 opacity-100 !mb-12'} ${index !== 0 && 'border-orange-400  text-orange-200 p-2.5 shadow-lg bg-white bg-opacity-5 opacity-100'} `}
                   >
                     <span className="font-bold mr-4">{player.total}</span> <span>{player.name}</span> <span></span>
                   </div>
                 ))}
             </ul>
+
+            <div className="relative w-1/2 h-2 bg-white bg-opacity-10 mt-4 rounded-full overflow-hidden">
+              <div
+                className=" left-0 top-0 h-full bg-gradient-to-r from-yellow-300 to-yellow-500 transition-all duration-[50ms]"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
           </div>
         )}
       </div>
@@ -134,7 +157,7 @@ const Game = () => {
                   <SubheadingView />
                 </div>
                 <div className="mb-2">
-                  <Phrase />
+                  <Phrase phraseComplete={gameInfo.mode === 'phraseRevealed'} />
                 </div>
                 <div className="">
                   <PlayersInfo />
